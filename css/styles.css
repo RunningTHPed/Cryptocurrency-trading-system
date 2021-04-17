@@ -58,3 +58,17 @@ body {
     bottom: 0;
     width: 100%;
 }
+
+.footer-nofixed {
+  margin-top: 50px;
+}
+
+.form-register {
+  padding: 50px 200px 0px 200px;
+}
+
+@media screen and (max-width: 1000px) {
+  .form-register {
+    padding: 50px 50px 0px 50px;
+  }
+}
