@@ -1,8 +1,12 @@
 import React from 'react'
+import Header from './Header'
+import Navbar from './Navbar'
 
 export default function LoginPage () {
     return(
         <div>
+            <Header />
+            <Navbar />
             <form class="vertical-center">
                 <div class="text-center">
                     <div class="container form-center-signin">
@@ -15,7 +19,7 @@ export default function LoginPage () {
                             <input type="password" id="inputPassword" class="form-control" placeholder="Password" required></input>
                             <div class="checkbox mb-3">
                             <label>
-                                <input type="checkbox" value="remember-me" />
+                                <input type="checkbox" value="remember-me"></input>
                                 Remember me
                             </label>
                             </div>
