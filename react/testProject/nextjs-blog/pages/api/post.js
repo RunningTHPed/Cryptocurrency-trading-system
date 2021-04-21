@@ -3,8 +3,7 @@ import { sql_query } from "../../lib/db"
 const handler = async (_, res) => {
   try {
     const results = await sql_query(`
-      SELECT * FROM actor
-      LIMIT 10
+      SELECT * FROM user_information
   `);
     return res.json(results);
   } catch (e) {
