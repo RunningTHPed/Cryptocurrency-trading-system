@@ -7,7 +7,6 @@ import Footer from './Footer-fixed'
 function IndexPage ()  {
   return(
     <div>
-
       <Header name="Login" />
       <Navbar />
 
@@ -16,7 +15,7 @@ function IndexPage ()  {
             <div className="text-center">
                 <div className="container form-center-signin">
                     <form className="form-signin">
-                        <img className="mb-4 rounded" src="Peddiepie.jpg" alt="" width="72" height="72"></img>
+                        <img className="mb-4 rounded" src="logo1112.png" alt="" width="72" height="72"></img>
                         <h1 className="h3 mb-3 font-weight-normal">LOG IN</h1>
                         {/* <label htmlFor="inputEmail" className="sr-only">Email address</label> */}
                         <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus></input>
@@ -24,7 +23,7 @@ function IndexPage ()  {
                         <input type="password" id="inputPassword" className="form-control" placeholder="Password" required></input>
                         <div className="checkbox mb-3">
                           <label>
-                            <input type="checkbox" value="remember-me"></input>Remember me
+                            <input type="checkbox" value="remember-me"></input> Remember me
                           </label>
                         </div>
                         <button className="btn btn-lg btn-success btn-block form-control" type="submit">LOGIN</button>
@@ -32,11 +31,8 @@ function IndexPage ()  {
                 </div>
             </div>
         </div>
-        
         <Footer />
-
     </div>
   )
 }
-
 export default IndexPage;
