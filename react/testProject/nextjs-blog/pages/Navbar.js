@@ -13,7 +13,9 @@ function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item my-2">
-                                <a className="nav-link active" aria-current="page" href="#">MARKET</a>
+                                <Link href="/Chart">
+                                    <a className="nav-link active" aria-current="page" href="#">MARKET</a>
+                                </Link>
                             </li>
                         </ul>
                         <form className="d-flex">
