@@ -7,8 +7,11 @@
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
+    "bcrypt": "^5.0.1",
     "bootstrap": "^4.6.0",
     "chart.js": "^3.2.0",
+    "concurrently": "^6.0.2",
+    "cors": "^2.8.5",
     "react": "^17.0.2",
     "react-chartjs-2": "^3.0.2",
     "react-dom": "^17.0.2",
@@ -20,7 +23,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+
+    "server": "cd server && npm run dev",
+    "dev" : "concurrently \"npm start\" \"npm run server\""
   },
   "eslintConfig": {
     "extends": [

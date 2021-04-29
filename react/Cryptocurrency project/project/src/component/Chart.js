@@ -30,7 +30,7 @@ const data = {
 
 const Chart = () => {
     return (
-        <div>
+        <div className="salogan">
             <h1>เทรดกับพลเพื่อคนอย่างแต๋น</h1>
             <Line
                 data = {data}
