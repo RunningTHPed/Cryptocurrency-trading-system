@@ -7,10 +7,10 @@ import { useState , useEffect, state} from 'react'
 const Chart = () => {
     const [chart, setchart] = useState({});
 
-  const plotcomp = {
-                    time_finish: [],
-                    price:[],
-                }; 
+    const plotcomp = {
+                        time_finish: [],
+                        price:[],
+                    }; 
 
     useEffect(() => {
         getData();
@@ -24,13 +24,11 @@ const Chart = () => {
                 console.log(res);
                 console.log(res.data);
 
-                //ยังไม่เสร็จเพราะมัน Plot อันใหม่ขึ้นด้านหน้า
-                for( var i = 0 ; i < res.data.length ; i++){
+                for( var i = res.data.length-1 ; i >= 0 ; i-- ){
                     plotcomp.price.push(res.data[i].price);
                     plotcomp.time_finish.push(res.data[i].time_finish);
                 }
                 console.log(plotcomp)
-
 
                 //console.log(res.data[0].time_finish);
                 //console.log(res.data[0].price);
@@ -38,6 +36,7 @@ const Chart = () => {
                 setchart ({
                 //labels: res.data.time_finish, //get price on this
                 labels: plotcomp.time_finish, //get price on this
+                //labels: ['00.00', '01.00', '02.00', '03.00', '04.00', '05.00', '06.00'],
                 datasets:[
                 {
                     label: 'Pon Coin',
@@ -60,6 +59,7 @@ const Chart = () => {
                     pointHitRadius: 10,
                     //data: res.data.price //get time on this
                     data: plotcomp.price
+                    //data: [65, 59, 80, 81, 56, 55, 40]
                 }
                 ]
             });
