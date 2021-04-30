@@ -24,6 +24,7 @@ const Chart = () => {
                 console.log(res);
                 console.log(res.data);
 
+                //ยังไม่เสร็จเพราะมัน Plot อันใหม่ขึ้นด้านหน้า
                 for( var i = 0 ; i < res.data.length ; i++){
                     plotcomp.price.push(res.data[i].price);
                     plotcomp.time_finish.push(res.data[i].time_finish);
