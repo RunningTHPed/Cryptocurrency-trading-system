@@ -63,7 +63,7 @@ function Login() {
                             <div className="checkbox mb-3">
                                 <label>
                                     <input type="checkbox" value="remember-me"></input> Remember me
-                            </label>
+                                </label>
                             </div>
                             <button className="btn btn-lg btn-success btn-block form-control" onClick={userLogin} >LOGIN</button>
                         </form>

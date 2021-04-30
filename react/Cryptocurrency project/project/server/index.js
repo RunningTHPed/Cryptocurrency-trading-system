@@ -39,6 +39,18 @@ app.get('/user_information', (req, res) => {
     })
 });
 
+app.get('/coin_transaction_history', (req,res) => {
+    const time_finish = req.body.time_finish;
+    const price = req.body.price;
+    db.query("SELECT * FROM coin_transaction_history", (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+});
+
 app.post('/add_user', (req, res) => {
     const fname = req.body.fname;
     const lname = req.body.lname;
@@ -93,3 +105,12 @@ app.post('/user_login', (req, res) => {
 app.listen('3001', () => {
     console.log("Server is running");
 })
+
+/*
+con.connect(function(err) {
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Result: " + result);
+  });
+});
+*/
