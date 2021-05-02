@@ -6,11 +6,28 @@ import { useState , useEffect, state} from 'react'
 
 const Chart = () => {
     const [chart, setchart] = useState({});
-
     const plotcomp = {
                         time_finish: [],
                         price:[],
                     }; 
+
+    
+    const [TransList, setTransList] = useState([]);                
+    const [price, setPrice] = useState([]);
+
+    const addTransaction = () => {
+        Axios.post('http://localhost:3001/add_Transaction',{
+            price:price
+        }).then(()=> {
+            setTransList([
+                ...TransList,
+                {
+                    price:price
+                }
+            ])
+        })
+  }
+
 
     useEffect(() => {
         getData();
@@ -19,17 +36,26 @@ const Chart = () => {
 
     const getData = async () => {
         try {
-
                 const res = await Axios.get('http://localhost:3001/coin_transaction_history');               
                 console.log(res);
                 console.log(res.data);
 
+                //Loop for show last 10 row
                 for( var i = res.data.length-1 ; i >= 0 ; i-- ){
                     plotcomp.price.push(res.data[i].price);
                     plotcomp.time_finish.push(res.data[i].time_finish);
                 }
-                console.log(plotcomp)
 
+
+                //Loop for auto increment
+                /*
+                for( var i = 0; i <res.data.length  ; i++ ){
+                    plotcomp.price.push(res.data[i].price);
+                    plotcomp.time_finish.push(res.data[i].time_finish);
+                }
+                */
+
+                console.log(plotcomp)
                 //console.log(res.data[0].time_finish);
                 //console.log(res.data[0].price);
 
@@ -70,12 +96,48 @@ const Chart = () => {
 
     return (
         <div className="salogan">
+
             <h1>เทรดกับพลเพื่อคนอย่างแต๋น</h1>
             <Line
                 data = {chart}
             />
+
+            <div className="tran">
+                <label htmlFor="phonenumber">ซื้อเหรียญมั้ยจ้ะ</label>
+                <input 
+                    type="text" 
+                    className="form-control" 
+                    id="price" 
+                    placeholder="" 
+                    required 
+                    onChange={(event) => {
+                        setPrice(event.target.value)
+                    }}
+                 />
+            </div>
+
+            <button className="btn btn-primary btn-lg btn-block mb-3" onClick={addTransaction} type="showUser">กดเพื่อเสียเงิน</button>
+
         </div>
     )   
 }
 
 export default Chart;
+
+//<button className="btn btn-primary btn-lg btn-block mb-3" onClick={transPrice} type="showUser">กดเพื่อเสียเงิน</button><br/><br/>
+
+/*
+<div className="tran">
+                <label htmlFor="phonenumber">ซื้อเหรียญมั้ยจ้ะ</label>
+                <input 
+                    type="text" 
+                    className="form-control" 
+                    id="phonenumber" 
+                    placeholder="" 
+                    required 
+                    onChange={(event) => {
+                        setPrice(event.target.value)
+                    }}
+                 />
+            </div>
+*/

@@ -9,6 +9,12 @@
   margin-left: -100px;
 }
 
+.tran{
+  font-size: 20px;
+  margin-top: 30px;
+  margin-left: 0px;
+}
+
 .center{
   display: flex;
   justify-content: center;
