@@ -39,18 +39,6 @@ app.get('/user_information', (req, res) => {
     })
 });
 
-app.get('/coin_transaction_history', (req,res) => {
-    const time_finish = req.body.time_finish;
-    const price = req.body.price;
-    db.query("SELECT * FROM coin_transaction_history ORDER BY id DESC LIMIT 10", (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    })
-});
-
 app.post('/add_user', (req, res) => {
     const fname = req.body.fname;
     const lname = req.body.lname;
@@ -77,21 +65,6 @@ app.post('/add_user', (req, res) => {
     })
 })
 
-app.post('/add_Transaction', (req, res) => {
-    const price = req.body.price;
-
-    db.query("INSERT INTO coin_transaction_history (time_finish, price) VALUES(current_time(), ?)",
-        [price],
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Values inserted");
-            }
-        })
-    });
-
-
 app.post('/user_login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -116,6 +89,31 @@ app.post('/user_login', (req, res) => {
         }
     )
 })
+
+app.get('/coin_Transaction', (req,res) => {
+    //const time_finish = req.body.time_finish;
+    //const price = req.body.price;
+    db.query("SELECT * FROM coin_transaction_history ORDER BY no_transaction DESC LIMIT 10", (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+});
+
+app.post('/add_Transaction', (req, res) => {
+    const price = req.body.price;
+    db.query("INSERT INTO coin_transaction_history (time_finish, price) VALUES(current_time(), ?)",
+        [price],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values inserted");
+            }
+        })
+    });
 
 app.listen('3001', () => {
     console.log("Server is running");

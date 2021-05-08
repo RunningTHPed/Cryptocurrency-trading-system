@@ -1,5 +1,3 @@
-
-
 .salogan{
   font-family: 'Charmonman', cursive;
   position: fixed;
@@ -9,11 +7,71 @@
   margin-left: -100px;
 }
 
-.tran{
-  font-size: 20px;
-  margin-top: 30px;
-  margin-left: 0px;
+.container-chart{
+  /*background: #F7F9FB;*/
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+  background: whitesmoke;
 }
+
+.chart{
+  position: relative;
+  top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 60px 35px 35px 35px;
+  width: 430px;
+  height: 300px;
+
+  border-radius: 20px;
+  background:  whitesmoke;
+  box-shadow: inset 13px 13px 20px #cbced1,
+              inset -13px -13px 20px #ffffff;
+}
+
+.container-buy{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: whitesmoke;
+}
+
+.buy-title{
+  margin: 70px;
+  text-align: center;
+  background: whitesmoke;
+}
+
+.buy-field{
+  margin-top: -50px;
+  text-align: center;
+  background: whitesmoke;
+}
+
+.buy-click{
+  margin-top: 20px;
+  text-align: center;
+  background: whitesmoke;
+}
+
+.history-table{
+  position: relative;
+  margin-left: 625px;
+  margin-top: 30px;
+}
+
+
+
+
+
+
+
+
+
+
 
 .center{
   display: flex;
