@@ -24,8 +24,8 @@ app.use(cookieSession({
 const db = mysql.createConnection({
     user: "root",
     host: "localhost",
-    password: "",
-    database: "db_project"
+    password: "rootroot",
+    database: "test_space"
 })
 
 app.get('/user_information', (req, res) => {
