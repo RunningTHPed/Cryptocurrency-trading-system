@@ -23,10 +23,10 @@ app.use(cookieSession({
 // }
 
 const db = mysql.createConnection({
-    user: "root",
-    host: "localhost",
-    password: "rootroot",
-    database: "test_space"
+    user: "sql6411701",
+    host: "sql6.freesqldatabase.com",
+    password: "UTbqq1H1ys",
+    database: "sql6411701"
 })
 
 app.get('/user_information', (req, res) => {
