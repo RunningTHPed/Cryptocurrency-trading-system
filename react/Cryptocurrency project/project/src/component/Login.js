@@ -71,7 +71,7 @@ function Login() {
                     <h2>{loginStatus}</h2>
                 </div>
             </div>
-
+            <Footer />            
         </div>
     )
 }
