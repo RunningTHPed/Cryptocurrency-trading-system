@@ -28,10 +28,10 @@ app.use(session({
 }))
 
 const db = mysql.createConnection({
-    user: "admin",
-    host: "128.199.117.34",
-    password: "password",
-    database: "Uncle"
+    user: "sql6411701",
+    host: "sql6.freesqldatabase.com",
+    password: "UTbqq1H1ys",
+    database: "sql6411701"
 })
 
 app.get('/user_information', (req, res) => {
@@ -132,7 +132,7 @@ app.post('/add_Transaction', (req, res) => {
 
 app.listen('3001', () => {
     console.log("Server is running");
-});
+})
 
 /*
 con.connect(function(err) {
