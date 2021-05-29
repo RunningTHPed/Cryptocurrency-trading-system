@@ -129,13 +129,35 @@ const Chart = () => {
                 </div>
 
                 <div className="buy-click">
-                    <button onClick={addTransaction} 
-                            type="showUser">confrim order
-                    </button>
+                    <a href="/chart"  onClick={addTransaction}> confrim order</a>
+                </div>
+            </div>
+
+            <div className="contrainer-sell">
+                <div className="sell-title"> Sell order </div>
+                    
+                <div className="sell-field">
+                    <input 
+                        type="text" 
+                        className="buy-input" 
+                        id="price" 
+                        placeholder="" 
+                        required 
+                        onChange={(event) => {
+                            setPrice(event.target.value)
+                        }}
+                    />
+                </div>
+
+                <div className=" sell-click">
+                    <a href="/chart"> confrim sell
+                    </a>
                 </div>
             </div>
 
             <div className="history-table">
+                <div className="history-title"> Table history </div>
+
                 <table border='2'>
                     <tr>
                         <th>เวลา</th>
@@ -155,7 +177,29 @@ const Chart = () => {
                     }
                 </table>
             </div>
-            
+
+            <div className="order-table">
+                <div className="order-title"> Table order </div>
+
+                <table border='2'>
+                    <tr>
+                        <th>เวลาออเดอร์</th>
+                        <th>ราคา</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div className="sell-table">
+
+                <table border='2'>
+                    <tr>
+                        <th>เวลาขาย</th>
+                        <th>ราคา</th>
+                    </tr>
+                </table>
+            </div>
+
+
         </div>               
     )   
 }
