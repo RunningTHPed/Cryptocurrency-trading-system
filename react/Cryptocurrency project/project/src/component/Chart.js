@@ -114,48 +114,47 @@ const Chart = () => {
                     <div className = "chart">
                         <Line data = {chart}/>
                     </div>
-                    <div className="contrainer-buy">
-                <div className="buy-title"> Buy order </div>
+                    <div className = "row">
+                        <div className = "col">
+                            <div className="form_buy">
+                                <h3>Buy order</h3>
+                                <input 
+                                        type="text" 
+                                        className="buy-input" 
+                                        id="price" 
+                                        placeholder="" 
+                                        required 
+                                        onChange={(event) => {
+                                            setPrice(event.target.value)
+                                        }}
+                                />
+                                <div>
+                                    <a href="/chart"  onClick={addTransaction}> confrim order</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className = "col">
+                            <div className="form_sell">
+                                <h3>Sell order</h3>
+                                <input 
+                                        type="text" 
+                                        className="buy-input" 
+                                        id="price" 
+                                        placeholder="" 
+                                        required 
+                                        onChange={(event) => {
+                                            setPrice(event.target.value)
+                                        }}
+                                />
+                                <div>
+                                    <a href="/chart"> confrim sell</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
-                <div className="buy-field">
-                    <input 
-                        type="text" 
-                        className="buy-input" 
-                        id="price" 
-                        placeholder="" 
-                        required 
-                        onChange={(event) => {
-                            setPrice(event.target.value)
-                        }}
-                    />
-                </div>
 
-                <div className="buy-click">
-                    <a href="/chart"  onClick={addTransaction}> confrim order</a>
-                </div>
-            </div>
-
-            <div className="contrainer-sell">
-                <div className="sell-title"> Sell order </div>
                     
-                <div className="sell-field">
-                    <input 
-                        type="text" 
-                        className="buy-input" 
-                        id="price" 
-                        placeholder="" 
-                        required 
-                        onChange={(event) => {
-                            setPrice(event.target.value)
-                        }}
-                    />
-                </div>
-
-                <div className=" sell-click">
-                    <a href="/chart"> confrim sell
-                    </a>
-                </div>
-            </div>
                 </div>
                 <div className = "col">
                     <div className = "list-group">

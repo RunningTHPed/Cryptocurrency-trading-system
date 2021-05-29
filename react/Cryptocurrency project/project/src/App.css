@@ -30,11 +30,8 @@
               inset -13px -13px 20px #ffffff;
 }
 
-.container-buy{
-  width: 100%;
-  height: 100%;
-  background-attachment: fixed;
-  background: whitesmoke;
+.form_buy{
+  margin: 100px 0px;
 }
 
 .buy-title{
@@ -68,11 +65,8 @@
   background: whitesmoke;
 }
 
-.container-sell{
-  width: 100%;
-  height: 100%;
-  background-attachment: fixed;
-  background: whitesmoke;
+.form_sell{
+  margin: 100px 0px;
 }
 
 .sell-title{
@@ -109,8 +103,7 @@
   width: 100%;
   height: 100%;
   position: relative;
-  margin-left: 1000px;
-  margin-top: -400px;  
+  margin: 80px;
 }
 
 .order-table{
