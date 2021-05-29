@@ -57,8 +57,8 @@ app.post('/add_user', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            db.query("INSERT INTO user_information (fname, lname, email, phone_number, id_card, password) VALUES(?, ?, ?, ?, ?, ?)",
-                [fname, lname, email, phone_number, id_card, hashedPassword],
+            db.query("INSERT INTO user_information (id_card, fname, lname, email, password, phone_number, role) VALUES(?, ?, ?, ?, ?, ?, 'user')",
+                [id_card, fname, lname, email, hashedPassword, phone_number],
                 (err, result) => {
                     if (err) {
                         console.log(err);
@@ -95,7 +95,7 @@ app.post('/user_login', (req, res) => {
                         console.log(req.session.user);
                         res.send(result);
                     } else {
-                        res.send({ message: "Wrong username/password combination!" });
+                        res.send({ message: "Wrong username/password combination!"});
                     }
                 })
             } else {
