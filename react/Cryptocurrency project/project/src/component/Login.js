@@ -69,7 +69,8 @@ function Login() {
                     </div>
                     <h2>{loginStatus}</h2>
                 </div>
-            </div>          
+            </div>
+            <Footer />            
         </div>
     )
 }

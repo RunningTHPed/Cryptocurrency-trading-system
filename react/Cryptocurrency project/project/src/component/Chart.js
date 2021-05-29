@@ -114,29 +114,7 @@ const Chart = () => {
                     <div className = "chart">
                         <Line data = {chart}/>
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div className="contrainer-buy">
+                    <div className="contrainer-buy">
                 <div className="buy-title"> Buy order </div>
                     
                 <div className="buy-field">
@@ -152,7 +130,6 @@ const Chart = () => {
                     />
                 </div>
 
-                        
                 <div className="buy-click">
                     <a href="/chart"  onClick={addTransaction}> confrim order</a>
                 </div>
@@ -180,30 +157,6 @@ const Chart = () => {
                     </a>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
                 </div>
                 <div className = "col">
                     <div className = "list-group">
