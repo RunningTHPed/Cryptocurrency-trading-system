@@ -7,7 +7,7 @@ import Login from './component/Login';
 import Register from './component/Register';
 import Home from './component/Home';
 import Chart from './component/Chart';
-
+import dashboard from './component/dashboard';
 
 
 // เทรดกับพลเพื่อคนอย่างแต๋น 
@@ -21,6 +21,7 @@ function App() {
                     <Route path='/chart' exact component={Chart} />
                     <Route path='/register' component={Register} />
                     <Route path='/login' component={Login} />
+                    <Route path='/dashboard' exact component={dashboard} />
                 </Switch>
             </div>
         </Router>

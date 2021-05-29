@@ -23,10 +23,10 @@ app.use(cookieSession({
 // }
 
 const db = mysql.createConnection({
-    user: "sql6411701",
-    host: "sql6.freesqldatabase.com",
-    password: "UTbqq1H1ys",
-    database: "sql6411701"
+    user: "b671416d89f42b",
+    host: "us-cdbr-east-04.cleardb.com",
+    password: "4dee47da",
+    database: "heroku_b7f3e42218e3f4e"
 })
 
 app.get('/user_information', (req, res) => {
@@ -52,8 +52,8 @@ app.post('/add_user', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            db.query("INSERT INTO user_information (fname, lname, email, phone_number, id_card, password) VALUES(?, ?, ?, ?, ?, ?)",
-                [fname, lname, email, phone_number, id_card, hashedPassword],
+            db.query("INSERT INTO user_information (id_card, fname, lname, email, password, phone_number, role) VALUES(?, ?, ?, ?, ?, ?, 'user')",
+                [id_card, fname, lname, email, hashedPassword, phone_number],
                 (err, result) => {
                     if (err) {
                         console.log(err);
@@ -80,7 +80,7 @@ app.post('/user_login', (req, res) => {
                     if (response) {
                         res.send(result);
                     } else {
-                        res.send({ message: "Wrong username/password combination!" });
+                        res.send({ message: "Wrong username/password combination!"});
                     }
                 })
             } else {
