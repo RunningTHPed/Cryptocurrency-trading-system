@@ -59,11 +59,12 @@
 
 .history-table{
   position: relative;
-  margin-left: 625px;
-  margin-top: 30px;
+  margin: 80px;
 }
 
-
+.list-group{
+  margin: 80px;
+}
 
 
 

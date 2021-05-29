@@ -16,17 +16,11 @@ app.use(cookieSession({
     maxAge: 3600 * 1000 //1 hr
 }))
 
-// const ifNotLoggedIn = (req, res, next) => {
-//     if(!req.session.isLoggedIn) {
-//         return res.render('login-res')
-//     }
-// }
-
 const db = mysql.createConnection({
-    user: "b671416d89f42b",
-    host: "us-cdbr-east-04.cleardb.com",
-    password: "4dee47da",
-    database: "heroku_b7f3e42218e3f4e"
+    user: "admin",
+    host: "128.199.117.34",
+    password: "password",
+    database: "Uncle"
 })
 
 app.get('/user_information', (req, res) => {

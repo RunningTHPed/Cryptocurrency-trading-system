@@ -105,14 +105,16 @@ const Chart = () => {
 
     };
     return (  
-        <div className = "container-chart">
-            <div className = "chart">
-                <Line 
-                    data = {chart}
-                />
-            </div>
-
-            <div className="contrainer-buy">
+        <div className = "">
+            <div className = "row">
+                <div className = "col">
+                    Column
+                </div>
+                <div className = "col">
+                    <div className = "chart">
+                        <Line data = {chart}/>
+                    </div>
+                    <div className="contrainer-buy">
                 <div className="buy-title"> Buy order </div>
                     
                 <div className="buy-field">
@@ -134,28 +136,39 @@ const Chart = () => {
                     </button>
                 </div>
             </div>
+                </div>
+                <div className = "col">
+                    <div className = "list-group">
+                        <a href = "/Bitcoin" className = "list-group-item list-group-item-success" aria-current="true">BITCOIN</a>
+                        <a href="#" className = "list-group-item list-group-item-action">ETHEREUM</a>
+                        <a href="#" className = "list-group-item list-group-item-action">BINANCE COIN</a>
+                        <a href="#" className = "list-group-item list-group-item-action">CARDANO</a>
+                    </div>
 
-            <div className="history-table">
-                <table border='2'>
-                    <tr>
-                        <th>เวลา</th>
-                        <th>ราคา</th>
-                    </tr>
-                    {
-                        hist.map (i=>
-                                    ( <tr>
-                                        <td>
-                                            {i.time_finish}
-                                        </td> 
-                                        <td> 
-                                            {i.price} 
-                                        </td>
-                                    </tr>)
-                                )
-                    }
-                </table>
+                    <div className="history-table">
+                        <h5>LATEST TRADES</h5>
+                        <table className = "table">
+                            <tr>
+                                <th>เวลา</th>
+                                <th>ราคา</th>
+                            </tr>
+                            {
+                                hist.map (i=>
+                                            (   <tr>
+                                                    <td>
+                                                        {i.time_finish}
+                                                    </td> 
+                                                    <td> 
+                                                        {i.price} 
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )
+                            }
+                        </table>
+                    </div>
+                </div>
             </div>
-            
         </div>               
     )   
 }
