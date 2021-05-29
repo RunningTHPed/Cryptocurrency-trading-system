@@ -133,6 +133,7 @@ const Chart = () => {
                 </div>
             </div>
 
+<<<<<<< HEAD
             <div className="contrainer-sell">
                 <div className="sell-title"> Sell order </div>
                     
@@ -175,6 +176,28 @@ const Chart = () => {
                     }
                 </table>
             </div>
+=======
+            <div className="history-table">
+                <table border='2'>
+                    <tr>
+                        <th>เวลา</th>
+                        <th>ราคา</th>
+                    </tr>
+                    {
+                        hist.map (i=>
+                                    ( <tr>
+                                        <td>
+                                            {i.time_finish}
+                                        </td> 
+                                        <td> 
+                                            {i.price} 
+                                        </td>
+                                    </tr>)
+                                )
+                    }
+                </table>
+            </div>
+>>>>>>> parent of e56fbe12 (chart)
             
         </div>               
     )   
