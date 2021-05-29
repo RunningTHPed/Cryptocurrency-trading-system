@@ -1,8 +1,7 @@
 import React from 'react'
 import Header from './Header'
-import Footer from './Footer-fixed'
 import Axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 
@@ -11,6 +10,8 @@ function Login() {
     const [password, setPassword] = useState("");
 
     const [loginStatus, setLoginStatus] = useState("");
+
+    Axios.defaults.withCredentials = true;
 
     const userLogin = () => {
         Axios.post('http://localhost:3001/user_login', {
@@ -24,6 +25,12 @@ function Login() {
             }
         })
     }
+
+    useEffect(()=>{
+        Axios.get("http://localhost:3001/user_login").then((response)=>{
+            console.log(response);
+        });
+    }, []);
 
     return (
         <div>
@@ -71,7 +78,7 @@ function Login() {
                     <h2>{loginStatus}</h2>
                 </div>
             </div>
-
+            <Footer />            
         </div>
     )
 }

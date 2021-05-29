@@ -6,21 +6,26 @@ const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validation')
 
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
-app.use(cors());
 app.use(express.json());
+app.use(cors({
+    origin: ['http://localhost:3000'],
+    method: ["GET", "POST"],
+    credentials: true
+}));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(cookieSession({
-    name: 'session',
-    keys: ['key1', 'key2'],
-    maxAge: 3600 * 1000 //1 hr
+app.use(session({
+    key: "email",
+    secret: "subscribe",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { expires: 60*60*24,},
 }))
-
-// const ifNotLoggedIn = (req, res, next) => {
-//     if(!req.session.isLoggedIn) {
-//         return res.render('login-res')
-//     }
-// }
 
 const db = mysql.createConnection({
     user: "admin",
@@ -65,6 +70,14 @@ app.post('/add_user', (req, res) => {
     })
 })
 
+app.get("/user_login", (req, res) => {
+    if(req.session.user){
+        res.send({loggedIn: true, user: req.session.user})
+    } else {
+        res.send({loggedIn: false})
+    }
+})
+
 app.post('/user_login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -78,6 +91,8 @@ app.post('/user_login', (req, res) => {
             if (result.length > 0) {
                 bcrypt.compare(password, result[0].password, (err, response) => {
                     if (response) {
+                        req.session.user = result;
+                        console.log(req.session.user);
                         res.send(result);
                     } else {
                         res.send({ message: "Wrong username/password combination!" });

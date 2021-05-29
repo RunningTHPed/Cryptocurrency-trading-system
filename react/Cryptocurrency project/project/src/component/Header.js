@@ -15,6 +15,8 @@ function Header(props) {
             crossOrigin="anonymous">
             </link>
 
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
+
             <script src="https://kit.fontawesome.com/3736cc5c9e.js" 
             crossOrigin="anonymous">
             </script>
