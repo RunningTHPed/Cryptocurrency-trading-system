@@ -1,6 +1,5 @@
 import React from 'react'
 import Header from './Header'
-import Footer from './Footer-fixed'
 import Axios from 'axios'
 import { useState } from 'react'
 import { Redirect } from 'react-router'

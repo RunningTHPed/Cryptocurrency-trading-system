@@ -12,6 +12,21 @@ import Bitcoin from './component/Bitcoin';
 
 // เทรดกับพลเพื่อคนอย่างแต๋น 
 function App() {
+<<<<<<< HEAD
+    return (
+            <Router>
+                <div className='App'>
+                    <Navbar />
+                    <Switch>
+                        <Route path='/' exact component={Home} />
+                        <Route path='/chart' exact component={Chart} />
+                        <Route path='/register' component={Register} />
+                        <Route path='/login' component={Login} />
+                    </Switch>
+                </div>
+            </Router>
+    );
+=======
   return (
         <Router>
             <div className='App'>
@@ -27,6 +42,7 @@ function App() {
             </div>
         </Router>
   );
+>>>>>>> 123caaec7036b8a98ee509f26c7ae15706e63f76
 }
 
 export default App;
