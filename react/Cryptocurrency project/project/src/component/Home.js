@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import Footer from './Footer-fixed'
 import Header from './Header'
-import * as Icon from 'react-bootstrap-icons';
+//import * as Icon from 'react-bootstrap-icons';
 
 function Home () {
 

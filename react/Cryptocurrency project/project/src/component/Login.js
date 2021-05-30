@@ -2,7 +2,7 @@ import React from 'react'
 import Header from './Header'
 import Footer from './Footer-fixed'
 import Axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Redirect } from 'react-router'
 
 
@@ -11,6 +11,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState("");
+    const [loggedIn, setLoggedIn] = useState("");
     const [userData, setUserData] = useState([]);
 
     Axios.defaults.withCredentials = true;
@@ -33,7 +34,7 @@ function Login() {
 
     useEffect(()=>{
         Axios.get("http://localhost:3001/user_login").then((response)=>{
-            console.log("loggedIn = " + response.data.loggedIn);
+            setLoggedIn(response.data.loggedIn);
         });
     }, []);
 
@@ -80,9 +81,8 @@ function Login() {
                             <button className="btn btn-lg btn-success btn-block form-control" onClick={userLogin} >LOGIN</button>
                         </form>
                     </div>
-                    <h2>{loginStatus}</h2>
                 </div>
-            </div>           
+            </div>         
         </div>
     )
 }

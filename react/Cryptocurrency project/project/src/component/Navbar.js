@@ -1,6 +1,23 @@
-import React from 'react'
+import React, { useEffect , useState } from 'react'
+import Axios from 'axios'
+import NotLoggedinButton from './NotLoggedinButton';
+import LoggedinButton from './LoggedinButton';
 
 function Navbar() {
+
+    const [userRole, setRole] = useState("");
+    const [loginStatus, setLoginStatus] = useState("");
+
+    Axios.defaults.withCredentials = true;
+    useEffect(()=>{
+        Axios.get("http://localhost:3001/user_login").then((response)=>{
+            setLoginStatus(response.data.loggedIn);
+            if(loginStatus){
+                setRole(response.data.user[0].role);
+            }
+        });
+    }, []);
+
     return(
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -26,12 +43,14 @@ function Navbar() {
                                     <li><a className="dropdown-item" href="#">TH</a></li>
                                     </ul>
                                 </li>
-                                <li className="nav-item me-2 my-2">
+                                <h2>{userRole}</h2>
+                                {loginStatus == false && <NotLoggedinButton />}{loginStatus == true && <LoggedinButton />}
+                                {/* <li className="nav-item me-2 my-2">
                                     <a href="/login" className="btn btn-outline-success">LOGIN</a>
                                 </li>
                                 <li className="nav-item media my-2">
                                     <a href="/register" className="btn btn-outline-success">OPEN ACCOUNT</a>
-                                </li>
+                                </li> */}
                             </ul>
                         </form>
                     </div>
