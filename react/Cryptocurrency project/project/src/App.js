@@ -7,24 +7,26 @@ import Login from './component/Login';
 import Register from './component/Register';
 import Home from './component/Home';
 import Chart from './component/Chart';
-
-
+import dashboard from './component/dashboard';
+import Bitcoin from './component/Bitcoin';
 
 // เทรดกับพลเพื่อคนอย่างแต๋น 
 function App() {
-    return (
-            <Router>
-                <div className='App'>
-                    <Navbar />
-                    <Switch>
-                        <Route path='/' exact component={Login} />
-                        <Route path='/chart' exact component={Chart} />
-                        <Route path='/register' component={Register} />
-                        <Route path='/login' component={Login} />
-                    </Switch>
-                </div>
-            </Router>
-    );
+  return (
+        <Router>
+            <div className='App'>
+                <Navbar />
+                <Switch>
+                    <Route path='/' exact component={Login} />
+                    <Route path='/chart' exact component={Chart} />
+                    <Route path='/register' component={Register} />
+                    <Route path='/login' component={Login} />
+                    <Route path='/dashboard' exact component={dashboard} />
+                    <Route path='/Bitcoin' exact component={Bitcoin} />
+                </Switch>
+            </div>
+        </Router>
+  );
 }
 
 export default App;

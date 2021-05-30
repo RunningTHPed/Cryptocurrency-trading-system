@@ -105,55 +105,88 @@ const Chart = () => {
 
     };
     return (  
-        <div className = "container-chart">
-            <div className = "chart">
-                <Line 
-                    data = {chart}
-                />
-            </div>
-
-            <div className="contrainer-buy">
-                <div className="buy-title"> Buy order </div>
+        <div className = "">
+            <div className = "row">
+                <div className = "col">
+                    Column
+                </div>
+                <div className = "col">
+                    <div className = "chart">
+                        <Line data = {chart}/>
+                    </div>
+                    <div className = "row">
+                        <div className = "col">
+                            <div className="form_buy">
+                                <h3>Buy order</h3>
+                                <input 
+                                        type="text" 
+                                        className="buy-input" 
+                                        id="price" 
+                                        placeholder="" 
+                                        required 
+                                        onChange={(event) => {
+                                            setPrice(event.target.value)
+                                        }}
+                                />
+                                <div>
+                                    <a href="/chart"  onClick={addTransaction}> confrim order</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className = "col">
+                            <div className="form_sell">
+                                <h3>Sell order</h3>
+                                <input 
+                                        type="text" 
+                                        className="buy-input" 
+                                        id="price" 
+                                        placeholder="" 
+                                        required 
+                                        onChange={(event) => {
+                                            setPrice(event.target.value)
+                                        }}
+                                />
+                                <div>
+                                    <a href="/chart"> confrim sell</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
-                <div className="buy-field">
-                    <input 
-                        type="text" 
-                        className="buy-input" 
-                        id="price" 
-                        placeholder="" 
-                        required 
-                        onChange={(event) => {
-                            setPrice(event.target.value)
-                        }}
-                    />
-                </div>
 
-                <div className="buy-click">
-                    <button onClick={addTransaction} 
-                            type="showUser">confrim order
-                    </button>
+                    
                 </div>
-            </div>
+                <div className = "col">
+                    <div className = "list-group">
+                        <a href = "/Bitcoin" className = "list-group-item list-group-item-success" aria-current="true">BITCOIN</a>
+                        <a href="#" className = "list-group-item list-group-item-action">ETHEREUM</a>
+                        <a href="#" className = "list-group-item list-group-item-action">BINANCE COIN</a>
+                        <a href="#" className = "list-group-item list-group-item-action">CARDANO</a>
+                    </div>
 
-            <div className="history-table">
-                <table border='2'>
-                    <tr>
-                        <th>เวลา</th>
-                        <th>ราคา</th>
-                    </tr>
-                    {
-                        hist.map (i=>
-                                    ( <tr>
-                                        <td>
-                                            {i.time_finish}
-                                        </td> 
-                                        <td> 
-                                            {i.price} 
-                                        </td>
-                                    </tr>)
-                                )
-                    }
-                </table>
+                    <div className="history-table">
+                        <h5>LATEST TRADES</h5>
+                        <table className = "table">
+                            <tr>
+                                <th>เวลา</th>
+                                <th>ราคา</th>
+                            </tr>
+                            {
+                                hist.map (i=>
+                                            (   <tr>
+                                                    <td>
+                                                        {i.time_finish}
+                                                    </td> 
+                                                    <td> 
+                                                        {i.price} 
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )
+                            }
+                        </table>
+                    </div>
+                </div>
             </div>
             
         </div>               
