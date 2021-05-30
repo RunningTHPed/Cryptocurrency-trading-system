@@ -28,10 +28,10 @@ app.use(session({
 }))
 
 const db = mysql.createConnection({
-    user: "sql6411701",
-    host: "sql6.freesqldatabase.com",
-    password: "UTbqq1H1ys",
-    database: "sql6411701"
+    user: "admin",
+    host: "128.199.117.34",
+    password: "password",
+    database: "Uncle"
 })
 
 app.get('/user_information', (req, res) => {
@@ -57,7 +57,7 @@ app.post('/add_user', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            db.query("INSERT INTO user_information (fname, lname, email, phone_number, id_card, password) VALUES(?, ?, ?, ?, ?, ?)",
+            db.query("INSERT INTO user_information (fname, lname, email, phone_number, id_card, password, role) VALUES(?, ?, ?, ?, ?, ?, 'user')",
                 [fname, lname, email, phone_number, id_card, hashedPassword],
                 (err, result) => {
                     if (err) {

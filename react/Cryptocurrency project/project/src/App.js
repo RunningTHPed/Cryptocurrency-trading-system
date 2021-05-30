@@ -12,13 +12,12 @@ import Chart from './component/Chart';
 
 // เทรดกับพลเพื่อคนอย่างแต๋น 
 function App() {
-<<<<<<< HEAD
     return (
             <Router>
                 <div className='App'>
                     <Navbar />
                     <Switch>
-                        <Route path='/' exact component={Home} />
+                        <Route path='/' exact component={Login} />
                         <Route path='/chart' exact component={Chart} />
                         <Route path='/register' component={Register} />
                         <Route path='/login' component={Login} />
@@ -26,21 +25,6 @@ function App() {
                 </div>
             </Router>
     );
-=======
-  return (
-        <Router>
-            <div className='App'>
-                <Navbar />
-                <Switch>
-                    <Route path='/' exact component={Login} />
-                    <Route path='/chart' exact component={Chart} />
-                    <Route path='/register' component={Register} />
-                    <Route path='/login' component={Login} />
-                </Switch>
-            </div>
-        </Router>
-  );
->>>>>>> 123caaec7036b8a98ee509f26c7ae15706e63f76
 }
 
 export default App;

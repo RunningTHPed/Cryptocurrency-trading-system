@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from './Header'
+import Footer from './Footer-fixed'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 
@@ -10,6 +11,7 @@ function Login() {
     const [password, setPassword] = useState("");
 
     const [loginStatus, setLoginStatus] = useState("");
+    const [userData, setUserData] = useState([]);
 
     Axios.defaults.withCredentials = true;
 
@@ -22,13 +24,15 @@ function Login() {
                 setLoginStatus(response.data.message);
             } else {
                 setLoginStatus(response.data[0].email);
+                setUserData(response.data[0]);
+                console.log(userData);
             }
         })
     }
 
     useEffect(()=>{
         Axios.get("http://localhost:3001/user_login").then((response)=>{
-            console.log(response);
+            console.log("loggedIn = " + response.data.loggedIn);
         });
     }, []);
 
