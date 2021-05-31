@@ -4,7 +4,6 @@ import Footer from './Footer-fixed'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Redirect } from 'react-router'
-import Footer from './Footer-fixed';
 
 
 function Login() {
