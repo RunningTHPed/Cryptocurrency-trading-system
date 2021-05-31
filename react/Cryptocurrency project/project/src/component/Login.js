@@ -3,7 +3,7 @@ import Header from './Header'
 import Axios from 'axios'
 import { useState } from 'react'
 import { Redirect } from 'react-router'
-
+import Footer from './Footer-fixed';
 
 
 function Login() {
@@ -18,7 +18,7 @@ function Login() {
             if (response.data.message) {
                 setLoginStatus(response.data.message);
             } else {
-                window.location = "/chart"
+                window.location = "/dashboard"
             }
         })
     }
@@ -69,8 +69,10 @@ function Login() {
                     </div>
                     <h2>{loginStatus}</h2>
                 </div>
-            </div>           
-        </div>
+            </div>
+            <Footer />           
+        </div> 
     )
 }
+
 export default Login;

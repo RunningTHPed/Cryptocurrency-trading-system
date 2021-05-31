@@ -158,7 +158,7 @@ const Chart = () => {
                 </div>
                 <div className = "col">
                     <div className = "list-group">
-                        <a href = "/Bitcoin" className = "list-group-item list-group-item-success" aria-current="true">BITCOIN</a>
+                        <a href = "/market/BTC" className = "list-group-item list-group-item-success" aria-current="true">BITCOIN</a>
                         <a href="#" className = "list-group-item list-group-item-action">ETHEREUM</a>
                         <a href="#" className = "list-group-item list-group-item-action">BINANCE COIN</a>
                         <a href="#" className = "list-group-item list-group-item-action">CARDANO</a>
