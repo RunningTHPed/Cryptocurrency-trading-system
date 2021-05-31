@@ -1,15 +1,20 @@
 import React from 'react'
 import Header from './Header'
+import Footer from './Footer-fixed'
 import Axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Redirect } from 'react-router'
-
 
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState("");
+    const [loggedIn, setLoggedIn] = useState("");
+    const [userData, setUserData] = useState([]);
+
+    Axios.defaults.withCredentials = true;
+
     const userLogin = () => {
         Axios.post('http://localhost:3001/user_login', {
             email: email,
@@ -18,11 +23,22 @@ function Login() {
             if (response.data.message) {
                 setLoginStatus(response.data.message);
             } else {
-                window.location = "/chart"
+                setUserData(response.data[0]);
+                console.log(response.data[0]);
+                window.location = "/dashboard"
             }
         })
     }
 
+    useEffect(()=>{
+        Axios.get("http://localhost:3001/user_login").then((response)=>{
+            setLoggedIn(response.data.loggedIn);
+        });
+    }, []);
+
+    useEffect(()=>{
+        localStorage.setItem('userdata', JSON.stringify(userData));
+    }, [userData]);
 
     return (
         <div>
@@ -69,8 +85,10 @@ function Login() {
                     </div>
                     <h2>{loginStatus}</h2>
                 </div>
-            </div>           
-        </div>
+            </div>
+            <Footer />           
+        </div> 
     )
 }
+
 export default Login;

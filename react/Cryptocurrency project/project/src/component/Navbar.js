@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Axios from 'axios'
+import NotLoggedinButton from './NotLoggedinButton';
+import LoggedinButton from './LoggedinButton';
 
 function Navbar() {
-    return(
+
+    const [userRole, setRole] = useState("");
+    const [loggedIn, setLoggedIn] = useState("");
+
+    Axios.defaults.withCredentials = true;
+    useEffect(() => {
+        Axios.get("http://localhost:3001/user_login").then((response) => {
+            setLoggedIn(response.data.loggedIn);
+        });
+    }, []);
+    console.log(loggedIn);
+
+    return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container">
@@ -12,26 +27,27 @@ function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item my-2">
-                                <a href="/chart" className="nav-link active" aria-current="page">MARKET</a>
+                                <a href="/market" className="nav-link active" aria-current="page">MARKET</a>
                             </li>
                         </ul>
                         <form className="d-flex">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li className="nav-item dropdown me-2 my-2">
                                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    EN
+                                        EN
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a className="dropdown-item" href="#">EN</a></li>
-                                    <li><a className="dropdown-item" href="#">TH</a></li>
+                                        <li><a className="dropdown-item" href="#">EN</a></li>
+                                        <li><a className="dropdown-item" href="#">TH</a></li>
                                     </ul>
                                 </li>
-                                <li className="nav-item me-2 my-2">
+                                {loggedIn === false && <NotLoggedinButton />}{loggedIn === true && <LoggedinButton />}
+                                {/* <li className="nav-item me-2 my-2">
                                     <a href="/login" className="btn btn-outline-success">LOGIN</a>
                                 </li>
                                 <li className="nav-item media my-2">
                                     <a href="/register" className="btn btn-outline-success">OPEN ACCOUNT</a>
-                                </li>
+                                </li> */}
                             </ul>
                         </form>
                     </div>
