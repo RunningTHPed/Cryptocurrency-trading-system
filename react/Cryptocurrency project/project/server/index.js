@@ -9,6 +9,7 @@ const { body, validationResult } = require('express-validation')
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+let hour = 3600000;
 
 app.use(express.json());
 app.use(cors({
@@ -17,14 +18,14 @@ app.use(cors({
     credentials: true
 }));
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-    key: "email",
-    secret: "subscribe",
+    key: "user",
+    secret: "hello",
     resave: false,
     saveUninitialized: false,
-    cookie: { expires: 60*60*24,},
+    cookie: { maxAge: 3600000 }
 }))
 
 const db = mysql.createConnection({
@@ -70,11 +71,21 @@ app.post('/add_user', (req, res) => {
     })
 })
 
-app.get("/user_login", (req, res) => {
-    if(req.session.user){
-        res.send({loggedIn: true, user: req.session.user})
+app.get('/user_logout', (req, res) => {
+    if (req.session.user) {
+        req.session.destroy(function (err) {});
+        res.send({logOut: true});
     } else {
-        res.send({loggedIn: false})
+        res.send({logOut: false});
+    }
+    
+})
+
+app.get("/user_login", (req, res) => {
+    if (req.session.user) {
+        res.send({ loggedIn: true, user: req.session.user });
+    } else {
+        res.send({ loggedIn: false });
     }
 })
 
@@ -95,7 +106,7 @@ app.post('/user_login', (req, res) => {
                         console.log(req.session.user);
                         res.send(result);
                     } else {
-                        res.send({ message: "Wrong username/password combination!"});
+                        res.send({ message: "Wrong username/password combination!" });
                     }
                 })
             } else {
@@ -105,7 +116,7 @@ app.post('/user_login', (req, res) => {
     )
 })
 
-app.get('/coin_Transaction', (req,res) => {
+app.get('/coin_Transaction', (req, res) => {
     //const time_finish = req.body.time_finish;
     //const price = req.body.price;
     db.query("SELECT * FROM coin_transaction_history ORDER BY no_transaction DESC LIMIT 10", (err, result) => {
@@ -128,7 +139,7 @@ app.post('/add_Transaction', (req, res) => {
                 res.send("Values inserted");
             }
         })
-    });
+});
 
 app.listen('3001', () => {
     console.log("Server is running");

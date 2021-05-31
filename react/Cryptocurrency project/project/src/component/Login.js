@@ -26,7 +26,7 @@ function Login() {
             } else {
                 setLoginStatus(response.data[0].email);
                 setUserData(response.data[0]);
-                console.log(userData);
+                console.log(response.data[0]);
                 window.location = "/chart"
             }
         })
@@ -37,6 +37,10 @@ function Login() {
             setLoggedIn(response.data.loggedIn);
         });
     }, []);
+
+    useEffect(()=>{
+        localStorage.setItem('userdata', JSON.stringify(userData));
+    }, [userData]);
 
     return (
         <div>

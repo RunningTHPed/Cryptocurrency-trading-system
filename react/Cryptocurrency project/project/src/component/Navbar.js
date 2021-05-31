@@ -1,4 +1,4 @@
-import React, { useEffect , useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
 import NotLoggedinButton from './NotLoggedinButton';
 import LoggedinButton from './LoggedinButton';
@@ -6,19 +6,17 @@ import LoggedinButton from './LoggedinButton';
 function Navbar() {
 
     const [userRole, setRole] = useState("");
-    const [loginStatus, setLoginStatus] = useState("");
+    const [loggedIn, setLoggedIn] = useState("");
 
     Axios.defaults.withCredentials = true;
-    useEffect(()=>{
-        Axios.get("http://localhost:3001/user_login").then((response)=>{
-            setLoginStatus(response.data.loggedIn);
-            if(loginStatus){
-                setRole(response.data.user[0].role);
-            }
+    useEffect(() => {
+        Axios.get("http://localhost:3001/user_login").then((response) => {
+            setLoggedIn(response.data.loggedIn);
         });
     }, []);
+    console.log(loggedIn);
 
-    return(
+    return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container">
@@ -36,15 +34,14 @@ function Navbar() {
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li className="nav-item dropdown me-2 my-2">
                                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    EN
+                                        EN
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a className="dropdown-item" href="#">EN</a></li>
-                                    <li><a className="dropdown-item" href="#">TH</a></li>
+                                        <li><a className="dropdown-item" href="#">EN</a></li>
+                                        <li><a className="dropdown-item" href="#">TH</a></li>
                                     </ul>
                                 </li>
-                                <h2>{userRole}</h2>
-                                {loginStatus == false && <NotLoggedinButton />}{loginStatus == true && <LoggedinButton />}
+                                {loggedIn === false && <NotLoggedinButton />}{loggedIn === true && <LoggedinButton />}
                                 {/* <li className="nav-item me-2 my-2">
                                     <a href="/login" className="btn btn-outline-success">LOGIN</a>
                                 </li>
