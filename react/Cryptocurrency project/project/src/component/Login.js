@@ -4,7 +4,7 @@ import Footer from './Footer-fixed'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Redirect } from 'react-router'
-
+import Footer from './Footer-fixed';
 
 
 function Login() {
@@ -27,7 +27,7 @@ function Login() {
                 setLoginStatus(response.data[0].email);
                 setUserData(response.data[0]);
                 console.log(response.data[0]);
-                window.location = "/chart"
+                window.location = "/dashboard"
             }
         })
     }
@@ -86,8 +86,10 @@ function Login() {
                         </form>
                     </div>
                 </div>
-            </div>         
-        </div>
+            </div>
+            <Footer />           
+        </div> 
     )
 }
+
 export default Login;

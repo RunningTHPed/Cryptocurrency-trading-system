@@ -125,12 +125,99 @@
   margin: 80px;
 }
 
+.dashboard_view{
+  margin-top: 40px;
+  padding: 30px 30px;
+  background-color: #f8f9fa;
+}
 
+.chart-dashboard {
+  position: relative;
+  margin-top: 20px;
+  padding: 60px 35px 35px 35px;
+  width: 500;
+  height: 320px;
 
+  border-radius: 20px;
+  background:  whitesmoke;
+  box-shadow: inset 13px 13px 20px #cbced1,
+              inset -13px -13px 20px #ffffff;
+}
 
+.text-price {
+  margin-left: -250px;
+  text-align: center;
+}
 
+.text-col-money {
+  margin-left: 200px;
+}
 
+.btn-trade {
+  text-align: center;
+  width: 80%;
+  height: 60px;
+  font-size: 22px;
+  padding-top: 15px;
+}
 
+.btn-margin {
+  margin-top: 250px;
+  text-align: center;
+}
+
+.table-background, .background-cc {
+  background-color: #ffffff;
+}
+
+.table-center {
+  text-align: center;
+}
+
+.a-color {
+  color: #c4c4c4;
+}
+
+.a-color:hover{
+  color: #198754;
+}
+
+.btn-margin-payment {
+  margin: 50px;
+  margin-right: 0px;
+}
+
+.btn-add-paymnet {
+  margin-left: 80%;
+}
+
+.select-margin {
+  margin: 20px 900px 0px 100px;
+}
+
+.input-margin {
+  margin: 50px 60px 0px 100px;
+}
+
+.input-margin1 {
+  margin: 50px 100px 0px 0px;
+}
+
+.text-margin {
+  margin: 20px 0px 0px 100px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.text-margin-detail {
+  padding-left: 100px;
+}
+
+.btn-margin-detail {
+  margin-left: 85%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
 
 
 .center{
