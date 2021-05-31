@@ -23,7 +23,6 @@ function Login() {
             if (response.data.message) {
                 setLoginStatus(response.data.message);
             } else {
-                setLoginStatus(response.data[0].email);
                 setUserData(response.data[0]);
                 console.log(response.data[0]);
                 window.location = "/dashboard"
@@ -84,6 +83,7 @@ function Login() {
                             <button className="btn btn-lg btn-success btn-block form-control" onClick={userLogin} >LOGIN</button>
                         </form>
                     </div>
+                    <h2>{loginStatus}</h2>
                 </div>
             </div>
             <Footer />           
