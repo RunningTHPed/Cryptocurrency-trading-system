@@ -1,7 +1,8 @@
 import React from 'react'
 import Header from './Header'
+import Footer from './Footer-fixed'
 import Axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Redirect } from 'react-router'
 import Footer from './Footer-fixed';
 
@@ -10,6 +11,11 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState("");
+    const [loggedIn, setLoggedIn] = useState("");
+    const [userData, setUserData] = useState([]);
+
+    Axios.defaults.withCredentials = true;
+
     const userLogin = () => {
         Axios.post('http://localhost:3001/user_login', {
             email: email,
@@ -18,11 +24,19 @@ function Login() {
             if (response.data.message) {
                 setLoginStatus(response.data.message);
             } else {
+                setLoginStatus(response.data[0].email);
+                setUserData(response.data[0]);
+                console.log(userData);
                 window.location = "/dashboard"
             }
         })
     }
 
+    useEffect(()=>{
+        Axios.get("http://localhost:3001/user_login").then((response)=>{
+            setLoggedIn(response.data.loggedIn);
+        });
+    }, []);
 
     return (
         <div>
@@ -67,7 +81,6 @@ function Login() {
                             <button className="btn btn-lg btn-success btn-block form-control" onClick={userLogin} >LOGIN</button>
                         </form>
                     </div>
-                    <h2>{loginStatus}</h2>
                 </div>
             </div>
             <Footer />           

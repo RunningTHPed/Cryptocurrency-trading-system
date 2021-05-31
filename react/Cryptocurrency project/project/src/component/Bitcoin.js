@@ -28,6 +28,6 @@ function Bitcoin() {
             </div>
         </div>
     );
-  }
-  
-  export default Bitcoin;
+}
+
+export default Bitcoin;

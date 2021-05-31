@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import {useEffect, useState} from 'react';
+import Axios from 'axios';
 import './App.css';
 import './styles.css';
 import { BrowserRouter as Router , Route , Switch } from 'react-router-dom';
+import { Redirect } from 'react-router'
 import Navbar from './component/Navbar';
 import Footer from './component/Footer-fixed';
 import Login from './component/Login';
 import Register from './component/Register';
-import Home from './component/Home';
 import Chart from './component/Chart';
 import dashboard from './component/dashboard';
 import Funds from './component/Funds';
@@ -24,9 +26,11 @@ function App() {
                 <Navbar />
                 <Switch>
                     <Route path='/' exact component={Login} />
+                        {loggedIn == true && <Redirect to = "/dashboard" />}
                     <Route path='/market' exact component={Chart} />
                     <Route path='/register' component={Register} />
                     <Route path='/login' component={Login} />
+                        {loggedIn == true && <Redirect to = "/dashboard" />}
                     <Route path='/dashboard' exact component={dashboard} />
                     <Route path='/market/BTC' exact component={Bitcoin} />
                     <Route path='/funds' exact component={Funds} />
