@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
-import { useState, useEffect, state } from 'react'
-
+import { useState, useEffect, state } from 'react' 
 
 const Chart = () => {
 
@@ -20,7 +19,8 @@ const Chart = () => {
     const plotcomp = {
         time_order: [], //time_order is time_when sell
         price: [],
-        select_time: []
+        select_time: [],
+        time_date: []
     };
 
     //variable order
@@ -109,14 +109,6 @@ const Chart = () => {
             // }
 
 
-
-
-
-
-
-
-
-
         } catch (error) {
             console.log(error.response);
         }
@@ -128,23 +120,26 @@ const Chart = () => {
             const res = await Axios.get('http://localhost:3001/coin_Transaction');
             console.log(res);
             console.log(res.data);
-            sethist(res.data);
-
+            
             //Loop for show last 10 row
             for (var i = 0; i < res.data.length; i++) {
                 plotcomp.price.push(res.data[i].price);
                 plotcomp.time_order.push(res.data[i].time_order);
                 var onlyTime = new Date(plotcomp.time_order[i]);
                 plotcomp.select_time.push(onlyTime.toLocaleTimeString('it-IT'));
+                plotcomp.time_date.push(onlyTime.toLocaleString('it-IT'));
+
+                console.log(res.data[i].time_order);
+                console.log(res.data[i].time_date);
+                res.data[i].time_order =  plotcomp.time_date[i];
+                console.log(res.data[i].time_order);
+                console.log(res.data[i].time_date);
             }
-
-            // console.log(plotcomp);
-            // console.log(plotcomp.time_order[0]);
-            // var onlyTime = new Date(plotcomp.time_order[0]);
-            // console.log(onlyTime.toLocaleTimeString('it-IT'));
-            // //console.log(plotcomp.time_order.length);
-
             console.log(plotcomp);
+            console.log(res.data);
+
+            //---set history table
+            sethist(res.data);
             console.log(hist);
 
             setchart({
@@ -184,6 +179,8 @@ const Chart = () => {
         }
 
     };
+
+
     return (
         <div className="">
             <div className="row">
@@ -287,15 +284,14 @@ const Chart = () => {
                             </tr>
                             {
                                 hist.map(i =>
-                                (<tr>
-                                    <td>
-                                        {i.time_order}
-                                    </td>
-                                    <td>
-                                        {i.price}
-                                    </td>
-                                </tr>
-                                )
+                                    (<tr>
+                                        <td>
+                                            { i.time_order }
+                                        </td>
+                                        <td>
+                                            { i.price }
+                                        </td>
+                                    </tr>)
                                 )
                             }
                         </table>
