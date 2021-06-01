@@ -32,15 +32,7 @@ function Navbar() {
                         </ul>
                         <form className="d-flex">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li className="nav-item dropdown me-2 my-2">
-                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        EN
-                                    </a>
-                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a className="dropdown-item" href="#">EN</a></li>
-                                        <li><a className="dropdown-item" href="#">TH</a></li>
-                                    </ul>
-                                </li>
+                                
                                 {loggedIn === false && <NotLoggedinButton />}{loggedIn === true && <LoggedinButton />}
                                 {/* <li className="nav-item me-2 my-2">
                                     <a href="/login" className="btn btn-outline-success">LOGIN</a>
