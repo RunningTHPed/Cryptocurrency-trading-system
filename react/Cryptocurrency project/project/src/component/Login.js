@@ -10,7 +10,6 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState("");
-    const [loggedIn, setLoggedIn] = useState("");
     const [userData, setUserData] = useState([]);
 
     Axios.defaults.withCredentials = true;
@@ -29,12 +28,6 @@ function Login() {
             }
         })
     }
-
-    useEffect(()=>{
-        Axios.get("http://localhost:3001/user_login").then((response)=>{
-            setLoggedIn(response.data.loggedIn);
-        });
-    }, []);
 
     useEffect(()=>{
         localStorage.setItem('userdata', JSON.stringify(userData));
