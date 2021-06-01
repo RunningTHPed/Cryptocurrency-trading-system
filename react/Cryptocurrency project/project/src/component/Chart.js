@@ -5,6 +5,16 @@ import { useState , useEffect, state} from 'react'
 
 
 const Chart = () => {
+
+    //get role from localStorage
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+    const [role, setRole] = useState("guest");
+    useEffect(() => {
+        if(userData != null){
+            setRole(userData.role);
+        }
+    })
+
     //variable chart
     const [chart, setchart] = useState({});
     const plotcomp = {
