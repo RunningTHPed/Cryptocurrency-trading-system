@@ -182,6 +182,52 @@ app.get('/coin_Transaction', (req, res) => {
         })
 });
 
+app.post('/Data_Payment', (req,res) => {
+    const IDCard = req.body.IDCard;
+
+    db.query("SELECT * FROM Uncle.Payment_information WHERE id_card = ?;",
+        [IDCard],
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+});
+
+app.post('/Data_Payment_id', (req,res) => {
+    const IDCard = req.body.IDCard;
+
+    db.query("SELECT * FROM Uncle.Payment_information WHERE id_card = ? AND status = 'PRIMARY';",
+        [IDCard],
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+});
+
+app.post('/deposit_money', (req,res) => {
+    const AccountID = req.body.AccountID;
+    const DepositMoney = req.body.DepositMoney;
+
+    console.log(AccountID);
+    console.log(DepositMoney);
+
+    db.query("INSERT INTO THB_transaction_history(account_id, type, value, time, fee) VALUES(?, 1, ?, current_time(), 0);",
+    [AccountID, DepositMoney],
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+});
+
 app.post('/add_payment', (req,res) => {
     const BranchName= req.body.BranchName;
     const AccountName = req.body.AccountName;

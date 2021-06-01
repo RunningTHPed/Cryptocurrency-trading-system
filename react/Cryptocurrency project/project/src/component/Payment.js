@@ -6,7 +6,27 @@ import Footer from './Footer-fixed';
 
 function Payment() {
 
+    const[DataPayment, setDataPayment] = useState([]);
+
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+
+    const getPayment = async () => {
+        try {
+                
+            const res = await Axios.post('http://localhost:3001/Data_Payment', {
+                IDCard: userData.id_card
+            });               
+            console.log(res.data);
+            setDataPayment(res.data);
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    }
     
+    useEffect(() => {
+        getPayment();
+    }, []);
 
 
 
@@ -44,33 +64,33 @@ function Payment() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div className="form-check">
-                                    <input style={mystyle} className="form-check-input" type="radio" value="Male" name="gender" />
-                                </div>
-                            </td>
-                            <td>SCB</td>
-                            <td>
-                                <p>นายเพชร จ้า 123456789</p>
-                            </td>
-                            <td>PRIMARY</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div className="form-check">
-                                    <input style={mystyle} className="form-check-input" type="radio" value="Male" name="gender" />
-                                </div>
-                            </td>
-                            <td>CPE</td>
-                            <td>นายเพชร จ้า 987654321</td>
-                            <td></td>
-                        </tr>
+                        {
+                            DataPayment.map(pleum =>
+                                (
+                                    <tr>
+                                        <td>
+                                            <div className="form-check">
+                                                <input style={mystyle} className="form-check-input" type="radio" value="Male" name="gender" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {pleum.bankshortname}
+                                        </td>
+                                        <td>
+                                            {pleum.account_name} {pleum.account_id}
+                                        </td>
+                                        <td>
+                                            {pleum.status}
+                                        </td>
+                                    </tr>
+                                )
+                                )
+                        }
                     </tbody>
                 </table>
                 <div>
                     <a class="btn btn-success btn-margin-payment" href="#" role="button">MAKE PRIMARY</a>
-                    <a class="btn btn-danger btn-margin-payment" href="#" role="button">REMOVE</a>
+                    <a class="btn btn-danger btn-margin-payment" href="#"   role="button">REMOVE</a>
                 </div>
             </div>
         </div>

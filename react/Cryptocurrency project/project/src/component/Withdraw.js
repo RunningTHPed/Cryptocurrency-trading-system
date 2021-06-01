@@ -26,7 +26,7 @@ function Deposit() {
                     
                 </div>
                 <form>
-                    <div className = "text-margin">"WITHDRAW"</div>
+                    <div className = "text-margin">WITHDRAW</div>
                     
                     <div className = "row ">
                         <div className = "col input-margin">
@@ -59,7 +59,7 @@ function Deposit() {
                                     </tr>
                                 </tbody>
                             </table>
-                            <a class="btn btn-success btn-margin-withdraw" href="#" role="button">WITHDRAW</a>
+                            <a class="btn btn-danger btn-margin-withdraw" href="#" role="button">WITHDRAW</a>
                         </div>
                     </div>
                 </form>
