@@ -39,7 +39,6 @@ const Chart = () => {
     const [coin, setCoin] = useState([]);
     const [SellPrice_per_coin ,setSellPrice_per_coin] = useState([]);
 
-
     const addSell = () => {
         Axios.post('http://localhost:3001/addSell',{
             coin:coin,
@@ -62,10 +61,38 @@ const Chart = () => {
 
     useEffect(() => {
         getData();
+        getChart();
         console.log(chart)
     },[]);
 
     const getData = async () => {
+        try{
+                const res_order = await Axios.get('http://localhost:3001/getOrder');               
+                console.log(res_order);
+                console.log(res_order.data);
+
+                const res_sell = await Axios.get('http://localhost:3001/getSell');               
+                console.log(res_sell);
+                console.log(res_sell.data);
+
+
+
+
+
+
+
+
+
+
+
+
+        } catch (error) {
+            console.log(error.response);
+        }
+
+    }
+
+    const getChart = async () => {
         try {
                 const res = await Axios.get('http://localhost:3001/coin_Transaction');               
                 console.log(res);
@@ -76,23 +103,19 @@ const Chart = () => {
                 for( var i = 0 ; i < res.data.length ; i++ ){
                     plotcomp.price.push(res.data[i].price);
                     plotcomp.time_order.push(res.data[i].time_order);
-                }
-
-               
-                console.log(plotcomp);
-                console.log(plotcomp.time_order[0]);
-                
-                var onlyTime = new Date(plotcomp.time_order[0]);
-                console.log(onlyTime.toLocaleTimeString('it-IT'));
-                //console.log(plotcomp.time_order.length);
-
-                for( var j = 0 ; j < plotcomp.time_order.length ; j++){
-                    var onlyTime = new Date(plotcomp.time_order[j]);
+                    var onlyTime = new Date(plotcomp.time_order[i]);
                     plotcomp.select_time.push(onlyTime.toLocaleTimeString('it-IT'));
                 }
+
+                // console.log(plotcomp);
+                // console.log(plotcomp.time_order[0]);
+                // var onlyTime = new Date(plotcomp.time_order[0]);
+                // console.log(onlyTime.toLocaleTimeString('it-IT'));
+                // //console.log(plotcomp.time_order.length);
+
                 console.log(plotcomp);
                 console.log(hist);
-
+                
                 setchart ({
                 labels: plotcomp.select_time, //get price on this
                 //labels: ['00.00', '01.00', '02.00', '03.00', '04.00', '05.00', '06.00'],

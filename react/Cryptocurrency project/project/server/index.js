@@ -144,6 +144,28 @@ app.post('/addSell', (req, res) => {
         })
     });
 
+app.get('/getOrder', (req, res) => {
+    db.query("SELECT * FROM buy_order_view;",
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+    });
+
+app.get('/getSell', (req, res) => {
+    db.query("SELECT * FROM sell_order_view;",
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+    });
+
 app.get('/coin_Transaction', (req,res) => {
     //const time_finish = req.body.time_finish;
     //const price = req.body.price;
