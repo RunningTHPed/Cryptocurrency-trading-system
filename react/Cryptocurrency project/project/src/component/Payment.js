@@ -5,6 +5,11 @@ import { useState , useEffect, state} from 'react'
 import Footer from './Footer-fixed';
 
 function Payment() {
+
+    
+
+
+
     const mystyle = {
         position: "absolute",
         cursor: "inherit"

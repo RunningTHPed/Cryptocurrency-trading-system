@@ -85,17 +85,6 @@ const Chart = () => {
                 console.log(res_sell);
                 console.log(res_sell.data);
 
-
-
-
-
-
-
-
-
-
-
-
         } catch (error) {
             console.log(error.response);
         }
@@ -105,7 +94,7 @@ const Chart = () => {
     const getChart = async () => {
         try {
                 const res = await Axios.get('http://localhost:3001/coin_Transaction');               
-                console.log(res);
+                //console.log(res);
                 console.log(res.data);
                 sethist(res.data);
 

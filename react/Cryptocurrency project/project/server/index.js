@@ -133,6 +133,8 @@ app.post('/addOrder', (req, res) => {
 app.post('/addSell', (req, res) => {
     const coin = req.body.coin;
     const SellPrice_per_coin = req.body.SellPrice_per_coin;
+
+
     db.query("INSERT INTO coin_order(time_order, type, price,coin,price_per_coin,status) VALUES(current_time() , 1, ?, ?, ?, 0)",
         [coin*SellPrice_per_coin,coin,SellPrice_per_coin],
         (err, result) => {
@@ -179,6 +181,48 @@ app.get('/coin_Transaction', (req,res) => {
         }
     })
 });
+
+app.post('/add_payment', (req,res) => {
+    const BranchName= req.body.BranchName;
+    const AccountName = req.body.AccountName;
+    const AccountNumber = req.body.AccountNumber;
+    const BankName = req.body.BankName;
+    const IDCard = req.body.IDCard;
+
+    db.query("SELECT * FROM Payment_information WHERE account_id = ? AND bankshortname = ?;",
+        [AccountNumber, BankName],
+        (err, result) => {
+            if (err) {
+                res.send({ err: err });
+            }
+            else{
+                if (result.length == 0) {
+                    db.query("INSERT INTO Payment_information(account_id, bankshortname, id_card, branch, account_name) VALUES(?, ?, ?, ?, ?)",
+                    [AccountNumber, BankName, IDCard, BranchName, AccountName],
+                    (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            res.send("Error insert data.");
+                        } else {
+                            res.send(result);
+                        }
+                    })
+                } else {
+                res.send({ message: "This account is already in use." });
+            }
+            }
+
+        }
+    )
+
+
+
+
+
+});
+
+
+
 
 app.listen('3001', () => {
     console.log("Server is running");
