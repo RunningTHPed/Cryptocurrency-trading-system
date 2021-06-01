@@ -5,26 +5,60 @@ import { useState , useEffect, state} from 'react'
 
 
 const Chart = () => {
+
+    //get role from localStorage
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+    const [role, setRole] = useState("guest");
+    useEffect(() => {
+        if(userData != null){
+            setRole(userData.role);
+        }
+    })
+
     //variable chart
     const [chart, setchart] = useState({});
     const plotcomp = {
-                        time_finish: [],
+                        time_order: [], //time_order is time_when sell
                         price:[],
+                        select_time:[]
                     }; 
 
     //variable order
-    const [TransList, setTransList] = useState([]);                
+    const [OrderList, setOrderList] = useState([]);   
     const [price, setPrice] = useState([]);
-    const [time_finish, setTime_finish] = useState([]);
+    const [Price_per_coin ,setPrice_per_coin] = useState([]);
 
-    const addTransaction = () => {
-        Axios.post('http://localhost:3001/add_Transaction',{
-            price:price
+
+    const addOrder = () => {
+        Axios.post('http://localhost:3001/addOrder',{
+            price:price,
+            Price_per_coin:Price_per_coin 
         }).then(()=> {
-            setTransList([
-                ...TransList,
+            setOrderList([
+                ...OrderList,
                 {
-                    price:price
+                    price:price,
+                    Price_per_coin:Price_per_coin 
+                }
+            ])
+        })
+    }
+
+    //variable sell
+    const [SellList, setSellList] = useState([]);   
+    const [coin, setCoin] = useState([]);
+    const [SellPrice_per_coin ,setSellPrice_per_coin] = useState([]);
+
+    const addSell = () => {
+        Axios.post('http://localhost:3001/addSell',{
+            coin:coin,
+            SellPrice_per_coin:SellPrice_per_coin
+        }).then(()=> {
+            setSellList([
+                ...SellList,
+                {
+                    coin:coin,
+                    SellPrice_per_coin:SellPrice_per_coin
                 }
             ])
         })
@@ -37,10 +71,38 @@ const Chart = () => {
 
     useEffect(() => {
         getData();
+        getChart();
         console.log(chart)
     },[]);
 
     const getData = async () => {
+        try{
+                const res_order = await Axios.get('http://localhost:3001/getOrder');               
+                console.log(res_order);
+                console.log(res_order.data);
+
+                const res_sell = await Axios.get('http://localhost:3001/getSell');               
+                console.log(res_sell);
+                console.log(res_sell.data);
+
+
+
+
+
+
+
+
+
+
+
+
+        } catch (error) {
+            console.log(error.response);
+        }
+
+    }
+
+    const getChart = async () => {
         try {
                 const res = await Axios.get('http://localhost:3001/coin_Transaction');               
                 console.log(res);
@@ -48,27 +110,24 @@ const Chart = () => {
                 sethist(res.data);
 
                 //Loop for show last 10 row
-                for( var i = res.data.length-1 ; i >= 0 ; i-- ){
+                for( var i = 0 ; i < res.data.length ; i++ ){
                     plotcomp.price.push(res.data[i].price);
-                    plotcomp.time_finish.push(res.data[i].time_finish);
+                    plotcomp.time_order.push(res.data[i].time_order);
+                    var onlyTime = new Date(plotcomp.time_order[i]);
+                    plotcomp.select_time.push(onlyTime.toLocaleTimeString('it-IT'));
                 }
 
+                // console.log(plotcomp);
+                // console.log(plotcomp.time_order[0]);
+                // var onlyTime = new Date(plotcomp.time_order[0]);
+                // console.log(onlyTime.toLocaleTimeString('it-IT'));
+                // //console.log(plotcomp.time_order.length);
 
-                //Loop for auto increment
-                /*
-                for( var i = 0; i <res.data.length  ; i++ ){
-                    plotcomp.price.push(res.data[i].price);
-                    plotcomp.time_finish.push(res.data[i].time_finish);
-                }
-                */
-
-                console.log(plotcomp)
-                //console.log(res.data[0].time_finish);
-                //console.log(res.data[0].price);
-
+                console.log(plotcomp);
+                console.log(hist);
+                
                 setchart ({
-
-                labels: plotcomp.time_finish, //get price on this
+                labels: plotcomp.select_time, //get price on this
                 //labels: ['00.00', '01.00', '02.00', '03.00', '04.00', '05.00', '06.00'],
 
                 datasets:[
@@ -107,17 +166,25 @@ const Chart = () => {
     return (  
         <div className = "">
             <div className = "row">
+                
                 <div className = "col">
                     Column
+
                 </div>
+
                 <div className = "col">
+
                     <div className = "chart">
                         <Line data = {chart}/>
                     </div>
+
+
                     <div className = "row">
                         <div className = "col">
                             <div className="form_buy">
+
                                 <h3>Buy order</h3>
+                                <h8> จำนวนเงินที่ต้องการจ่าย </h8>
                                 <input 
                                         type="text" 
                                         className="buy-input" 
@@ -128,14 +195,27 @@ const Chart = () => {
                                             setPrice(event.target.value)
                                         }}
                                 />
+                                <h8> จำนวนเงินต่อเหรียญ </h8>
+                                <input 
+                                        type="text" 
+                                        className="buy-input" 
+                                        id="price" 
+                                        placeholder="" 
+                                        required 
+                                        onChange={(event) => {
+                                            setPrice_per_coin(event.target.value)
+                                        }}
+                                />
                                 <div>
-                                    <a href="/chart"  onClick={addTransaction}> confrim order</a>
+                                    <a href="/chart"  onClick={addOrder}> confrim order</a>
                                 </div>
                             </div>
                         </div>
+
                         <div className = "col">
                             <div className="form_sell">
                                 <h3>Sell order</h3>
+                                <h8> จำนวนเหรียญที่ต้องการขาย </h8>
                                 <input 
                                         type="text" 
                                         className="buy-input" 
@@ -143,14 +223,27 @@ const Chart = () => {
                                         placeholder="" 
                                         required 
                                         onChange={(event) => {
-                                            setPrice(event.target.value)
+                                            setCoin(event.target.value)
+                                        }}
+                                />
+
+                                <h8> จำนวนเงินต่อเหรียญ </h8>
+                                <input 
+                                        type="text" 
+                                        className="buy-input" 
+                                        id="price" 
+                                        placeholder="" 
+                                        required 
+                                        onChange={(event) => {
+                                            setSellPrice_per_coin(event.target.value)
                                         }}
                                 />
                                 <div>
-                                    <a href="/chart"> confrim sell</a>
+                                    <a href="/chart" onClick={addSell}> confrim sell</a>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     
 
@@ -175,7 +268,7 @@ const Chart = () => {
                                 hist.map (i=>
                                             (   <tr>
                                                     <td>
-                                                        {i.time_finish}
+                                                        {i.time_order}
                                                     </td> 
                                                     <td> 
                                                         {i.price} 

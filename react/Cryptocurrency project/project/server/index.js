@@ -116,22 +116,11 @@ app.post('/user_login', (req, res) => {
     )
 })
 
-app.get('/coin_Transaction', (req, res) => {
-    //const time_finish = req.body.time_finish;
-    //const price = req.body.price;
-    db.query("SELECT * FROM coin_transaction_history ORDER BY no_transaction DESC LIMIT 10", (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    })
-});
-
-app.post('/add_Transaction', (req, res) => {
+app.post('/addOrder', (req, res) => {
     const price = req.body.price;
-    db.query("INSERT INTO coin_transaction_history (time_finish, price) VALUES(current_time(), ?)",
-        [price],
+    const price_per_coin = req.body.Price_per_coin;
+    db.query("INSERT INTO coin_order(time_order, type, price,coin,price_per_coin,status) VALUES(current_time(), 0, ?, ?, ?, 0)",
+        [price,price/price_per_coin,price_per_coin],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -139,6 +128,56 @@ app.post('/add_Transaction', (req, res) => {
                 res.send("Values inserted");
             }
         })
+    });
+
+app.post('/addSell', (req, res) => {
+    const coin = req.body.coin;
+    const SellPrice_per_coin = req.body.SellPrice_per_coin;
+    db.query("INSERT INTO coin_order(time_order, type, price,coin,price_per_coin,status) VALUES(current_time() , 1, ?, ?, ?, 0)",
+        [coin*SellPrice_per_coin,coin,SellPrice_per_coin],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values inserted");
+            }
+        })
+    });
+
+app.get('/getOrder', (req, res) => {
+    db.query("SELECT * FROM buy_order_view;",
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+    });
+
+app.get('/getSell', (req, res) => {
+    db.query("SELECT * FROM sell_order_view;",
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+    });
+
+app.get('/coin_Transaction', (req,res) => {
+    //const time_finish = req.body.time_finish;
+    //const price = req.body.price;
+    //db.query("SELECT * FROM coin_transaction_history ORDER BY no_transaction DESC LIMIT 10", (err, result) => {
+    db.query("select time_order,coin,price from sell_order_view as sell where exists (select * from buy_order_view as buy where sell.price_per_coin  = buy.price_per_coin);",
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
 });
 
 app.listen('3001', () => {

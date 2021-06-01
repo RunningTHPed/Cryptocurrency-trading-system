@@ -23,6 +23,15 @@ import Withdraw from './component/Withdraw';
 // เทรดกับพลเพื่อคนอย่างแต๋น 
 function App() {
 
+        //get role from localStorage
+        let userData = JSON.parse(localStorage.getItem("userdata"));
+        const [role, setRole] = useState("guest");
+        useEffect(() => {
+            if(userData != null){
+                setRole(userData.role);
+            }
+        })
+
     const [loggedIn, setLoggedIn] = useState("");
 
     useEffect(() => {
