@@ -5,7 +5,7 @@ import LoggedinButton from './LoggedinButton';
 
 function Navbar() {
 
-    const [userRole, setRole] = useState("");
+    const [userRole, setRole] = useState("guest");
     const [loggedIn, setLoggedIn] = useState("");
 
     Axios.defaults.withCredentials = true;
