@@ -28,7 +28,7 @@ function Funds() {
                         <td>2,000.00</td>
                         <td>2,000.00</td>
                         <td><a class="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
-                        <td><a class="btn btn-danger" href="#" role="button">WITHDRAW</a></td>
+                        <td><a class="btn btn-danger" href="/withdraw" role="button">WITHDRAW</a></td>
                         <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
                     </tr>
                     <tr>

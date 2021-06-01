@@ -236,6 +236,12 @@
   width: 500px;
 }
 
+.alert-size {
+  margin-top: 50px;
+  margin-left: 110px;
+  width: 750px;
+}
+
 .center{
   display: flex;
   justify-content: center;

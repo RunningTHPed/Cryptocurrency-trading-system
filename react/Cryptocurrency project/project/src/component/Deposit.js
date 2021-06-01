@@ -5,6 +5,49 @@ import { useState , useEffect, state} from 'react'
 import Footer from './Footer-fixed';
 
 function Deposit() {
+    const[DepositMoney, setDepositMoney] = useState("");
+    const[DataPayment, setDataPayment] = useState([]);
+    const [PaymentStatus, setPaymentStatus] = useState("");
+    const [PaymentError, setPaymentError] = useState(false);
+
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+
+
+    const getPayment = async () => {
+        try {
+            const res = await Axios.post('http://localhost:3001/Data_Payment_id', {
+                IDCard: userData.id_card
+            });               
+            console.log(res.data);
+            setDataPayment(res.data);
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    }
+    
+    useEffect(() => {
+        getPayment();
+    }, []);
+
+    const Deposit = () => {
+        Axios.post('http://localhost:3001/deposit_money',{
+            AccountID: DataPayment[0].account_id,
+            DepositMoney: DepositMoney
+        }).then((response) => {
+            if (response.data.message) {
+                console.log('Hellooo');
+                console.log(DataPayment);
+                setPaymentStatus(response.data.message);
+                setPaymentError(true);
+            } else {
+                console.log('Hellooo');
+                console.log(DataPayment);
+                window.location = "/dashboard"
+            }
+        })
+    }
+
     const mystyle = {
         position: "absolute",
         cursor: "inherit"
@@ -48,8 +91,12 @@ function Deposit() {
 
                         </div>
                         <div className = "col input-margin2 background-cc-margin">
-                            <input type="text" className="form-control" id="BranchName" placeholder="Deposit amount"></input>
-                            <a class="btn btn-success btn-margin-deposit" href="#" role="button">DEPOSIT NOW</a>
+                            <input type="text" className="form-control" id="BranchName" placeholder="Deposit amount"
+                                onChange={(event) => {
+                                    setDepositMoney(event.target.value)
+                                }}
+                            ></input>
+                            <a class="btn btn-success btn-margin-deposit" href="#" role="button" onClick={Deposit} >DEPOSIT NOW</a>
                         </div>
                     </div>
                 </form>

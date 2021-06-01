@@ -5,7 +5,6 @@ import { useState , useEffect, state} from 'react'
 
 
 function dashboard() {
-    
     return (
         <div className = "container dashboard_view">
             <div className = "row">
