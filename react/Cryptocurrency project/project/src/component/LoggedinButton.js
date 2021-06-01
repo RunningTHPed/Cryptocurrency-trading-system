@@ -21,11 +21,18 @@ export default function LoggedinButton() {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <li className="nav-item my-2">
+                    <a href="/funds" className="nav-link active" aria-current="page">MY WALLET</a>
+                </li>
                 <li className="nav-item me-2 my-2">
-                    {userData!= null && <h5>{userData.email}</h5>}
+                    <a href="/dashboard" className="nav-link active" aria-current="page">MY DASHBOARD</a>
+                    {/* {userData!= null && <h5>{userData.email}</h5>} */}
+                </li>
+                <li className="nav-item me-2 my-2">
+                    <a href="/account" className="nav-link active" aria-current="page">SETTINGS</a>
                 </li>
                 <li className="nav-item media my-2">
-                    <a href="" className="btn btn-outline-danger" onClick={userlogOut}>Logout</a>
+                    <a href="" className="btn btn-outline-danger" onClick={userlogOut}>LOGOUT</a>
                 </li>
             </nav>
         </div>

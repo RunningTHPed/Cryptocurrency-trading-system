@@ -219,6 +219,22 @@
   margin-bottom: 30px;
 }
 
+.input-margin2 {
+  margin: 70px 100px 0px 0px;
+}
+
+.btn-margin-deposit {
+  width: 500px;
+  margin-top: 20px;
+}
+
+.background-cc-margin {
+  margin-bottom: 100px;
+}
+
+.btn-margin-withdraw {
+  width: 500px;
+}
 
 .center{
   display: flex;

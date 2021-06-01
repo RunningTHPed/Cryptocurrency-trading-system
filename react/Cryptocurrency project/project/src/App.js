@@ -17,6 +17,8 @@ import Addpayment from './component/Add-payment';
 import Detail from './component/Detail';
 import Bitcoin from './component/Bitcoin';
 import EditDetail from './component/Edit-detail';
+import Deposit from './component/Deposit';
+import Withdraw from './component/Withdraw';
 
 // เทรดกับพลเพื่อคนอย่างแต๋น 
 function App() {
@@ -54,11 +56,30 @@ function App() {
                         {loggedIn === false && <Redirect to="/login" />}
                     </Route>
 
-                    <Route path='/funds' exact component={Funds} />
-                    <Route path='/account/payment' exact component={Payment} />
-                    <Route path='/account/detail' exact component={Detail} />
-                    <Route path='/account/payment/add' exact component={Addpayment} />
-                    <Route path='/account/detail/edit' exact component={EditDetail} />
+                    <Route path='/funds' exact component={Funds}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+                    <Route path='/deposit' exact component={Deposit}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+                    <Route path='/withdraw' exact component={Withdraw}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+                    <Route path='/account' exact component={Detail}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+                    <Route path='/account/payment' exact component={Payment}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+                    <Route path='/account/detail' exact component={Detail}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+                    <Route path='/account/payment/add' exact component={Addpayment}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+                    <Route path='/account/detail/edit' exact component={EditDetail}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
                     
                 </Switch>
             </div>
