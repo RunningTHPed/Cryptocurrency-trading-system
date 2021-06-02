@@ -14,12 +14,6 @@ function Register() {
   const [id_card, setIdcard] = useState("");
   const [password, setPassword] = useState("");
 
-  const getUser = () => {
-    Axios.get('http://localhost:3001/user_information').then((response) => {
-      setUserList(response.data);
-    });
-  }
-
   const addUser = () => {
     Axios.post('http://localhost:3001/add_user',{
       fname: fname,
@@ -144,22 +138,6 @@ function Register() {
       </div>
       <button className="btn btn-success btn-lg btn-block mb-3" onClick={addUser} type="submit">Sign Up</button>
       </form>
-      <button className="btn btn-primary btn-lg btn-block mb-3" onClick={getUser} type="showUser">Show Users</button><br/><br/>
-
-
-      {userList.map((val, key) => {
-        return (
-          <div className="user card">
-            <div className="card-body text-left">
-              <p className="card-text">First Name: {val.fname}</p>
-              <p className="card-text">Last Name: {val.lname}</p>
-              <p className="card-text">Email: {val.email}</p>
-              <p className="card-text">Phone: {val.phone_number}</p>
-              <p className="card-text">ID card: {val.id_card}</p>
-            </div>
-          </div>
-        )
-      })}
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { Redirect } from 'react-router'
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loginStatus, setLoginStatus] = useState("");
+    const [loggedIn, setLoggedIn] = useState(false);
     const [userData, setUserData] = useState([]);
 
     Axios.defaults.withCredentials = true;
@@ -20,18 +20,15 @@ function Login() {
             password: password
         }).then((response) => {
             if (response.data.message) {
-                setLoginStatus(response.data.message);
+                console.log(response.data.message);
             } else {
-                setUserData(response.data[0]);
-                console.log(response.data[0]);
+                Axios.get('http://localhost:3001/user_information',).then((res) => {
+                    localStorage.setItem('userdata', JSON.stringify(res.data));
+                });
                 window.location = "/dashboard"
             }
         })
     }
-
-    useEffect(()=>{
-        localStorage.setItem('userdata', JSON.stringify(userData));
-    }, [userData]);
 
     return (
         <div>
@@ -42,7 +39,7 @@ function Login() {
             <div className="vertical-center">
                 <div className="text-center">
                     <div className="container form-center-signin">
-                        <form className="form-signin" onSubmit={(event) => {event.preventDefault();}}>
+                        <form className="form-signin" onSubmit={(event) => { event.preventDefault(); }}>
                             <img className="mb-4 rounded" src="logo1112.png" alt="" width="72" height="72"></img>
                             <h1 className="h3 mb-3 font-weight-normal">LOG IN</h1>
                             {/* <label htmlFor="inputEmail" className="sr-only">Email address</label> */}
@@ -76,11 +73,10 @@ function Login() {
                             <button className="btn btn-lg btn-success btn-block form-control" onClick={userLogin} >LOGIN</button>
                         </form>
                     </div>
-                    <h2>{loginStatus}</h2>
                 </div>
             </div>
-            <Footer />           
-        </div> 
+            <Footer />
+        </div>
     )
 }
 
