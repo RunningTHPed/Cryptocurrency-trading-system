@@ -22,9 +22,8 @@ function Login() {
             if (response.data.message) {
                 console.log(response.data.message);
             } else {
-                Axios.get('http://localhost:3001/user_information',).then((res) => {
-                    localStorage.setItem('userdata', JSON.stringify(res.data));
-                });
+                console.log(response);
+                localStorage.setItem('userdata', JSON.stringify(response.data[0]));
                 window.location = "/dashboard"
             }
         })

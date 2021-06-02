@@ -14,7 +14,7 @@ function Navbar() {
             setLoggedIn(response.data.loggedIn);
         });
     }, []);
-    console.log(loggedIn);
+    //console.log(loggedIn);
 
     return (
         <div>
