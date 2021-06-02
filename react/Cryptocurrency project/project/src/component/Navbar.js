@@ -30,6 +30,13 @@ function Navbar() {
                                 <a href="/market" className="nav-link active" aria-current="page">MARKET</a>
                             </li>
                         </ul>
+
+                        <ul className="navbar-nav me-auto mb-3 mb-lg-0">
+                            <li className="nav-item my-3">
+                                <a href="/analysis" className="nav-link active" aria-current="page">insight</a>
+                            </li>
+                        </ul>
+
                         <form className="d-flex">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 
