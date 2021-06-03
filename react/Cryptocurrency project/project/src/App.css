@@ -362,16 +362,17 @@
 }
 
 #head {
-  animation: head 2s infinite ease-in;
+  animation: head 2s infinite alternate;
   transform-origin: center;
+  transform-box: fill-box;
 }
 
 @keyframes head {
   form{
-    transform: rotateZ(0deg);
+    transform: translateY(0%) rotateZ(0deg);
   }
   to{
-    transform: rotateZ(360deg);
+    transform: translateY(10%) rotateZ(-10deg);
   }
 }
 
@@ -406,16 +407,16 @@
 #arm{
     animation: movement 2s infinite 
     alternate;
-    transform-origin: right;
+    transform-origin: left;
     transform-box: fill-box;
 }
 
 @keyframes movement{
-    0% {
-        transform: rotate(5deg);
+    from {
+        transform: translateX(0%) rotateZ(0deg);
     }
-    50%{
-        transform: rotateX(8deg);
+    to{
+        transform: translateX(20%) rotateZ(-10deg);
     }
 }
 

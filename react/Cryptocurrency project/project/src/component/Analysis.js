@@ -131,7 +131,7 @@ const Analysis= () => {
                     </defs>
                 </svg>
             </div>
-            
+
             <div className="Bank_analysis">
                 <h5 className = "Bank_analysis_text">Analysis bank playment</h5>
                     <PolarArea 
