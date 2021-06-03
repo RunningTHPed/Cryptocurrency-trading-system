@@ -10,7 +10,7 @@ import Footer from './component/Footer-fixed';
 import Login from './component/Login';
 import Register from './component/Register';
 import Chart from './component/Chart';
-import dashboard from './component/dashboard';
+import Dashboard from './component/Dashboard';
 import Funds from './component/Funds';
 import Payment from './component/Payment';
 import Addpayment from './component/Add-payment';
@@ -54,10 +54,10 @@ function App() {
                     <Route path='/register' component={Register} />
 
                     <Route path='/login' component={Login}>
-                        {loggedIn === true && <Redirect to="/dashboard" />}
+                        {loggedIn === true && <Redirect to="/Dashboard" />}
                     </Route>
 
-                    <Route path='/dashboard' exact component={dashboard}>
+                    <Route path='/dashboard' exact component={Dashboard}>
                         {loggedIn === false && <Redirect to="/login" />}
                     </Route>
 

@@ -2,9 +2,31 @@ import React, { Component } from 'react'
 import {Line, line} from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState , useEffect, state} from 'react'
+import Footer from './Footer-fixed';
 
+function Dashboard() {
 
-function dashboard() {
+    const[DataPayment, setDataPayment] = useState([]);
+
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+
+    const getPayment = async () => {
+        try {
+            const res = await Axios.post('http://localhost:3001/show_money', {
+                IDCard: userData.id_card
+            });               
+            console.log(res.data[0]);
+            setDataPayment(res.data[0]);
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    }
+    
+    useEffect(() => {
+        getPayment();
+    }, []);
+
     return (
         <div className = "container dashboard_view">
             <div className = "row">
@@ -19,7 +41,7 @@ function dashboard() {
                         </div>
                     </div>
                     <div className = "chart-dashboard">
-                        <Line data = {dashboard}/>
+                        {/* <Line data = {dashboard}/> */}
                     </div>
                 </div>
                 <div className = "col">
@@ -28,7 +50,7 @@ function dashboard() {
                             <h4>Available</h4>
                         </div>
                         <div className = "col-3">
-                            <h3>2,000.00</h3>
+                            <h3>{DataPayment.mySum}</h3>
                         </div>
                         <div className = "col-2">
                             <h4>THB</h4>
@@ -43,4 +65,4 @@ function dashboard() {
     );
   }
   
-  export default dashboard;
+  export default Dashboard;

@@ -11,6 +11,7 @@ function Login() {
     const [password, setPassword] = useState("");
     const [loggedIn, setLoggedIn] = useState(false);
     const [userData, setUserData] = useState([]);
+    const [loginmessage, setloginmessage] = useState("");
 
     Axios.defaults.withCredentials = true;
 
@@ -21,14 +22,17 @@ function Login() {
         }).then((response) => {
             if (response.data.message) {
                 console.log(response.data.message);
+                setloginmessage(response.data.message);
             } else {
-                Axios.get('http://localhost:3001/user_information',).then((res) => {
-                    localStorage.setItem('userdata', JSON.stringify(res.data));
-                });
+                setUserData(response.data[0]);
+                console.log(response.data[0]);
                 window.location = "/dashboard"
             }
         })
     }
+    useEffect(()=>{
+        localStorage.setItem('userdata', JSON.stringify(userData));
+    }, [userData]);
 
     return (
         <div>
@@ -73,6 +77,7 @@ function Login() {
                             <button className="btn btn-lg btn-success btn-block form-control" onClick={userLogin} >LOGIN</button>
                         </form>
                     </div>
+                    {loginmessage}
                 </div>
             </div>
             <Footer />

@@ -32,7 +32,7 @@ function Deposit() {
 
     const Deposit = () => {
         Axios.post('http://localhost:3001/deposit_money',{
-            AccountID: DataPayment[0].account_id,
+            IDCard: userData.id_card,
             DepositMoney: DepositMoney
         }).then((response) => {
             if (response.data.message) {
