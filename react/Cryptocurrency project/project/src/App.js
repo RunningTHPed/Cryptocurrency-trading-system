@@ -47,7 +47,7 @@ function App() {
                 <Navbar />
                 <Switch>
                     <Route exact path='/' component={Login}>
-                        {loggedIn === true && <Redirect to="/Dashboard" />}
+                        {loggedIn === true && <Redirect to="/dashboard" />}
                     </Route>
 
                     <Route path='/market' exact component={Chart} />
@@ -55,10 +55,10 @@ function App() {
                     <Route path='/register' component={Register} />
 
                     <Route path='/login' component={Login}>
-                        {loggedIn === true && <Redirect to="/Dashboard" />}
+                        {loggedIn === true && <Redirect to="/dashboard" />}
                     </Route>
 
-                    <Route path='/Dashboard' exact component={Dashboard}>
+                    <Route path='/dashboard' exact component={Dashboard}>
                         {loggedIn === false && <Redirect to="/login" />}
                     </Route>
 

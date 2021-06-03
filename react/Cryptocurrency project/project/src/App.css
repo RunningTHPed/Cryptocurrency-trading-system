@@ -239,6 +239,11 @@
   width: 750px;
 }
 
+.alert-font {
+  color: red;
+}
+
+
 .center{
   display: flex;
   justify-content: center;
