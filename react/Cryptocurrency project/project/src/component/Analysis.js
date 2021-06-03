@@ -28,15 +28,15 @@ const Analysis= () => {
 
     const customer = {
         labels: [
-            'Pleum',
-            'wan',
-            'Hokage10',
-            'Ped',
-            'Hokage9 เจตจำนงแห่งไฟยังเหลือ'
+            'North',
+            'South',
+            'Mid',
+            'East',
+            'West'
         ],
         datasets: [{
             label:'Money in ระบบ',
-            data: [65, 70, 100, 12, 90],
+            data: [65, 70, 100, 90, 12],
             backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)',
@@ -140,7 +140,7 @@ const Analysis= () => {
             </div>
 
             <div className="customer_analysis">
-                    <h5 className = "customer_analysis_text">Analysis customer playment</h5>
+                    <h5 className = "customer_analysis_text">Analysis customer address </h5>
                         <Bar 
                             data={customer}
                         />
