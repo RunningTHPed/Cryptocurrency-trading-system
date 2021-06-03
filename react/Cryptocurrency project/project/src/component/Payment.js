@@ -7,12 +7,29 @@ import Footer from './Footer-fixed';
 function Payment() {
 
     const [DataPayment, setDataPayment] = useState([]);
+    const [AccountID, setAccountID] = useState("");
+    const [Bank, setBank] = useState("");
+    
 
     let userData = JSON.parse(localStorage.getItem("userdata"));
 
+    const EditPayment = () => {
+        Axios.post('http://localhost:3001/set_primary_account', {
+            AccountID: AccountID,
+            Bank: Bank,
+            IDCard: userData.id_card
+        }).then((response) => {
+            if (response.data.message) {
+                console.log(response.data.message);
+            } else {
+                console.log(response);
+                window.location = "/account/payment"
+            }
+        })
+    }
+
     const getPayment = async () => {
         try {
-
             const res = await Axios.post('http://localhost:3001/Data_Payment', {
                 IDCard: userData.id_card
             });
@@ -70,7 +87,16 @@ function Payment() {
                                     <tr>
                                         <td>
                                             <div className="form-check">
-                                                <input style={mystyle} className="form-check-input" type="radio" value="Male" name="gender" />
+                                                <input style={mystyle} className="form-check-input" type="radio" value={pleum.account_id}
+                                                    onChange={(event) => {
+                                                        setAccountID(event.target.value)
+                                                    }}
+                                                />
+                                                <input type="hidden" value={pleum.bankshortname}
+                                                    onChange={(event) => {
+                                                        setBank(event.target.value)
+                                                    }}
+                                                />
                                             </div>
                                         </td>
                                         <td>
@@ -89,7 +115,7 @@ function Payment() {
                         </tbody>
                     </table>
                     <div>
-                        <a class="btn btn-success btn-margin-payment" href="#" role="button">MAKE PRIMARY</a>
+                        <a class="btn btn-success btn-margin-payment" href="/account/payment" role="button" onClick={EditPayment} >MAKE PRIMARY</a>
                         <a class="btn btn-danger btn-margin-payment" href="#" role="button">REMOVE</a>
                     </div>
                 </div>

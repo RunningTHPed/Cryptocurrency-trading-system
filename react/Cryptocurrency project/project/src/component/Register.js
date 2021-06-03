@@ -6,7 +6,6 @@ import Header from './Header'
 function Register() {
 
   const [userList, setUserList] = useState([]);
-
   const [fnameTH, setfnameTH] = useState("");
   const [lnameTH, setlnameTH] = useState("");
   const [fnameEN, setfnameEN] = useState("");
@@ -20,6 +19,7 @@ function Register() {
   const [BehindID, setBehindID] = useState("");
   const [Phone, setPhone] = useState("");
   const [Address, setAddress] = useState("");
+  const [PostCode, setPostCode] = useState("");
   
   const addUser = () => {
     Axios.post('http://localhost:3001/add_user',{
@@ -35,7 +35,8 @@ function Register() {
       id_card: id_card,
       BehindID: BehindID,
       Phone: Phone,
-      Address: Address
+      Address: Address,
+      PostCode: PostCode
 
     }).then(() => {
       setUserList([
@@ -53,7 +54,8 @@ function Register() {
           id_card: id_card,
           BehindID: BehindID,
           Phone: Phone,
-          Address: Address
+          Address: Address,
+          PostCode:PostCode
         }
       ])
     })
@@ -232,7 +234,28 @@ function Register() {
                   Please enter your shipping address.
                 </div>
               </div>
-              <button className="btn btn-success btn-lg btn-block mb-3" onClick={addUser} type="submit">Sign Up</button>
+
+              <div class="col-md-4 mb-3">
+                  <label for="status">Postcode</label>
+                  <select class="custom-select d-block w-100 form-select" id="country" required
+                    onChange={(event) => {
+                      setPostCode(event.target.value)
+                    }}
+                  >
+                    <option>Choose...</option>
+                    <option value="10000">10000 (Middle)</option>
+                    <option value="20000">20000 (East)</option>
+                    <option value="30000">30000 (South)</option>
+                    <option value="40000">40000 (West)</option>
+                    <option value="50000">50000 (North)</option>
+                  </select>
+                </div>
+
+                <div className="Postcode-title">
+                    <h6>*This postcode is dummy variable </h6>
+                </div>
+
+              <button className="btn btn-success btn-lg btn-block mb-3 " onClick={addUser} type="submit">Sign Up</button>
           </form>
       </div>
       

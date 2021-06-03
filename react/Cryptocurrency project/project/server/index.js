@@ -61,13 +61,14 @@ app.post('/add_user', (req, res) => {
     const BehindID = req.body.BehindID;
     const Phone = req.body.Phone;
     const Address = req.body.Address;
+    const PostCode = req.body.PostCode;
 
     bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
             console.log(err);
         } else {
-            db.query("INSERT INTO user_information(id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, password, Birthdate, Gender, Status, BehindID, Phone, Address ,role) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'user')",
-                [id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, hashedPassword, Birthdate, Gender, Status, BehindID, Phone, Address],
+            db.query("INSERT INTO user_information(id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, password, Birthdate, Gender, Status, BehindID, Phone, Address ,role,PostCode) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'user',?)",
+                [id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, hashedPassword, Birthdate, Gender, Status, BehindID, Phone, Address,PostCode],
                 (err, result) => {
                     if (err) {
                         console.log(err);
@@ -339,7 +340,17 @@ app.post('/edit_detail', (req, res) => {
             if (err) {
                 res.send({ message: "Withdraw error." });
             } else {
-                res.send(result);
+                db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,Birthdate,Gender,Status,Phone,Address,role FROM user_information WHERE id_card=?;",
+                            [IDCard],
+                            (err, data) => {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    console.log(data); 
+                                    res.send(data);
+                                }
+                            }
+                )
             }
         }
     )
@@ -387,6 +398,33 @@ app.post('/updateCoin', (req, res) => {
                 res.send({ message: "Update coin complete." });
             }
         })
+});
+
+app.post('/set_primary_account', (req, res) => {
+    const AccountID = req.body.AccountID;
+    const Bank = req.body.Bank;
+    const IDCard = req.body.IDCard;
+
+    db.query("UPDATE `Uncle`.`Payment_information` SET `status` = '' WHERE id_card = ?;",
+        [IDCard],
+        (err, result) => {
+            if (err) {
+                res.send({ message: "Withdraw error." });
+            } else {
+                db.query("UPDATE `Uncle`.`Payment_information` SET `status` = 'PRIMARY' WHERE `account_id` = ?;",
+                            [AccountID],
+                            (err, data) => {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    console.log(data); 
+                                    res.send(result);
+                                }
+                            }
+                )
+            }
+        }
+    )
 });
 
 app.listen('3001', () => {
