@@ -24,13 +24,13 @@ import Analysis from './component/Analysis';
 function App() {
 
         //get role from localStorage
-        //let userData = JSON.parse(localStorage.getItem("userdata"));
-        // const [role, setRole] = useState("guest");
-        // useEffect(() => {
-        //     if(userData != null){
-        //         setRole(userData.role);
-        //     }
-        // })
+        let userData = JSON.parse(localStorage.getItem("userdata"));
+        const [role, setRole] = useState("guest");
+        useEffect(() => {
+            if(userData != null){
+                setRole(userData.role);
+            }
+        })
 
     const [loggedIn, setLoggedIn] = useState("");
 
@@ -90,7 +90,9 @@ function App() {
                         {loggedIn === false && <Redirect to="/login" />}
                     </Route>
 
-                    <Route path='/analysis' component={Analysis} />
+                    <Route path='/analysis' component={Analysis}>
+                        {loggedIn === true && role !== "admin" && <Redirect to="/dashboard" />}
+                    </Route>
                     
                 </Switch>
             </div>

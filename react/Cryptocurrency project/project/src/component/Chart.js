@@ -32,7 +32,7 @@ const Chart = () => {
 
 
     const addOrder = async () => {
-        Axios.post('http://localhost:3001/addOrder', {
+        await Axios.post('http://localhost:3001/addOrder', {
             id_card: userData.id_card,
             shortname: 'PON',
             price: price,
@@ -56,7 +56,7 @@ const Chart = () => {
     const [SellPrice_per_coin, setSellPrice_per_coin] = useState([]);
 
     const addSell = async () => {
-        Axios.post('http://localhost:3001/addSell', {
+        await Axios.post('http://localhost:3001/addSell', {
             id_card: userData.id_card,
             shortname: 'PON',
             coin: coin,
@@ -79,15 +79,15 @@ const Chart = () => {
     //----------------------
     const [hist, sethist] = useState([]);
 
-    var coin_buy = 0;
-    var ppc_buy = 0;
-    var no_buy = 0;
-    var id_card_buy = '';
+    var coin_buy;
+    var ppc_buy;
+    var no_buy;
+    var id_card_buy = ' ';
 
-    var coin_sell = 0;
-    var ppc_sell = 0;
-    var no_sell = 0;
-    var id_card_sell = '';
+    var coin_sell;
+    var ppc_sell;
+    var no_sell;
+    var id_card_sell = ' ';
 
     var diff_coin = 0;
 
@@ -100,8 +100,9 @@ const Chart = () => {
                     id_card_buy = res.data.order[0].id_card;
                     coin_buy = res.data.order[0].coin;
                     ppc_buy = res.data.order[0].price_per_coin;
-                    console.log("get ppc_buy: " + ppc_buy);
                     no_buy = res.data.order[0].no;
+                    console.log("get coin_buy: " + coin_buy);
+                    console.log("get ppc_buy: " + ppc_buy);
                 }
             })
 
@@ -112,8 +113,8 @@ const Chart = () => {
                     coin_sell = res.data.order[0].coin;
                     ppc_sell = res.data.order[0].price_per_coin;
                     no_sell = res.data.order[0].no;
-                    console.log("coin_sell = " + coin_sell);
-                    console.log("ppc_sell = " + ppc_sell);
+                    console.log("get coin_sell = " + coin_sell);
+                    console.log("get ppc_sell = " + ppc_sell);
                 }
             })
 
@@ -225,9 +226,9 @@ const Chart = () => {
                         }
                     })
 
-                    if(coin_buy == 0) {
+                    if(coin_sell == 0) {
                         await Axios.post('http://localhost:3001/updateStatus', {
-                            no: no_buy,
+                            no: no_sell,
                         }).then((response) => {
                             if (response.data.message) {
                                 console.log(response.data.message);
@@ -239,6 +240,7 @@ const Chart = () => {
                     await Axios.post('http://localhost:3001/add_coin_Transaction', {
                         no_order: no_buy,
                         type: 0, //buy
+                        shortname: 'PON',
                         value: diff_coin,
                         price: diff_coin * ppc_sell,
                     }).then((response) => {
@@ -250,6 +252,7 @@ const Chart = () => {
                     await Axios.post('http://localhost:3001/add_coin_Transaction', {
                         no_order: no_sell,
                         type: 1, //sell
+                        shortname: 'PON',
                         value: diff_coin,
                         price: diff_coin * ppc_sell,
                     }).then((response) => {
