@@ -48,25 +48,39 @@ const db = mysql.createConnection({
 // });
 
 app.post('/add_user', (req, res) => {
-    const fname = req.body.fname;
-    const lname = req.body.lname;
+    const fnameTH = req.body.fnameTH;
+    const lnameTH = req.body.lnameTH;
+    const fnameEN = req.body.fnameEN;
+    const lnameEN = req.body.lnameEN;
     const email = req.body.email;
-    const phone_number = req.body.phone_number;
-    const id_card = req.body.id_card;
     const password = req.body.password;
+    const Birthdate = req.body.Birthdate;
+    const Gender = req.body.Gender;
+    const Status = req.body.Status;
+    const id_card = req.body.id_card;
+    const BehindID = req.body.BehindID;
+    const Phone = req.body.Phone;
+    const Address = req.body.Address;
 
     bcrypt.hash(password, 10, (err, hashedPassword) => {
-
         if (err) {
             console.log(err);
         } else {
-            db.query("INSERT INTO user_information (id_card, fname, lname, email, password, phone_number, role) VALUES(?, ?, ?, ?, ?, ?, 'user')",
-                [id_card, fname, lname, email, hashedPassword, phone_number],
+            db.query("INSERT INTO user_information(id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, password, Birthdate, Gender, Status, BehindID, Phone, Address ,role) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'user')",
+                [id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, hashedPassword, Birthdate, Gender, Status, BehindID, Phone, Address],
                 (err, result) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        res.send("Values inserted");
+                        db.query("INSERT INTO THB_transaction_history(id_card, type, value, time, fee) VALUES(?, 1, 0, current_time(), 0);",
+                        [id_card],
+                        (err, result) => {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                res.send("Values inserted");
+                            }
+                        })
                     }
                 })
         }
@@ -104,7 +118,7 @@ app.post('/user_login', (req, res) => {
             if (result.length > 0) {
                 bcrypt.compare(password, result[0].password, (err, response) => {
                     if (response) {
-                        db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,phone_number,role FROM user_information WHERE email=?;",
+                        db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,Birthdate,Gender,Status,Phone,Address,role FROM user_information WHERE email=?;",
                             [email],
                             (err, data) => {
                                 if (err) {
@@ -221,14 +235,14 @@ app.post('/Data_Payment_id', (req, res) => {
 });
 
 app.post('/deposit_money', (req, res) => {
-    const AccountID = req.body.AccountID;
+    const IDCard = req.body.IDCard;
     const DepositMoney = req.body.DepositMoney;
 
-    console.log(AccountID);
+    console.log(IDCard);
     console.log(DepositMoney);
 
-    db.query("INSERT INTO THB_transaction_history(account_id, type, value, time, fee) VALUES(?, 1, ?, current_time(), 0);",
-        [AccountID, DepositMoney],
+    db.query("INSERT INTO THB_transaction_history(id_card, type, value, time, fee) VALUES(?, 1, ?, current_time(), 0);",
+        [IDCard, DepositMoney],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -270,14 +284,62 @@ app.post('/add_payment', (req, res) => {
 
         }
     )
-
-
-
-
-
 });
 
+app.post('/show_money', (req, res) => {
+    const IDCard = req.body.IDCard;
 
+    db.query("SELECT SUM(value) as mySum FROM Uncle.THB_transaction_history where id_card = ?;",
+        [IDCard],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
+app.post('/withdraw_money', (req, res) => {
+    const IDCard = req.body.IDCard;
+    const WithdrawMoney = req.body.WithdrawMoney;
+    const Availible = req.body.Availible;
+    const sum = Availible - WithdrawMoney;
+
+    if(sum >= 0) {
+        db.query("INSERT INTO THB_transaction_history(id_card, type, value, time, fee) VALUES(?, 0, -?, current_time(), 0);",
+                [IDCard, WithdrawMoney],
+                (err, result) => {
+                    if (err) {
+                        res.send({ message: "Withdraw error." });
+                    } else {
+                        res.send(result);
+                    }
+                })
+    }
+    else {
+        res.send({ message: "The amount in the system is insufficient to withdraw." });
+    }
+    
+});
+
+app.post('/edit_detail', (req, res) => {
+    const IDCard = req.body.IDCard;
+    const Status = req.body.Status;
+    const Phone = req.body.Phone;
+    const Address = req.body.Address;
+
+    db.query("UPDATE `Uncle`.`user_information` SET `Status` = ?, `Phone` = ?, `Address` = ? WHERE (`id_card` = ?);",
+        [Status, Phone, Address, IDCard],
+        (err, result) => {
+            if (err) {
+                res.send({ message: "Withdraw error." });
+            } else {
+                res.send(result);
+            }
+        }
+    )
+})
 
 app.post('/add_coin_Transaction', (req, res) => {
     const no_order = req.body.no_order;
@@ -319,4 +381,22 @@ con.connect(function(err) {
     console.log("Result: " + result);
   });
 });
+*/
+
+
+
+/*
+#Analysis dashboard
+SELECT shortname,MAX(price),MIN(price)
+FROM dummy_coin_transaction
+group by shortname;
+
+#Analysis insight 1
+SELECT bankshortname,COUNT(bankshortname)  
+FROM Payment_information
+group by bankshortname;
+
+#Analysis insight 2
+...
+จำนวนคนเล่นในแต่ละจังหวัด
 */

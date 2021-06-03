@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
-import { useState, useEffect, state } from 'react'
+import { useState, useEffect, useReducer } from 'react' 
 
 const Chart = () => {
 

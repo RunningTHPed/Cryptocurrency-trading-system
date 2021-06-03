@@ -38,6 +38,7 @@ export default function LoggedinButton() {
                         <Dropdown.Item href="/login" onClick={userlogOut}>LOGOUT</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
+                
                 {/* <li className="nav-item my-2">
                     <a href="/funds" className="nav-link active" aria-current="page">MY WALLET</a>
                 </li>

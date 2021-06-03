@@ -5,6 +5,28 @@ import { useState, useEffect, state } from 'react'
 import Footer from './Footer-fixed';
 
 function Funds() {
+
+    const[DataPayment, setDataPayment] = useState([]);
+
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+
+    const getPayment = async () => {
+        try {
+            const res = await Axios.post('http://localhost:3001/show_money', {
+                IDCard: userData.id_card
+            });               
+            console.log(res.data[0]);
+            setDataPayment(res.data[0]);
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    }
+    
+    useEffect(() => {
+        getPayment();
+    }, []);
+
     return (
         <div>
             <div className="container dashboard_view">
@@ -15,9 +37,7 @@ function Funds() {
                     <thead>
                         <tr>
                             <th scope="col">COIN</th>
-                            <th scope="col">TOTAL BALANCE</th>
                             <th scope="col">AVAILABLE</th>
-                            <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
@@ -25,56 +45,44 @@ function Funds() {
                     <tbody>
                         <tr>
                             <td>Thai Baht</td>
-                            <td>2,000.00</td>
-                            <td>2,000.00</td>
+                            <td>{DataPayment.mySum}</td>
                             <td><a class="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
                             <td><a class="btn btn-danger" href="/withdraw" role="button">WITHDRAW</a></td>
-                            <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
                         </tr>
                         <tr>
                             <td>Bitcoin</td>
                             <td>0</td>
-                            <td>0</td>
-                            <td><a class="btn btn-success" href="#" role="button">DEPOSIT</a></td>
-                            <td><a class="btn btn-danger" href="#" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Ethereum</td>
                             <td>0.123</td>
-                            <td>0.123</td>
-                            <td><a class="btn btn-success" href="#" role="button">DEPOSIT</a></td>
-                            <td><a class="btn btn-danger" href="#" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>BNB Coin</td>
                             <td>0</td>
-                            <td>0</td>
-                            <td><a class="btn btn-success" href="#" role="button">DEPOSIT</a></td>
-                            <td><a class="btn btn-danger" href="#" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Cardano</td>
                             <td>0</td>
-                            <td>0</td>
-                            <td><a class="btn btn-success" href="#" role="button">DEPOSIT</a></td>
-                            <td><a class="btn btn-danger" href="#" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>UnclePon</td>
                             <td>1,000.00</td>
-                            <td>1,000.00</td>
-                            <td><a class="btn btn-success" href="#" role="button">DEPOSIT</a></td>
-                            <td><a class="btn btn-danger" href="#" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <Footer />
+        <Footer />
         </div>
     );
 }

@@ -20,7 +20,7 @@ function Navbar() {
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container">
-                    <a className="navbar-brand my-2 text-success h1" href="/">UnclePon</a>
+                    <a className="navbar-brand my-2 text-success h1" href="/dashboard">UnclePon</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -30,6 +30,13 @@ function Navbar() {
                                 <a href="/market" className="nav-link active" aria-current="page">MARKET</a>
                             </li>
                         </ul>
+
+                        <ul className="navbar-nav me-auto mb-3 mb-lg-0">
+                            <li className="nav-item my-3">
+                                <a href="/analysis" className="nav-link active" aria-current="page">INSIGHT</a>
+                            </li>
+                        </ul>
+
                         <form className="d-flex">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 

@@ -4,7 +4,25 @@ import Axios from 'axios'
 import { useState, useEffect, state } from 'react'
 import Footer from './Footer-nofixed';
 
-function Detail() {
+function EditDetail() {
+    const [Status, setStatus] = useState("");
+    const [Phone, setPhone] = useState("");
+    const [Address, setAddress] = useState("");
+    const [WithdrawStatus, setWithdrawStatus] = useState("");
+
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+
+    const EditDetail = () => {
+        Axios.post('http://localhost:3001/edit_detail',{
+            IDCard: userData.id_card,
+            Status: Status,
+            Phone : Phone,
+            Address: Address
+        }).then((response) => {
+            window.location = "/account/detail"
+        })
+    }
+
     const mystyle = {
         position: "absolute",
         cursor: "inherit"
@@ -30,61 +48,85 @@ function Detail() {
                             <tr>
                                 <td >ชื่อ</td>
                                 <td>
-                                    <input type="text" className="form-control" id=".." placeholder="เพชร จ้า" disabled></input>
+                                    <input type="text" className="form-control" id=".." placeholder={userData.fnameTH} disabled></input>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Name</td>
+                                <td >นามสกุล</td>
                                 <td>
-                                    <input type="text" className="form-control" id=".." placeholder="Ped Ja" disabled></input>
+                                    <input type="text" className="form-control" id=".." placeholder={userData.lnameTH} disabled></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>FirstName</td>
+                                <td>
+                                    <input type="text" className="form-control" id=".." placeholder={userData.fnameEN} disabled></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>LastName</td>
+                                <td>
+                                    <input type="text" className="form-control" id=".." placeholder={userData.lnameEN} disabled></input>
                                 </td>
                             </tr>
                             <tr>
                                 <td>ข้อมูลติดต่อ</td>
                                 <td>
-                                    <input type="text" className="form-control" id=".." placeholder="pedja@mail.com" disabled></input>
+                                    <input type="text" className="form-control" id=".." placeholder={userData.email} disabled></input>
                                 </td>
                             </tr>
                             <tr>
                                 <td>วันเกิด</td>
                                 <td>
-                                    <input type="text" className="form-control" id=".." placeholder="19 April 1975" disabled></input>
+                                    <input type="text" className="form-control" id=".." placeholder={userData.Birthdate} disabled></input>
                                 </td>
                             </tr>
                             <tr>
                                 <td>เพศ</td>
                                 <td>
-                                    <input type="text" className="form-control" id=".." placeholder="ชาย" disabled></input>
+                                    <input type="text" className="form-control" id=".." placeholder={userData.Gender} disabled></input>
                                 </td>
                             </tr>
                             <tr>
                                 <td>สถานะ</td>
                                 <td>
-                                    <select className="form-select" aria-label="Default select example">
-                                        <option selected>SELECT A STATUS</option>
-                                        <option value="1">โสด</option>
-                                        <option value="2">ไม่โสด</option>
-                                        <option value="3">โสด</option>
-                                    </select>
+                                <select class="custom-select d-block w-100 form-select" id="country" required
+                                    onChange={(event) => {
+                                    setStatus(event.target.value)
+                                    }}
+                                >
+                                    <option>Choose...</option>
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Widow">Widow</option>
+                                </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>เบอร์ติดต่อ</td>
                                 <td>
-                                    <input type="text" className="form-control" id=".." placeholder="0933238170"></input>
+                                    <input type="text" className="form-control" id=".." placeholder={userData.Phone} required
+                                        onChange={(event) => {
+                                            setPhone(event.target.value)
+                                            }}
+                                    ></input>
                                 </td>
                             </tr>
                             <tr>
                                 <td>ที่อยู่</td>
                                 <td>
-                                    <input type="text" className="form-control" id=".." placeholder="123 ... 10140"></input>
+                                    <input type="text" className="form-control" id=".." required placeholder={userData.Address} 
+                                        onChange={(event) => {
+                                            setAddress(event.target.value)
+                                            }}
+                                    ></input>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div>
-                        <a class="btn btn-danger btn-margin-payment" href="#" role="button">CANCEL</a>
-                        <a class="btn btn-success btn-margin-payment" href="#" role="button">SUBMIT</a>
+                        <a class="btn btn-danger btn-margin-payment" href="/account/detail" role="button">CANCEL</a>
+                        <a class="btn btn-success btn-margin-payment" href="#" role="button" onClick={EditDetail}>SUBMIT</a>
                     </div>
                 </div>
             </div>
@@ -93,4 +135,4 @@ function Detail() {
     );
 }
 
-export default Detail;
+export default EditDetail;
