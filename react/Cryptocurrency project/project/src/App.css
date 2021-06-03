@@ -7,6 +7,14 @@
   margin-left: -100px;
 }
 
+.Postcode-title{
+  position: relative;
+  margin-top: -45px;
+  margin-left: 310px;
+  color: brown;
+}
+
+
 .container-chart{
   /*background: #F7F9FB;*/
   width: 100%;

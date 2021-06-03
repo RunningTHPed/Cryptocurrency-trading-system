@@ -61,13 +61,14 @@ app.post('/add_user', (req, res) => {
     const BehindID = req.body.BehindID;
     const Phone = req.body.Phone;
     const Address = req.body.Address;
+    const PostCode = req.body.PostCode;
 
     bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
             console.log(err);
         } else {
-            db.query("INSERT INTO user_information(id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, password, Birthdate, Gender, Status, BehindID, Phone, Address ,role) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'user')",
-                [id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, hashedPassword, Birthdate, Gender, Status, BehindID, Phone, Address],
+            db.query("INSERT INTO user_information(id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, password, Birthdate, Gender, Status, BehindID, Phone, Address ,role,PostCode) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'user',?)",
+                [id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, hashedPassword, Birthdate, Gender, Status, BehindID, Phone, Address,PostCode],
                 (err, result) => {
                     if (err) {
                         console.log(err);
