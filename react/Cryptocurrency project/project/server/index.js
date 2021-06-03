@@ -72,7 +72,15 @@ app.post('/add_user', (req, res) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        res.send("Values inserted");
+                        db.query("INSERT INTO THB_transaction_history(id_card, type, value, time, fee) VALUES(?, 1, 0, current_time(), 0);",
+                        [id_card],
+                        (err, result) => {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                res.send("Values inserted");
+                            }
+                        })
                     }
                 })
         }

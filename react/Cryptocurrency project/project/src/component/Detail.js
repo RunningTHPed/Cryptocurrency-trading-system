@@ -5,6 +5,8 @@ import { useState, useEffect, state } from 'react'
 import Footer from './Footer-nofixed';
 
 function Detail() {
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+
     const mystyle = {
         position: "absolute",
         cursor: "inherit"
@@ -30,35 +32,35 @@ function Detail() {
                         <tbody>
                             <tr>
                                 <td >ชื่อ</td>
-                                <td>เพชร จ้า</td>
+                                <td>{userData.fnameTH} {userData.lnameTH}</td>
                             </tr>
                             <tr>
                                 <td>Name</td>
-                                <td>Ped Ja</td>
+                                <td>{userData.fnameEN} {userData.lnameEN}</td>
                             </tr>
                             <tr>
                                 <td>ข้อมูลติดต่อ</td>
-                                <td>pedja@mail.com</td>
+                                <td>{userData.email}</td>
                             </tr>
                             <tr>
                                 <td>วันเกิด</td>
-                                <td>5 April 1975</td>
+                                <td>{userData.Birthdate}</td>
                             </tr>
                             <tr>
                                 <td>เพศ</td>
-                                <td>ชาย</td>
+                                <td>{userData.Gender}</td>
                             </tr>
                             <tr>
                                 <td>สถานะ</td>
-                                <td>โสด</td>
+                                <td>{userData.Status}</td>
                             </tr>
                             <tr>
                                 <td>เบอร์ติดต่อ</td>
-                                <td>0933238170</td>
+                                <td>{userData.Phone}</td>
                             </tr>
                             <tr>
                                 <td>ที่อยู่</td>
-                                <td>123 บ้าน ... 10140</td>
+                                <td>{userData.Address}</td>
                             </tr>
                         </tbody>
                     </table>

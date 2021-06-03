@@ -70,11 +70,11 @@ function Withdraw() {
                                         <tbody>
                                             <tr>
                                                 <td>Available balance</td>
-                                                <td>2,000.00 THB</td>
+                                                <td>{DataPayment.mySum} THB</td>
                                             </tr>
                                             <tr>
                                                 <td>Total balance</td>
-                                                <td>2,000.00 THB</td>
+                                                <td>{DataPayment.mySum} THB</td>
 
                                             </tr>
                                             <tr>
@@ -86,16 +86,21 @@ function Withdraw() {
 
                                 </div>
                                 <div className="col input-margin2 background-cc-margin">
-                                    <input type="text" className="form-control" id="BranchName" placeholder="Withdraw amount"></input>
+                                    <input type="text" className="form-control" id="BranchName" placeholder="Withdraw amount"
+                                        onChange={(event) => {
+                                            setWithdrawMoney(event.target.value)
+                                        }}
+                                    ></input>
                                     <table className="table table-borderless">
                                         <tbody>
                                             <tr>
                                                 <td>Fee</td>
-                                                <td>2,000.00 THB</td>
+                                                <td>0 %</td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <a class="btn btn-danger btn-margin-withdraw" href="#" role="button">WITHDRAW</a>
+                                    <p className = "alert-font">{WithdrawStatus}</p>
+                                    <a className="btn btn-danger btn-margin-withdraw" href="#" role="button" onClick={Withdraw}>WITHDRAW</a>
                                 </div>
                             </div>
                     </form>
