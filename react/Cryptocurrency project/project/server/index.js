@@ -335,7 +335,17 @@ app.post('/edit_detail', (req, res) => {
             if (err) {
                 res.send({ message: "Withdraw error." });
             } else {
-                res.send(result);
+                db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,Birthdate,Gender,Status,Phone,Address,role FROM user_information WHERE id_card=?;",
+                            [IDCard],
+                            (err, data) => {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    console.log(data); 
+                                    res.send(data);
+                                }
+                            }
+                )
             }
         }
     )
@@ -368,6 +378,33 @@ app.post('/updateStatus', (req, res) => {
                 res.send({ message: "Update complete." });
             }
         })
+});
+
+app.post('/set_primary_account', (req, res) => {
+    const AccountID = req.body.AccountID;
+    const Bank = req.body.Bank;
+    const IDCard = req.body.IDCard;
+
+    db.query("UPDATE `Uncle`.`Payment_information` SET `status` = '' WHERE id_card = ?;",
+        [IDCard],
+        (err, result) => {
+            if (err) {
+                res.send({ message: "Withdraw error." });
+            } else {
+                db.query("UPDATE `Uncle`.`Payment_information` SET `status` = 'PRIMARY' WHERE `account_id` = ?;",
+                            [AccountID],
+                            (err, data) => {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    console.log(data); 
+                                    res.send(result);
+                                }
+                            }
+                )
+            }
+        }
+    )
 });
 
 app.listen('3001', () => {

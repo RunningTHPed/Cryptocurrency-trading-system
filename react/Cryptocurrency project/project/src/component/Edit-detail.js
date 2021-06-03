@@ -19,6 +19,7 @@ function EditDetail() {
             Phone : Phone,
             Address: Address
         }).then((response) => {
+            localStorage.setItem('userdata', JSON.stringify(response.data[0]));
             window.location = "/account/detail"
         })
     }
