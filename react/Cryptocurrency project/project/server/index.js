@@ -14,7 +14,7 @@ let hour = 3600000;
 app.use(express.json());
 app.use(cors({
     origin: ['http://localhost:3000'],
-    method: ["GET", "POST"],
+    method: ["GET", "POST", "UPDATE"],
     credentials: true
 }));
 app.use(cookieParser());
@@ -35,17 +35,17 @@ const db = mysql.createConnection({
     database: "Uncle"
 })
 
-app.get('/user_information', (req, res) => {
-    db.query("SELECT id_card,fname,lname,email,phone_number,role FROM user_information WHERE email=?;", [req.session.user[0].email], (err, result) => {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log(result);
-            localStorage.setItem('userdata', JSON.stringify(result));
-            res.send(result);
-        }
-    })
-});
+// app.get('/user_information', (req, res) => {
+//     db.query("SELECT id_card,fname,lname,email,phone_number,role FROM user_information WHERE email=?;", [req.session.user[0].email], (err, result) => {
+//         if (err) {
+//             console.error(err);
+//         } else {
+//             console.log(result);
+//             localStorage.setItem('userdata', JSON.stringify(result));
+//             res.send(result);
+//         }
+//     })
+// });
 
 app.post('/add_user', (req, res) => {
     const fname = req.body.fname;
@@ -85,7 +85,7 @@ app.get('/user_logout', (req, res) => {
 
 app.get("/user_login", (req, res) => {
     if (req.session.user) {
-        res.send({ loggedIn: true, user: req.session.user });
+        res.send({ loggedIn: true});
     } else {
         res.send({ loggedIn: false });
     }
@@ -281,19 +281,32 @@ app.post('/add_payment', (req, res) => {
 
 
 
-// app.post('/add_coin_Transaction', (req, res) => {
-//     const coin = req.body.coin;
-//     const SellPrice_per_coin = req.body.SellPrice_per_coin;
-//     db.query("INSERT INTO coin_order(time_order, type, price,coin,price_per_coin,status) VALUES(current_time() , 1, ?, ?, ?, 0)",
-//         [coin * SellPrice_per_coin, coin, SellPrice_per_coin],
-//         (err, result) => {
-//             if (err) {
-//                 console.log(err);
-//             } else {
-//                 res.send("Values inserted");
-//             }
-//         })
-// });
+app.post('/add_coin_Transaction', (req, res) => {
+    const coin = req.body.coin;
+    const SellPrice_per_coin = req.body.SellPrice_per_coin;
+    db.query("INSERT INTO coin_order(time_order, type, price,coin,price_per_coin,status) VALUES(current_time() , 1, ?, ?, ?, 0)",
+        [coin * SellPrice_per_coin, coin, SellPrice_per_coin],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values inserted");
+            }
+        })
+});
+
+app.post('/updateStatus', (req, res) => {
+    const no = req.body.no;
+    db.query("UPDATE coin_order SET status=1 WHERE no=?",
+        [no],
+        (err) => {
+            if (err) {
+                console.error(err);
+            } else {
+                res.send({ message: "Update complete." });
+            }
+        })
+});
 
 app.listen('3001', () => {
     console.log("Server is running");
