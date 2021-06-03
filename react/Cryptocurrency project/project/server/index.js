@@ -104,7 +104,7 @@ app.post('/user_login', (req, res) => {
             if (result.length > 0) {
                 bcrypt.compare(password, result[0].password, (err, response) => {
                     if (response) {
-                        db.query("SELECT id_card,fname,lname,email,phone_number,role FROM user_information WHERE email=?;",
+                        db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,phone_number,role FROM user_information WHERE email=?;",
                             [email],
                             (err, data) => {
                                 if (err) {
@@ -131,7 +131,7 @@ app.post('/user_login', (req, res) => {
 app.post('/addOrder', (req, res) => {
     const price = req.body.price;
     const price_per_coin = req.body.Price_per_coin;
-    db.query("INSERT INTO coin_order(time_order, type, price,coin,price_per_coin,status) VALUES(current_time(), 0, ?, ?, ?, 0)",
+    db.query("INSERT INTO coin_order(no, time_order, type, price,coin,price_per_coin,status) VALUES(NULL, current_time(), 0, ?, ?, ?, 0)",
         [price, price / price_per_coin, price_per_coin],
         (err, result) => {
             if (err) {
@@ -145,9 +145,7 @@ app.post('/addOrder', (req, res) => {
 app.post('/addSell', (req, res) => {
     const coin = req.body.coin;
     const SellPrice_per_coin = req.body.SellPrice_per_coin;
-
-
-    db.query("INSERT INTO coin_order(time_order, type, price,coin,price_per_coin,status) VALUES(current_time() , 1, ?, ?, ?, 0)",
+    db.query("INSERT INTO coin_order(no, time_order, type, price,coin,price_per_coin,status) VALUES(NULL, current_time() , 1, ?, ?, ?, 0)",
         [coin * SellPrice_per_coin, coin, SellPrice_per_coin],
         (err, result) => {
             if (err) {
@@ -162,9 +160,9 @@ app.get('/getBuy', (req, res) => {
     db.query("SELECT * FROM buy_order_view;",
         (err, result) => {
             if (err) {
-                console.log(err);
+                res.send({ message: "don't have data" });
             } else {
-                res.send(result);
+                res.send({ order: result });
             }
         })
 });
@@ -173,9 +171,9 @@ app.get('/getSell', (req, res) => {
     db.query("SELECT * FROM sell_order_view;",
         (err, result) => {
             if (err) {
-                console.log(err);
+                res.send({ message: "don't have data" });
             } else {
-                res.send(result);
+                res.send({ order: result });
             }
         })
 });
@@ -282,15 +280,17 @@ app.post('/add_payment', (req, res) => {
 
 
 app.post('/add_coin_Transaction', (req, res) => {
-    const coin = req.body.coin;
-    const SellPrice_per_coin = req.body.SellPrice_per_coin;
-    db.query("INSERT INTO coin_order(time_order, type, price,coin,price_per_coin,status) VALUES(current_time() , 1, ?, ?, ?, 0)",
-        [coin * SellPrice_per_coin, coin, SellPrice_per_coin],
+    const no_order = req.body.no_order;
+    const type = req.body.type;
+    const value = req.body.value;
+    const price = req.body.price;
+    db.query("INSERT INTO coin_transaction_history ( time_order, value, price, type, fee, no_order ) SELECT time_order, ?, ?, ?, ?, no FROM coin_order WHERE no=?",
+        [value, price, type, 0, no_order],
         (err, result) => {
             if (err) {
                 console.log(err);
             } else {
-                res.send("Values inserted");
+                res.send({ message: "transaction was inserted" });
             }
         })
 });

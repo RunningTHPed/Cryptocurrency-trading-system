@@ -6,11 +6,10 @@ import './styles.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Redirect } from 'react-router'
 import Navbar from './component/Navbar';
-import Footer from './component/Footer-fixed';
 import Login from './component/Login';
 import Register from './component/Register';
 import Chart from './component/Chart';
-import dashboard from './component/dashboard';
+import Dashboard from './component/Dashboard';
 import Funds from './component/Funds';
 import Payment from './component/Payment';
 import Addpayment from './component/Add-payment';
@@ -24,13 +23,13 @@ import Withdraw from './component/Withdraw';
 function App() {
 
         //get role from localStorage
-        let userData = JSON.parse(localStorage.getItem("userdata"));
-        const [role, setRole] = useState("guest");
-        useEffect(() => {
-            if(userData != null){
-                setRole(userData.role);
-            }
-        })
+        //let userData = JSON.parse(localStorage.getItem("userdata"));
+        // const [role, setRole] = useState("guest");
+        // useEffect(() => {
+        //     if(userData != null){
+        //         setRole(userData.role);
+        //     }
+        // })
 
     const [loggedIn, setLoggedIn] = useState("");
 
@@ -57,7 +56,7 @@ function App() {
                         {loggedIn === true && <Redirect to="/dashboard" />}
                     </Route>
 
-                    <Route path='/dashboard' exact component={dashboard}>
+                    <Route path='/dashboard' exact component={Dashboard}>
                         {loggedIn === false && <Redirect to="/login" />}
                     </Route>
 
