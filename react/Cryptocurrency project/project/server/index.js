@@ -143,10 +143,12 @@ app.post('/user_login', (req, res) => {
 })
 
 app.post('/addOrder', (req, res) => {
+    const id_card = req.body.id_card;
+    const shortname = req.body.shortname;
     const price = req.body.price;
     const price_per_coin = req.body.Price_per_coin;
-    db.query("INSERT INTO coin_order(no, time_order, type, price,coin,price_per_coin,status) VALUES(NULL, current_time(), 0, ?, ?, ?, 0)",
-        [price, price / price_per_coin, price_per_coin],
+    db.query("INSERT INTO coin_order(id_card, time_order, shortname, type, price, coin, price_per_coin, status) VALUES(?, current_time(), ?, 0, ?, ?, ?, 0)",
+        [id_card, shortname, price, price / price_per_coin, price_per_coin],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -157,10 +159,12 @@ app.post('/addOrder', (req, res) => {
 });
 
 app.post('/addSell', (req, res) => {
+    const id_card = req.body.id_card;
+    const shortname = req.body.shortname;
     const coin = req.body.coin;
     const SellPrice_per_coin = req.body.SellPrice_per_coin;
-    db.query("INSERT INTO coin_order(no, time_order, type, price,coin,price_per_coin,status) VALUES(NULL, current_time() , 1, ?, ?, ?, 0)",
-        [coin * SellPrice_per_coin, coin, SellPrice_per_coin],
+    db.query("INSERT INTO coin_order(id_card, time_order, shortname, type, price, coin, price_per_coin, status) VALUES(?, current_time(), ?, 1, ?, ?, ?, 0)",
+        [id_card, shortname, coin * SellPrice_per_coin, coin, SellPrice_per_coin],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -196,7 +200,7 @@ app.get('/coin_Transaction', (req, res) => {
     //const time_finish = req.body.time_finish;
     //const price = req.body.price;
     //db.query("SELECT * FROM coin_transaction_history ORDER BY no_transaction DESC LIMIT 10", (err, result) => {
-    db.query("select time_order,coin,price from sell_order_view as sell where exists (select * from buy_order_view as buy where sell.price_per_coin  = buy.price_per_coin);",
+    db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -346,8 +350,9 @@ app.post('/add_coin_Transaction', (req, res) => {
     const type = req.body.type;
     const value = req.body.value;
     const price = req.body.price;
-    db.query("INSERT INTO coin_transaction_history ( time_order, value, price, type, fee, no_order ) SELECT time_order, ?, ?, ?, ?, no FROM coin_order WHERE no=?",
-        [value, price, type, 0, no_order],
+    const shortname = req.body.shortname;
+    db.query("INSERT INTO coin_transaction_history ( id_card, time_order, shortname, value, price, type, fee, no_order ) SELECT id_card, time_order, ?, ?, ?, ?, ?, no FROM coin_order WHERE no=?",
+        [shortname, value, price, type, 0, no_order],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -365,7 +370,21 @@ app.post('/updateStatus', (req, res) => {
             if (err) {
                 console.error(err);
             } else {
-                res.send({ message: "Update complete." });
+                res.send({ message: "Update status complete." });
+            }
+        })
+});
+
+app.post('/updateCoin', (req, res) => {
+    const coin = req.body.coin;
+    const no = req.body.no;
+    db.query("UPDATE coin_order SET coin=? WHERE no=?",
+        [coin, no],
+        (err) => {
+            if (err) {
+                console.error(err);
+            } else {
+                res.send({ message: "Update coin complete." });
             }
         })
 });

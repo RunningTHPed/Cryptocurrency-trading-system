@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
-import { useState, useEffect, useReducer } from 'react' 
+import { useState, useEffect, useReducer } from 'react'
 
 const Chart = () => {
 
     Axios.defaults.withCredentials = true;
 
     //get role from localStorage
-    // let userData = JSON.parse(localStorage.getItem("userdata"));
-    // const [role, setRole] = useState("guest");
-    // useEffect(() => {
-    //     if (userData != null) {
-    //         setRole(userData.role);
-    //     }
-    // })
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+    const [role, setRole] = useState("guest");
+    useEffect(() => {
+        if (userData != null) {
+            setRole(userData.role);
+        }
+    })
 
     //variable chart
     const [chart, setchart] = useState({});
@@ -33,6 +33,8 @@ const Chart = () => {
 
     const addOrder = async () => {
         Axios.post('http://localhost:3001/addOrder', {
+            id_card: userData.id_card,
+            shortname: 'PON',
             price: price,
             Price_per_coin: Price_per_coin
         }).then(() => {
@@ -55,6 +57,8 @@ const Chart = () => {
 
     const addSell = async () => {
         Axios.post('http://localhost:3001/addSell', {
+            id_card: userData.id_card,
+            shortname: 'PON',
             coin: coin,
             SellPrice_per_coin: SellPrice_per_coin
         }).then(() => {
@@ -75,38 +79,41 @@ const Chart = () => {
     //----------------------
     const [hist, sethist] = useState([]);
 
-    // const [coin_buy, setCoinBuy] = useState(0);
-    // const [coin_sell, setCoinSell] = useState(0);
-    const [initialBuyOrder, setInitialBuyOrder] = useState([]);
-    const [initialSellOrder, setInitialSellOrder] = useState([]);
-    var coin_buy = 0, ppc_buy, no_buy;
-    var coin_sell = 0, ppc_sell, no_sell;
-    var diff_coin;
+    var coin_buy = 0;
+    var ppc_buy = 0;
+    var no_buy = 0;
+    var id_card_buy = '';
+
+    var coin_sell = 0;
+    var ppc_sell = 0;
+    var no_sell = 0;
+    var id_card_sell = '';
+
+    var diff_coin = 0;
 
 
     async function getData() {
         try {
-            Axios.get('http://localhost:3001/getBuy').then((res) => {
+            await Axios.get('http://localhost:3001/getBuy').then((res) => {
                 if (res.data.order[0] != null) {
-                    if (coin_buy == 0) {
-                        //setCoinBuy(res.data.order[0].coin);
-                        coin_buy = res.data.order[0].coin
-                        ppc_buy = res.data.order[0].price_per_coin;
-                        no_buy = res.data.order[0].no;
-                    }
+                    //setCoinBuy(res.data.order[0].coin);
+                    id_card_buy = res.data.order[0].id_card;
+                    coin_buy = res.data.order[0].coin;
+                    ppc_buy = res.data.order[0].price_per_coin;
+                    console.log("get ppc_buy: " + ppc_buy);
+                    no_buy = res.data.order[0].no;
                 }
             })
 
-            Axios.get('http://localhost:3001/getSell').then(async (res) => {
+            await Axios.get('http://localhost:3001/getSell').then(async (res) => {
                 if (res.data.order[0] != null) {
-                    if (coin_sell == 0) {
-                        //setCoinSell(res.data.order[0].coin);
-                        coin_sell = res.data.order[0].coin;
-                        ppc_sell = res.data.order[0].price_per_coin;
-                        no_sell = res.data.order[0].no;
-                        console.log("coin_sell = " + coin_sell);
-                        console.log("ppc_sell = " + ppc_sell);
-                    }
+                    //setCoinSell(res.data.order[0].coin);
+                    id_card_sell = res.data.order[0].id_card;
+                    coin_sell = res.data.order[0].coin;
+                    ppc_sell = res.data.order[0].price_per_coin;
+                    no_sell = res.data.order[0].no;
+                    console.log("coin_sell = " + coin_sell);
+                    console.log("ppc_sell = " + ppc_sell);
                 }
             })
 
@@ -117,52 +124,20 @@ const Chart = () => {
 
     async function tradingAlgo() {
         try {
-            if (ppc_buy >= ppc_sell) {
+            console.log("trade ppc_buy: " + ppc_buy);
+            console.log("trade ppc_sell: " + ppc_sell);
+            if (ppc_buy >= ppc_sell && id_card_buy != id_card_sell) {
                 if (coin_buy >= coin_sell) {
                     diff_coin = coin_sell;
                     // consolesetCoinBuy(coin_buy-coin_sell);
                     coin_buy -= coin_sell;
                     console.log(coin_buy);
+                    console.log("trade coin_buy: " + coin_buy);
                     //setCoinSell(0);
                     coin_sell = 0;
 
-                    await Axios.post('http://localhost:3001/updateStatus', {
-                        //id_card: id_card,
-                        no: no_sell,
-                        //shortname: shortname,
-                    }).then((response) => {
-                        if (response.data.message) {
-                            console.log(response.data.message);
-                        }
-                    })
-
-                    //insert to coin_transaction_history
-                    await Axios.post('http://localhost:3001/add_coin_Transaction', {
-                        //id_card: id_card,
-                        no_order: no_buy,
-                        //shortname: shortname,
-                        type: 0, //buy
-                        value: diff_coin,
-                        price: diff_coin * ppc_sell,
-                    }).then(() => { console.log("add transaction history success"); })
-
-                    await Axios.post('http://localhost:3001/add_coin_Transaction', {
-                        //id_card: id_card,
-                        no_order: no_sell,
-                        //shortname: shortname,
-                        type: 1, //sell
-                        value: diff_coin,
-                        price: diff_coin * ppc_sell,
-                    }).then(() => { console.log("add transaction history success"); })
-                } else {
-                    diff_coin = coin_buy;
-                    //setCoinSell(coin_sell-coin_buy);
-                    coin_sell -= coin_buy;
-                    //setCoinBuy(0);
-                    coin_buy = 0;
-
-                    await Axios.post('http://localhost:3001/updateStatus', {
-                        //id_card: id_card,
+                    await Axios.post('http://localhost:3001/updateCoin', {
+                        coin: coin_buy,
                         no: no_buy,
                         //shortname: shortname,
                     }).then((response) => {
@@ -171,34 +146,119 @@ const Chart = () => {
                         }
                     })
 
+                    await Axios.post('http://localhost:3001/updateCoin', {
+                        coin: coin_sell,
+                        no: no_sell,
+                        //shortname: shortname,
+                    }).then((response) => {
+                        if (response.data.message) {
+                            console.log(response.data.message);
+                        }
+                    })
+
+                    await Axios.post('http://localhost:3001/updateStatus', {
+                        no: no_sell,
+                    }).then((response) => {
+                        if (response.data.message) {
+                            console.log(response.data.message);
+                        }
+                    })
+                    
+                    if(coin_buy == 0) {
+                        await Axios.post('http://localhost:3001/updateStatus', {
+                            no: no_buy,
+                        }).then((response) => {
+                            if (response.data.message) {
+                                console.log(response.data.message);
+                            }
+                        })
+                    }
+
                     //insert to coin_transaction_history
                     await Axios.post('http://localhost:3001/add_coin_Transaction', {
-                        //id_card: id_card,
                         no_order: no_buy,
-                        //shortname: shortname,
+                        shortname: 'PON',
                         type: 0, //buy
                         value: diff_coin,
                         price: diff_coin * ppc_sell,
-                    }).then((response) => { 
-                        if (response.data.message) {
-                            console.log(response.data.message);
-                        } 
-                    })
+                    }).then(() => { console.log("Add transaction history success"); })
 
                     await Axios.post('http://localhost:3001/add_coin_Transaction', {
-                        //id_card: id_card,
                         no_order: no_sell,
-                        //shortname: shortname,
+                        shortname: 'PON',
                         type: 1, //sell
                         value: diff_coin,
                         price: diff_coin * ppc_sell,
-                    }).then((response) => { 
+                    }).then(() => { console.log("Add transaction history success"); })
+                } else {
+                    diff_coin = coin_buy;
+                    //setCoinSell(coin_sell-coin_buy);
+                    coin_sell -= coin_buy;
+                    //setCoinBuy(0);
+                    coin_buy = 0;
+
+                    await Axios.post('http://localhost:3001/updateCoin', {
+                        coin: coin_buy,
+                        no: no_buy,
+                        //shortname: shortname,
+                    }).then((response) => {
                         if (response.data.message) {
                             console.log(response.data.message);
-                        } 
+                        }
                     })
+
+                    await Axios.post('http://localhost:3001/updateCoin', {
+                        coin: coin_sell,
+                        no: no_sell,
+                        //shortname: shortname,
+                    }).then((response) => {
+                        if (response.data.message) {
+                            console.log(response.data.message);
+                        }
+                    })
+
+                    await Axios.post('http://localhost:3001/updateStatus', {
+                        no: no_buy,
+                    }).then((response) => {
+                        if (response.data.message) {
+                            console.log(response.data.message);
+                        }
+                    })
+
+                    if(coin_buy == 0) {
+                        await Axios.post('http://localhost:3001/updateStatus', {
+                            no: no_buy,
+                        }).then((response) => {
+                            if (response.data.message) {
+                                console.log(response.data.message);
+                            }
+                        })
+                    }
+
+                    //insert to coin_transaction_history
+                    await Axios.post('http://localhost:3001/add_coin_Transaction', {
+                        no_order: no_buy,
+                        type: 0, //buy
+                        value: diff_coin,
+                        price: diff_coin * ppc_sell,
+                    }).then((response) => {
+                        if (response.data.message) {
+                            console.log(response.data.message);
+                        }
+                    });
+
+                    await Axios.post('http://localhost:3001/add_coin_Transaction', {
+                        no_order: no_sell,
+                        type: 1, //sell
+                        value: diff_coin,
+                        price: diff_coin * ppc_sell,
+                    }).then((response) => {
+                        if (response.data.message) {
+                            console.log(response.data.message);
+                        }
+                    });
                 }
-            }
+            } 
 
             console.log("coin_buy = " + coin_buy);
             console.log("ppc_buy = " + ppc_buy);

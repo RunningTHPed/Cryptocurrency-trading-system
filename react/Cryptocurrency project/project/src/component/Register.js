@@ -21,8 +21,6 @@ function Register() {
   const [Phone, setPhone] = useState("");
   const [Address, setAddress] = useState("");
   
-  
-
   const addUser = () => {
     Axios.post('http://localhost:3001/add_user',{
       fnameTH: fnameTH,
