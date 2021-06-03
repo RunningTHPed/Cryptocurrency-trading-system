@@ -61,7 +61,7 @@ const Analysis= () => {
     
     return (
         <div className="Analysis">
-            <h1 className="Analysis_title"> สภาพพวกผมตอนทำโปรเจ็ค </h1>
+            <h1 className="Analysis_title"> ANALYSIS DASHBOARD FOR ADMIN </h1>
 
             <div className="animate">
                 <svg width="842" height="589" viewBox="0 0 842 589" fill="none" xmlns="http://www.w3.org/2000/svg">

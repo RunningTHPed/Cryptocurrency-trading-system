@@ -343,3 +343,21 @@ con.connect(function(err) {
   });
 });
 */
+
+
+
+/*
+#Analysis dashboard
+SELECT shortname,MAX(price),MIN(price)
+FROM dummy_coin_transaction
+group by shortname;
+
+#Analysis insight 1
+SELECT bankshortname,COUNT(bankshortname)  
+FROM Payment_information
+group by bankshortname;
+
+#Analysis insight 2
+...
+จำนวนคนเล่นในแต่ละจังหวัด
+*/

@@ -33,7 +33,7 @@ function Navbar() {
 
                         <ul className="navbar-nav me-auto mb-3 mb-lg-0">
                             <li className="nav-item my-3">
-                                <a href="/analysis" className="nav-link active" aria-current="page">insight</a>
+                                <a href="/analysis" className="nav-link active" aria-current="page">INSIGHT</a>
                             </li>
                         </ul>
 
