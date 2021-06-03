@@ -1,9 +1,9 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import Footer from './Footer-fixed'
 import Header from './Header'
 //import * as Icon from 'react-bootstrap-icons';
 
-function Home () {
+function Home() {
 
     return (
         <div>
@@ -17,13 +17,13 @@ function Home () {
                     </div>
                     <div class="arr_container center">
                         <i class="fas fa-arrow-right"></i>
-                        
+
                     </div>
                     <div class="left_container off">
                         <p>ติดเมีย</p>
                         <div class="cancle center">
                             <i class="fas fa-times"></i>
-                            
+
                         </div>
                     </div>
                 </div>

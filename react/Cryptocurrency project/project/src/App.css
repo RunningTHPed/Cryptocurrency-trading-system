@@ -325,3 +325,97 @@
   font-size: .9rem;
   margin: 4px 4px 4px 0;
 }
+
+.Analysis_title {
+  text-align: center;
+}
+
+.Bank_analysis{
+  width: 100%;
+  height: 100%;
+
+  position: relative;
+  top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 60px 35px 35px 35px;
+  width: 800px;
+  height: 800px;
+}
+
+.customer_analysis{
+  width: 100%;
+  height: 100%;
+
+  position: relative;
+  top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 60px 35px 35px 35px;
+  width: 1200px;
+  height: 1200px;
+}
+
+.animate{
+  padding: 60px 35px 35px 35px;
+  text-align: center;
+}
+
+#head {
+  animation: head 2s infinite ease-in;
+  transform-origin: center;
+}
+
+@keyframes head {
+  form{
+    transform: rotateZ(0deg);
+  }
+  to{
+    transform: rotateZ(360deg);
+  }
+}
+
+#barline {
+    animation: bounce1 1s infinite ease-in
+    alternate;
+}
+
+@keyframes bounce1{
+    0% {
+        transform: translateY(20px);
+    }
+    100%{
+        transform: translateY(10px);
+    }
+}
+
+#donut {
+    animation: bounce2 1s infinite ease-in
+    alternate;
+}
+
+@keyframes bounce2{
+    0% {
+        transform: translateY(10px);
+    }
+    100%{
+        transform: translateY(20px);
+    }
+}
+
+#arm{
+    animation: movement 2s infinite 
+    alternate;
+    transform-origin: right;
+    transform-box: fill-box;
+}
+
+@keyframes movement{
+    0% {
+        transform: rotate(5deg);
+    }
+    50%{
+        transform: rotateX(8deg);
+    }
+}
+

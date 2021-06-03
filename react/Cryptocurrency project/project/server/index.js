@@ -38,9 +38,10 @@ const db = mysql.createConnection({
 app.get('/user_information', (req, res) => {
     db.query("SELECT id_card,fname,lname,email,phone_number,role FROM user_information WHERE email=?;", [req.session.user[0].email], (err, result) => {
         if (err) {
-            console.log(err);
+            console.error(err);
         } else {
             console.log(result);
+            localStorage.setItem('userdata', JSON.stringify(result));
             res.send(result);
         }
     })
@@ -109,9 +110,19 @@ app.post('/user_login', (req, res) => {
             if (result.length > 0) {
                 bcrypt.compare(password, result[0].password, (err, response) => {
                     if (response) {
+                        db.query("SELECT id_card,fname,lname,email,phone_number,role FROM user_information WHERE email=?;",
+                            [email],
+                            (err, data) => {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    console.log(data); 
+                                    res.send(data);
+                                }
+                            }
+                        )
                         req.session.user = result;
                         console.log(req.session.user);
-                        res.send(result);
                     } else {
                         res.send({ message: "Wrong username/password combination!" });
                     }

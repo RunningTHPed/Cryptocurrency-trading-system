@@ -24,15 +24,12 @@ function Login() {
                 console.log(response.data.message);
                 setloginmessage(response.data.message);
             } else {
-                setUserData(response.data[0]);
-                console.log(response.data[0]);
+                console.log(response);
+                localStorage.setItem('userdata', JSON.stringify(response.data[0]));
                 window.location = "/dashboard"
             }
         })
     }
-    useEffect(()=>{
-        localStorage.setItem('userdata', JSON.stringify(userData));
-    }, [userData]);
 
     return (
         <div>

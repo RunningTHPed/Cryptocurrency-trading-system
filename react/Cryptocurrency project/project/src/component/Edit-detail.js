@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
-import {Line, line} from 'react-chartjs-2';
+import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
-import { useState , useEffect, state} from 'react'
+import { useState, useEffect, state } from 'react'
 import Footer from './Footer-nofixed';
 
 function Detail() {
     const mystyle = {
         position: "absolute",
         cursor: "inherit"
-      };
+    };
 
     return (
         <div>
-            <div className = "container dashboard_view">
+            <div className="container dashboard_view">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
@@ -21,11 +21,11 @@ function Detail() {
                         <a class="nav-link a-color" href="/account/payment">BANK ACCOUNT</a>
                     </li>
                 </ul>
-                <div className = "background-cc">
-                    <div className = "pt-4 p-3">
+                <div className="background-cc">
+                    <div className="pt-4 p-3">
                         <h1>DETAILS ACCOUNT</h1>
                     </div>
-                    <table className = "table table-background mt-3">
+                    <table className="table table-background mt-3">
                         <tbody>
                             <tr>
                                 <td >ชื่อ</td>
@@ -48,24 +48,24 @@ function Detail() {
                             <tr>
                                 <td>วันเกิด</td>
                                 <td>
-                                <input type="text" className="form-control" id=".." placeholder="19 April 1975" disabled></input>
+                                    <input type="text" className="form-control" id=".." placeholder="19 April 1975" disabled></input>
                                 </td>
                             </tr>
                             <tr>
                                 <td>เพศ</td>
                                 <td>
-                                <input type="text" className="form-control" id=".." placeholder="ชาย" disabled></input>
+                                    <input type="text" className="form-control" id=".." placeholder="ชาย" disabled></input>
                                 </td>
                             </tr>
                             <tr>
                                 <td>สถานะ</td>
                                 <td>
-                                <select className="form-select" aria-label="Default select example">
-                                <option selected>SELECT A STATUS</option>
-                                <option value="1">โสด</option>
-                                <option value="2">ไม่โสด</option>
-                                <option value="3">โสด</option>
-                            </select>
+                                    <select className="form-select" aria-label="Default select example">
+                                        <option selected>SELECT A STATUS</option>
+                                        <option value="1">โสด</option>
+                                        <option value="2">ไม่โสด</option>
+                                        <option value="3">โสด</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>

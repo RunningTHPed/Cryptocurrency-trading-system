@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
-import { useState, useEffect, state } from 'react' 
+import { useState, useEffect, useReducer } from 'react' 
 
 const Chart = () => {
 
@@ -78,6 +78,19 @@ const Chart = () => {
     const [buyOrder, setBuyOrder] = useState([]);
     const [sellOrder, setSellOrder] = useState([]);
 
+    const iniState = 0
+
+    const reducer = (state, action) => {
+        switch(action) {
+                case 'one' :
+                    return state + 1
+                default :
+                    return state
+            }
+        }
+
+    const [dataReducer, setReducer] = useReducer(reducer, iniState);
+
     const getData = async () => {
         try {
             const res_buy = await Axios.get('http://localhost:3001/getBuy');
@@ -87,26 +100,31 @@ const Chart = () => {
             const res_sell = await Axios.get('http://localhost:3001/getSell');
             await setSellOrder(res_sell.data[0]);
             console.log("price_per_coin(sell) = " + sellOrder.price_per_coin);
+            
+            setReducer( {type:'one'} )
+            console.log(dataReducer);
 
-            // if (buyOrder.price_per_coin >= sellOrder.price_per_coin) {
-            //     if (buyOrder.coin >= sellOrder.coin) {
-            //         setBuyOrder()
-            //         //insert to coin_transaction_history
-            //         Axios.post('http://localhost:3001/add_coin_Transaction', {
-            //             id_card: id_card,
-            //             time_order: time_order,
-            //             shortname: shortname,
-            //             type: type,
-            //             value: value,
-            //             price: price,
-            //             fee: fee
-            //         })
-            //     } else {
+            if (buyOrder.price_per_coin >= sellOrder.price_per_coin) {
+                if (buyOrder.coin >= sellOrder.coin) {
+                    //setBuyOrder(buyOrder.coin[0] - sellOrder.coin[0]);
+                    // dispatch( {type:'type1'} )
+                    // console.log(data);
+                    //insert to coin_transaction_history
+                    // Axios.post('http://localhost:3001/add_coin_Transaction', {
+                    //     id_card: id_card,
+                    //     time_order: time_order,
+                    //     shortname: shortname,
+                    //     type: type,
+                    //     value: value,
+                    //     price: price,
+                    //     fee: fee
+                    // })
+                } else {
 
-            //     }
-            // } else {
+                }
+            } else {
 
-            // }
+            }
 
 
         } catch (error) {
@@ -129,11 +147,11 @@ const Chart = () => {
                 plotcomp.select_time.push(onlyTime.toLocaleTimeString('it-IT'));
                 plotcomp.time_date.push(onlyTime.toLocaleString('it-IT'));
 
-                console.log(res.data[i].time_order);
-                console.log(res.data[i].time_date);
+                // console.log(res.data[i].time_order);
+                // console.log(res.data[i].time_date);
                 res.data[i].time_order =  plotcomp.time_date[i];
-                console.log(res.data[i].time_order);
-                console.log(res.data[i].time_date);
+                // console.log(res.data[i].time_order);
+                // console.log(res.data[i].time_date);
             }
             console.log(plotcomp);
             console.log(res.data);
