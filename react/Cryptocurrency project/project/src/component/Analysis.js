@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Line, line, PolarArea,Bar } from 'react-chartjs-2';
+import { PolarArea,Bar } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect, useReducer } from 'react' 
 
@@ -144,7 +144,7 @@ const Analysis= () => {
                         <Bar 
                             data={customer}
                         />
-                </div>
+            </div>
 
         </div>
     )
