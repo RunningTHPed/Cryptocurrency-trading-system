@@ -325,6 +325,24 @@ app.post('/withdraw_money', (req, res) => {
     
 });
 
+app.post('/edit_detail', (req, res) => {
+    const IDCard = req.body.IDCard;
+    const Status = req.body.Status;
+    const Phone = req.body.Phone;
+    const Address = req.body.Address;
+
+    db.query("UPDATE `Uncle`.`user_information` SET `Status` = ?, `Phone` = ?, `Address` = ? WHERE (`id_card` = ?);",
+        [Status, Phone, Address, IDCard],
+        (err, result) => {
+            if (err) {
+                res.send({ message: "Withdraw error." });
+            } else {
+                res.send(result);
+            }
+        }
+    )
+})
+
 // app.post('/add_coin_Transaction', (req, res) => {
 //     const coin = req.body.coin;
 //     const SellPrice_per_coin = req.body.SellPrice_per_coin;
