@@ -55,7 +55,7 @@ function App() {
                     <Route path='/register' component={Register} />
 
                     <Route path='/login' component={Login}>
-                        {loggedIn === true && <Redirect to="/Dashboard" />}
+                        {loggedIn === true && <Redirect to="/dashboard" />}
                     </Route>
 
                     <Route path='/dashboard' exact component={Dashboard}>
