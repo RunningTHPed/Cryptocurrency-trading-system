@@ -8,21 +8,21 @@ function Home() {
     return (
         <div>
             <Header name="UnclePon" />
-            <div class='main center'>
-                <div class="box center">
+            <div className='main center'>
+                <div className="box center">
                     <img src="Peddiepie.jpg" ></img>
                     <div>
-                        <p class="user_name">ติดเมีย</p>
-                        <p class="skill">Profile</p>
+                        <p className="user_name">ติดเมีย</p>
+                        <p className="skill">Profile</p>
                     </div>
-                    <div class="arr_container center">
-                        <i class="fas fa-arrow-right"></i>
+                    <div className="arr_container center">
+                        <i className="fas fa-arrow-right"></i>
 
                     </div>
-                    <div class="left_container off">
+                    <div className="left_container off">
                         <p>ติดเมีย</p>
-                        <div class="cancle center">
-                            <i class="fas fa-times"></i>
+                        <div className="cancle center">
+                            <i className="fas fa-times"></i>
 
                         </div>
                     </div>

@@ -7,12 +7,13 @@ import LoggedinButtonAdmin from './LoggedinButtonAdmin';
 function Navbar() {
 
     // const [userRole, setRole] = useState("guest");
-     const [loggedIn, setLoggedIn] = useState("");
+    const [loggedIn, setLoggedIn] = useState("");
 
     //get role from localStorage
-    let userData = JSON.parse(localStorage.getItem("userdata"));
-     const [role, setRole] = useState("guest");
-        useEffect(() => {
+    var userData = JSON.parse(localStorage.getItem("userdata"));
+    const [role, setRole] = useState("guest");
+        useEffect(async () => {
+            userData = await JSON.parse(localStorage.getItem("userdata"));
             if(userData != null){
                 setRole(userData.role);
             }
@@ -51,8 +52,8 @@ function Navbar() {
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 
                                 {loggedIn === false && <NotLoggedinButton />}
-                                {loggedIn === true && role == "user" && <LoggedinButton />}
-                                {loggedIn === true && role == "admin" && <LoggedinButtonAdmin />}
+                                {role === "user" && <LoggedinButton />}
+                                {role === "admin" && <LoggedinButtonAdmin />}
                                 {/* <li className="nav-item me-2 my-2">
                                     <a href="/login" className="btn btn-outline-success">LOGIN</a>
                                 </li>

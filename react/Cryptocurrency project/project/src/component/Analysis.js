@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { PolarArea,Bar } from 'react-chartjs-2';
 import Axios from 'axios'
-import { useState, useEffect, useReducer } from 'react' 
+import { useState, useEffect} from 'react' 
 
 
 const Analysis = ()  => {

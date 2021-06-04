@@ -5,6 +5,7 @@ import { useState, useEffect, state } from 'react'
 import Footer from './Footer-fixed';
 
 function DepositPon() {
+    const [value, setValue] = useState(0);
     const [DepositMoney, setDepositMoney] = useState("");
     const [DataPayment, setDataPayment] = useState([]);
     const [DepositStatus, setDepositStatus] = useState("");
@@ -12,38 +13,15 @@ function DepositPon() {
 
     let userData = JSON.parse(localStorage.getItem("userdata"));
 
-
-    const getPayment = async () => {
-        try {
-            const res = await Axios.post('http://localhost:3001/Data_Payment_id', {
-                IDCard: userData.id_card
-            });
-            console.log(res.data);
-            setDataPayment(res.data);
-        }
-        catch (error) {
-            console.log(error.response);
-        }
-    }
-
-    useEffect(() => {
-        getPayment();
-    }, []);
-
-    const Deposit = () => {
-        Axios.post('http://localhost:3001/deposit_money',{
-            IDCard: userData.id_card,
-            DepositMoney: DepositMoney
+    const Deposit = async () => {
+        await Axios.post('http://localhost:3001/deposit_coin',{
+            id_card: userData.id_card,
+            value: value,
+            shortname: "PON",
         }).then((response) => {
             if (response.data.message) {
-                console.log('Hellooo');
-                console.log(DataPayment);
-                setDepositStatus(response.data.message);
-                setPaymentError(true);
-            } else {
-                console.log('Hellooo');
-                console.log(DataPayment);
-                window.location = "/dashboard"
+                console.log(response.data.message);
+                window.location = "/funds";
             }
         })
     }
@@ -56,12 +34,12 @@ function DepositPon() {
     return (
         <div>
             <div className="container dashboard_view">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/deposit/pon">DEPOSIT</a>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <a className="nav-link active" aria-current="page" href="/deposit/pon">DEPOSIT</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link a-color" href="/withdraw/pon">WITHDRAW</a>
+                    <li className="nav-item">
+                        <a className="nav-link a-color" href="/withdraw/pon">WITHDRAW</a>
                     </li>
                 </ul>
                 <div className="background-cc">
@@ -93,11 +71,11 @@ function DepositPon() {
                             <div className="col input-margin2 background-cc-margin">
                                 <input type="text" className="form-control" id="BranchName" placeholder="Deposit amount"
                                     onChange={(event) => {
-                                        setDepositMoney(event.target.value)
+                                        setValue(event.target.value);
                                     }}
                                 ></input>
                                 {DepositStatus}
-                                <a class="btn btn-success btn-margin-deposit" href="#" role="button" onClick={Deposit} >DEPOSIT NOW</a>
+                                <a className="btn btn-success btn-margin-deposit" href="#" role="button" onClick={Deposit} >DEPOSIT NOW</a>
                             </div>
                         </div>
                     </form>

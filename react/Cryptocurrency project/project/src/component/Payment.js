@@ -75,12 +75,12 @@ function Payment() {
     return (
         <div>
             <div className="container dashboard_view">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link a-color" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <a className="nav-link a-color" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/account/payment">BANK ACCOUNT</a>
+                    <li className="nav-item">
+                        <a className="nav-link active" href="/account/payment">BANK ACCOUNT</a>
                     </li>
                 </ul>
                 <div className="background-cc">
@@ -89,7 +89,7 @@ function Payment() {
                         <h4>Select account below to make changes</h4>
                     </div>
                     <div>
-                        <a class="btn btn-outline-success btn-add-paymnet" href="/account/payment/add" role="button">ADD BANK ACCOUNTS</a>
+                        <a className="btn btn-outline-success btn-add-paymnet" href="/account/payment/add" role="button">ADD BANK ACCOUNTS</a>
                     </div>
                     <table className="table table-striped table-background table-center mt-3">
                         <thead>
@@ -135,8 +135,8 @@ function Payment() {
                         </tbody>
                     </table>
                     <div>
-                        <a class="btn btn-success btn-margin-payment" href="/account/payment" role="button" onClick={EditPayment} >MAKE PRIMARY</a>
-                        <a class="btn btn-danger btn-margin-payment" href="#" role="button" onClick={handleShow} >REMOVE</a>
+                        <a className="btn btn-success btn-margin-payment" href="/account/payment" role="button" onClick={EditPayment} >MAKE PRIMARY</a>
+                        <a className="btn btn-danger btn-margin-payment" href="#" role="button" onClick={handleShow} >REMOVE</a>
                     </div>
                 </div>
             </div>

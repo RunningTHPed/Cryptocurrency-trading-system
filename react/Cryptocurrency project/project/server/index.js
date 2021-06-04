@@ -68,20 +68,20 @@ app.post('/add_user', (req, res) => {
             console.log(err);
         } else {
             db.query("INSERT INTO user_information(id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, password, Birthdate, Gender, Status, BehindID, Phone, Address ,role,PostCode) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'user',?)",
-                [id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, hashedPassword, Birthdate, Gender, Status, BehindID, Phone, Address,PostCode],
+                [id_card, fnameTH, lnameTH, fnameEN, lnameEN, email, hashedPassword, Birthdate, Gender, Status, BehindID, Phone, Address, PostCode],
                 (err, result) => {
                     if (err) {
                         console.log(err);
                     } else {
                         db.query("INSERT INTO THB_transaction_history(id_card, type, value, time, fee) VALUES(?, 1, 0, current_time(), 0);",
-                        [id_card],
-                        (err, result) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                res.send("Values inserted");
-                            }
-                        })
+                            [id_card],
+                            (err, result) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    res.send("Values inserted");
+                                }
+                            })
                     }
                 })
         }
@@ -100,7 +100,7 @@ app.get('/user_logout', (req, res) => {
 
 app.get("/user_login", (req, res) => {
     if (req.session.user) {
-        res.send({ loggedIn: true});
+        res.send({ loggedIn: true });
     } else {
         res.send({ loggedIn: false });
     }
@@ -125,7 +125,7 @@ app.post('/user_login', (req, res) => {
                                 if (err) {
                                     res.send(err);
                                 } else {
-                                    console.log(data); 
+                                    console.log(data);
                                     res.send(data);
                                 }
                             }
@@ -306,11 +306,26 @@ app.post('/add_payment', (req, res) => {
     )
 });
 
-app.post('/show_money', (req, res) => {
+app.post('/summary_money', (req, res) => {
     const IDCard = req.body.IDCard;
 
     db.query("SELECT SUM(value) as mySum FROM Uncle.THB_transaction_history where id_card = ?;",
         [IDCard],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
+app.post('/summary_money_order', (req, res) => {
+    const id_card = req.body.id_card;
+    const shortname = req.body.shortname;
+
+    db.query("SELECT SUM(price) AS price_sum FROM Uncle.buy_order_view WHERE id_card = ? AND shortname = ?;",
+        [id_card, shortname],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -326,21 +341,21 @@ app.post('/withdraw_money', (req, res) => {
     const Availible = req.body.Availible;
     const sum = Availible - WithdrawMoney;
 
-    if(sum >= 0) {
+    if (sum >= 0) {
         db.query("INSERT INTO THB_transaction_history(id_card, type, value, time, fee) VALUES(?, 0, -?, current_time(), 0);",
-                [IDCard, WithdrawMoney],
-                (err, result) => {
-                    if (err) {
-                        res.send({ message: "Withdraw error." });
-                    } else {
-                        res.send(result);
-                    }
-                })
+            [IDCard, WithdrawMoney],
+            (err, result) => {
+                if (err) {
+                    res.send({ message: "Withdraw error." });
+                } else {
+                    res.send(result);
+                }
+            })
     }
     else {
         res.send({ message: "The amount in the system is insufficient to withdraw." });
     }
-    
+
 });
 
 app.post('/edit_detail', (req, res) => {
@@ -356,15 +371,15 @@ app.post('/edit_detail', (req, res) => {
                 res.send({ message: "Withdraw error." });
             } else {
                 db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,Birthdate,Gender,Status,Phone,Address,role FROM user_information WHERE id_card=?;",
-                            [IDCard],
-                            (err, data) => {
-                                if (err) {
-                                    res.send(err);
-                                } else {
-                                    console.log(data); 
-                                    res.send(data);
-                                }
-                            }
+                    [IDCard],
+                    (err, data) => {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            console.log(data);
+                            res.send(data);
+                        }
+                    }
                 )
             }
         }
@@ -427,15 +442,15 @@ app.post('/set_primary_account', (req, res) => {
                 res.send({ message: "Withdraw error." });
             } else {
                 db.query("UPDATE `Uncle`.`Payment_information` SET `status` = 'PRIMARY' WHERE `account_id` = ?;",
-                            [AccountID],
-                            (err, data) => {
-                                if (err) {
-                                    res.send(err);
-                                } else {
-                                    console.log(data); 
-                                    res.send(result);
-                                }
-                            }
+                    [AccountID],
+                    (err, data) => {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            console.log(data);
+                            res.send(result);
+                        }
+                    }
                 )
             }
         }
@@ -463,50 +478,81 @@ app.get('/coin_Transaction', (req, res) => {
     //const time_finish = req.body.time_finish;
     //const price = req.body.price;
     db.query("SELECT * FROM coin_transaction_history WHERE Type = 1", (err, result) => {
-    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
         //(err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send(result);
-            }
-        })
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
 });
 
 app.get('/coin_order_buy', (req, res) => {
     //const time_finish = req.body.time_finish;
     //const price = req.body.price;
     db.query("SELECT * FROM coin_orderWHERE Type = 0", (err, result) => {
-    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
         //(err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send(result);
-            }
-        })
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
 });
 
 app.get('/bank_analysis', (req, res) => {
     //const time_finish = req.body.time_finish;
     //const price = req.body.price;
     db.query("SELECT bankshortname,COUNT(bankshortname) as amount FROM Payment_information group by bankshortname; ", (err, result) => {
-    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
         //(err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send(result);
-            }
-        })
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
 });
 
 app.get('/customer_analysis', (req, res) => {
     //const time_finish = req.body.time_finish;
     //const price = req.body.price;
     db.query("SELECT post_info.province,count(id_card) as amount FROM user_information as user_info join Post_information as post_info USING (postcode) group by user_info.PostCode; ", (err, result) => {
-    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
         //(err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+});
+
+app.post('/deposit_coin', (req, res) => {
+    const id_card = req.body.id_card;
+    const value = req.body.value;
+    const shortname = req.body.shortname;
+
+    db.query("INSERT INTO Coin_deposite_withdraw(id_card, value, shortname) VALUES(?, ?, ?);",
+        [id_card, value, shortname],
+        (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send({ message: "Add coin complete." });
+            }
+        })
+});
+
+app.post('/summary_coin_deposit', (req, res) => {
+    const id_card = req.body.id_card;
+    const shortname = req.body.shortname;
+
+    db.query("SELECT SUM(value) AS coin_sum FROM Uncle.Coin_deposite_withdraw WHERE id_card = ? AND shortname = ?;",
+        [id_card, shortname],
+        (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -529,18 +575,17 @@ app.get('/coin_analysis', (req, res) => {
         })
 });
 
-app.post('/deposit_coin', (req, res) => {
+app.post('/summary_coin_order', (req, res) => {
     const id_card = req.body.id_card;
-    const value = req.body.value;
     const shortname = req.body.shortname;
 
-    db.query("INSERT INTO Coin_deposite_withdraw(id_card, value, shortname) VALUES(?, ?, ?);",
-        [id_card, value, shortname],
+    db.query("SELECT SUM(coin) AS coin_sum FROM Uncle.sell_order_view WHERE id_card = ? AND shortname = ?;",
+        [id_card, shortname],
         (err, result) => {
             if (err) {
                 console.log(err);
             } else {
-                console_log("Add coin complete.");
+                res.send(result);
             }
         })
 });
@@ -567,7 +612,7 @@ FROM dummy_coin_transaction
 group by shortname;
 
 #Analysis insight 1
-SELECT bankshortname,COUNT(bankshortname)  
+SELECT bankshortname,COUNT(bankshortname)
 FROM Payment_information
 group by bankshortname;
 
