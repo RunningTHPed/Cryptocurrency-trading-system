@@ -333,10 +333,10 @@ const Chart = () => {
                 console.log(res_sell);
                 console.log(res_sell.data.order);
                 for (var i = 0; i < res_sell.data.order.length; i++) {
-                plotcomp.time_order_buy.push(res_sell.data.order[i].time_order);
-                var onlyTime_buy = new Date(plotcomp.time_order_buy[i]);
-                plotcomp.retime_order_buy.push(onlyTime_buy.toLocaleString('it-IT'));
-                res_sell.data.order[i].time_order = plotcomp.retime_order_buy[i];
+                plotcomp.time_order_sell.push(res_sell.data.order[i].time_order);
+                var onlyTime_sell = new Date(plotcomp.time_order_sell[i]);
+                plotcomp.retime_order_sell.push(onlyTime_sell.toLocaleString('it-IT'));
+                res_sell.data.order[i].time_order = plotcomp.retime_order_sell[i];
             }
                 console.log(res_sell.data.order);
                 setsellhist(res_sell.data.order);

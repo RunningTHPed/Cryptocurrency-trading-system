@@ -6,20 +6,41 @@ import Footer from './Footer-fixed';
 
 function Deposit() {
     const [DepositMoney, setDepositMoney] = useState("");
-    const [DataPayment, setDataPayment] = useState([]);
     const [DepositStatus, setDepositStatus] = useState("");
     const [PaymentError, setPaymentError] = useState(false);
+
+    const[availableMoney, setAvailableMoney] = useState(0);
+    var money_diff = 0;
+    var sumMoneyDeposit = 0;
+    var sumMoneyOrder = 0;
 
     let userData = JSON.parse(localStorage.getItem("userdata"));
 
 
     const getPayment = async () => {
         try {
-            const res = await Axios.post('http://localhost:3001/Data_Payment_id', {
+            await Axios.post('http://localhost:3001/summary_money', {
                 IDCard: userData.id_card
+            }).then((response) => {
+                console.log(response.data[0].mySum);
+                sumMoneyDeposit = response.data[0].mySum;
             });
-            console.log(res.data);
-            setDataPayment(res.data);
+
+            await Axios.post('http://localhost:3001/summary_money_order', {
+                id_card: userData.id_card,
+                shortname: "PON"
+
+            }).then((response) => {
+                console.log(response.data[0].price_sum);
+                sumMoneyOrder = response.data[0].price_sum;
+            }).then(() => {
+                money_diff = sumMoneyDeposit - sumMoneyOrder;
+            }).then(() => {
+                setAvailableMoney(money_diff);
+            }).then(() => {
+                console.log(availableMoney);
+            });;
+
         }
         catch (error) {
             console.log(error.response);
@@ -37,12 +58,12 @@ function Deposit() {
         }).then((response) => {
             if (response.data.message) {
                 console.log('Hellooo');
-                console.log(DataPayment);
+                console.log(availableMoney);
                 setDepositStatus(response.data.message);
                 setPaymentError(true);
             } else {
                 console.log('Hellooo');
-                console.log(DataPayment);
+                console.log(availableMoney);
                 window.location = "/dashboard"
             }
         })
