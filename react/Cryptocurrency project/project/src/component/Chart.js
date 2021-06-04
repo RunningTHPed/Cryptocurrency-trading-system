@@ -6,7 +6,6 @@ import { useState, useEffect, useReducer } from 'react'
 const Chart = () => {
 
     Axios.defaults.withCredentials = true;
-
     //get role from localStorage
     let userData = JSON.parse(localStorage.getItem("userdata"));
     const [role, setRole] = useState("guest");
@@ -15,15 +14,6 @@ const Chart = () => {
             setRole(userData.role);
         }
     })
-
-    //variable chart
-    const [chart, setchart] = useState({});
-    const plotcomp = {
-        time_order: [], //time_order is time_when sell
-        price: [],
-        select_time: [],
-        time_date: []
-    };
 
     //variable order
     const [OrderList, setOrderList] = useState([]);
@@ -74,21 +64,14 @@ const Chart = () => {
         await tradingAlgo();
     }
 
-    //variable history
-
-    //----------------------
-    const [hist, sethist] = useState([]);
-
     var coin_buy;
     var ppc_buy;
     var no_buy;
     var id_card_buy = ' ';
-
     var coin_sell;
     var ppc_sell;
     var no_sell;
     var id_card_sell = ' ';
-
     var diff_coin = 0;
 
 
@@ -276,32 +259,87 @@ const Chart = () => {
         getChart();
     }, []);
 
+
+    //variable chart
+    const [chart, setchart] = useState({});
+    const plotcomp = {
+        time_finish: [], 
+        price: [],
+        select_time: [],
+        time_date: [], 
+
+        time_order_buy: [], 
+        retime_order_buy: [],
+
+        time_order_sell: [],
+        retime_order_sell: []
+
+    };
+
+    //variable history
+    const [hist, sethist] = useState([]);
+    const [buyhist, setbuyhist] = useState([]);
+    const [sellhist, setsellhist] = useState([]);
+
     const getChart = async () => {
         try {
+
+            // main chart show last 10 row
             const res = await Axios.get('http://localhost:3001/coin_Transaction');
             console.log(res);
             console.log(res.data);
-
-            //Loop for show last 10 row
             for (var i = 0; i < res.data.length; i++) {
                 plotcomp.price.push(res.data[i].price);
-                plotcomp.time_order.push(res.data[i].time_order);
-                var onlyTime = new Date(plotcomp.time_order[i]);
+                plotcomp.time_finish.push(res.data[i].time_finish);
+
+                var onlyTime = new Date(plotcomp.time_finish[i]);
                 plotcomp.select_time.push(onlyTime.toLocaleTimeString('it-IT'));
                 plotcomp.time_date.push(onlyTime.toLocaleString('it-IT'));
-
-                // console.log(res.data[i].time_order);
-                // console.log(res.data[i].time_date);
-                res.data[i].time_order = plotcomp.time_date[i];
-                // console.log(res.data[i].time_order);
-                // console.log(res.data[i].time_date);
+                res.data[i].time_finish = plotcomp.time_date[i];
             }
             // console.log(plotcomp);
             // console.log(res.data);
-
             //---set history table
             sethist(res.data);
-            // console.log(hist);
+            console.log(hist);
+            console.log(typeof hist);
+
+
+            // table buy order
+            const res_buy = await Axios.get('http://localhost:3001/getBuy');
+            console.log(res_buy);
+            console.log(res_buy.data);
+            for (var i = 0; i < res_buy.data.length; i++) {
+                plotcomp.time_order_buy.push(res_buy.data[i].time_order);
+                var onlyTime_buy = new Date(plotcomp.time_order_buy[i]);
+                plotcomp.retime_order_buy.push(onlyTime_buy.toLocaleString('it-IT'));
+                res_buy.data[i].time_order = plotcomp.retime_order_buy[i];
+            }
+            // console.log(plotcomp);
+            // console.log(res_buy.data);
+            //---set history table
+            setbuyhist(res_buy.data);
+            console.log(buyhist);
+
+
+            // table sell order
+            const res_sell = await Axios.get('http://localhost:3001/getSell');
+            console.log(res_sell);
+            console.log(res_sell.data);
+
+            for (var i = 0; i < res_sell.data.length; i++) {
+                plotcomp.time_order_sell.push(res_sell.data[i].time_order);
+                var onlyTime_sell = new Date(plotcomp.time_order_sell[i]);
+                plotcomp.retime_order_sell.push(onlyTime_sell.toLocaleString('it-IT'));
+                res_sell.data[i].time_order = plotcomp.retime_order_sell[i];
+            }
+            // console.log(plotcomp);
+            // console.log(res_sell.data);
+            //---set history table
+            setsellhist(res_sell.data);
+            console.log(typeof res_sell.data);
+            console.log(typeof sellhist);
+            console.log(sellhist);
 
             setchart({
                 labels: plotcomp.select_time, //get price on this
@@ -341,14 +379,68 @@ const Chart = () => {
 
     };
 
-
     return (
         <div className="">
             <div className="row">
 
                 <div className="col">
-                    Column
 
+                    <h5>รายการขาย</h5>
+                     <table className="table">
+                            <tbody>
+                                <tr>
+                                    <th>เวลา</th>
+                                    <th>ราคา</th>
+                                    <th>Vol</th>
+                                </tr>
+
+                                {
+                                    Object.keys(sellhist).map(
+                                    i =>
+                                        (<tr>
+                                            <td>
+                                                {i.time_order}
+                                            </td>
+                                            <td>
+                                                {i.price}
+                                            </td>
+                                            <td>
+                                                {i.value}
+                                            </td>
+                                        </tr>))
+                                }
+
+                            </tbody>
+                    </table>
+
+                    <h5>รายการซื้อ</h5>
+                     <table className="table">
+                            <tbody>
+                                <tr>
+                                    <th>เวลา</th>
+                                    <th>ราคา</th>
+                                    <th>Vol</th>
+                                </tr>
+
+                            {
+                                    Object.keys(buyhist).map(
+                                    i =>
+                                        (<tr>
+                                            <td>
+                                                {i.time_order}
+                                            </td>
+                                            <td>
+                                                {i.price}
+                                            </td>
+                                            <td>
+                                                {i.value}
+                                            </td>
+                                        </tr>))
+                                }
+
+                            </tbody>
+                    </table>
+                    
                 </div>
 
                 <div className="col">
@@ -386,7 +478,7 @@ const Chart = () => {
                                     }}
                                 />
                                 <div>
-                                    <a onClick={addOrder}> confirm order</a>
+                                    <a href="/market" onClick={addOrder}> confirm order</a>
                                 </div>
                             </div>
                         </div>
@@ -418,7 +510,7 @@ const Chart = () => {
                                     }}
                                 />
                                 <div>
-                                    <a onClick={addSell}> confirm sell</a>
+                                    <a href="/market" onClick={addSell}> confirm sell</a>
                                 </div>
                             </div>
                         </div>
@@ -443,21 +535,26 @@ const Chart = () => {
                                 <tr>
                                     <th>เวลา</th>
                                     <th>ราคา</th>
+                                    <th>Vol</th>
                                 </tr>
                                 {
                                     hist.map(i =>
                                     (<tr>
                                         <td>
-                                            {i.time_order}
+                                            {i.time_finish}
                                         </td>
                                         <td>
                                             {i.price}
+                                        </td>
+                                        <td>
+                                            {i.value}
                                         </td>
                                     </tr>)
                                     )
                                 }
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>

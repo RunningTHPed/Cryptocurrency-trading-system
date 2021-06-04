@@ -197,20 +197,6 @@ app.get('/getSell', (req, res) => {
         })
 });
 
-app.get('/coin_Transaction', (req, res) => {
-    //const time_finish = req.body.time_finish;
-    //const price = req.body.price;
-    //db.query("SELECT * FROM coin_transaction_history ORDER BY no_transaction DESC LIMIT 10", (err, result) => {
-    db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send(result);
-            }
-        })
-});
-
 app.post('/Data_Payment', (req, res) => {
     const IDCard = req.body.IDCard;
 
@@ -425,6 +411,62 @@ app.post('/set_primary_account', (req, res) => {
             }
         }
     )
+});
+
+app.get('/coin_Transaction', (req, res) => {
+    //const time_finish = req.body.time_finish;
+    //const price = req.body.price;
+    db.query("SELECT * FROM coin_transaction_history WHERE Type = 1", (err, result) => {
+    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //(err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
+app.get('/coin_order_buy', (req, res) => {
+    //const time_finish = req.body.time_finish;
+    //const price = req.body.price;
+    db.query("SELECT * FROM coin_orderWHERE Type = 0", (err, result) => {
+    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //(err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
+app.get('/bank_analysis', (req, res) => {
+    //const time_finish = req.body.time_finish;
+    //const price = req.body.price;
+    db.query("SELECT bankshortname,COUNT(bankshortname) as amount FROM Payment_information group by bankshortname; ", (err, result) => {
+    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //(err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
+app.get('/customer_analysis', (req, res) => {
+    //const time_finish = req.body.time_finish;
+    //const price = req.body.price;
+    db.query("SELECT post_info.province,count(id_card) as amount FROM user_information as user_info join Post_information as post_info USING (postcode) group by user_info.PostCode; ", (err, result) => {
+    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //(err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
 });
 
 app.listen('3001', () => {
