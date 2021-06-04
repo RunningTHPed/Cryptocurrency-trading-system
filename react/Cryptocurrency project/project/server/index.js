@@ -197,6 +197,17 @@ app.get('/getSell', (req, res) => {
         })
 });
 
+app.get('/getSellDataDESC', (req, res) => {
+    db.query("SELECT * FROM Uncle.sell_order_view ORDER BY price_per_coin DESC;",
+        (err, result) => {
+            if (err) {
+                res.send({ message: "don't have data" });
+            } else {
+                res.send({ order: result });
+            }
+        })
+});
+
 app.post('/Data_Payment', (req, res) => {
     const IDCard = req.body.IDCard;
 
