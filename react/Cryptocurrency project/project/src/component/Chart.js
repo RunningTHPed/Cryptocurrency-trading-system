@@ -265,7 +265,7 @@ const Chart = () => {
     const [chart, setchart] = useState({});
     const plotcomp = {
         time_finish: [], 
-        price: [],
+        per_coin: [],
         select_time: [],
         time_date: [], 
 
@@ -290,7 +290,7 @@ const Chart = () => {
             console.log(res);
             console.log(res.data);
             for (var i = 0; i < res.data.length; i++) {
-                plotcomp.price.push(res.data[i].price);
+                plotcomp.per_coin.push(res.data[i].price / res.data[i].value);
                 plotcomp.time_finish.push(res.data[i].time_finish);
 
                 var onlyTime = new Date(plotcomp.time_finish[i]);
@@ -307,40 +307,42 @@ const Chart = () => {
 
 
             // table buy order
-            const res_buy = await Axios.get('http://localhost:3001/getBuy');
-            console.log(res_buy);
-            console.log(res_buy.data);
-            for (var i = 0; i < res_buy.data.length; i++) {
-                plotcomp.time_order_buy.push(res_buy.data[i].time_order);
+            await Axios.get('http://localhost:3001/getBuy')
+            .then( (res_buy) => {
+                console.log(res_buy);
+                console.log(res_buy.data.order);
+                for (var i = 0; i < res_buy.data.order.length; i++) {
+                plotcomp.time_order_buy.push(res_buy.data.order[i].time_order);
                 var onlyTime_buy = new Date(plotcomp.time_order_buy[i]);
                 plotcomp.retime_order_buy.push(onlyTime_buy.toLocaleString('it-IT'));
-                res_buy.data[i].time_order = plotcomp.retime_order_buy[i];
+                res_buy.data.order[i].time_order = plotcomp.retime_order_buy[i];
             }
+                console.log(res_buy.data.order);
+                setbuyhist(res_buy.data.order);
+                console.log(buyhist);
+            })
             // console.log(plotcomp);
             // console.log(res_buy.data);
             //---set history table
-            setbuyhist(res_buy.data);
-            console.log(buyhist);
-
 
             // table sell order
-            const res_sell = await Axios.get('http://localhost:3001/getSell');
-            console.log(res_sell);
-            console.log(res_sell.data);
-
-            for (var i = 0; i < res_sell.data.length; i++) {
-                plotcomp.time_order_sell.push(res_sell.data[i].time_order);
-                var onlyTime_sell = new Date(plotcomp.time_order_sell[i]);
-                plotcomp.retime_order_sell.push(onlyTime_sell.toLocaleString('it-IT'));
-                res_sell.data[i].time_order = plotcomp.retime_order_sell[i];
+            await Axios.get('http://localhost:3001/getSell')
+            .then( (res_sell) => {
+                console.log(res_sell);
+                console.log(res_sell.data.order);
+                for (var i = 0; i < res_sell.data.order.length; i++) {
+                plotcomp.time_order_buy.push(res_sell.data.order[i].time_order);
+                var onlyTime_buy = new Date(plotcomp.time_order_buy[i]);
+                plotcomp.retime_order_buy.push(onlyTime_buy.toLocaleString('it-IT'));
+                res_sell.data.order[i].time_order = plotcomp.retime_order_buy[i];
             }
+                console.log(res_sell.data.order);
+                setsellhist(res_sell.data.order);
+                console.log(sellhist);
+            })
             // console.log(plotcomp);
-            // console.log(res_sell.data);
+            // console.log(res_buy.data);
             //---set history table
-            setsellhist(res_sell.data);
-            console.log(typeof res_sell.data);
-            console.log(typeof sellhist);
-            console.log(sellhist);
 
             setchart({
                 labels: plotcomp.select_time, //get price on this
@@ -367,7 +369,7 @@ const Chart = () => {
                         pointRadius: 1,
                         pointHitRadius: 10,
                         //data: res.data.price //get time on this
-                        data: plotcomp.price
+                        data: plotcomp.per_coin
                         //data: [65, 59, 80, 81, 56, 55, 40]
                     }]
             }
@@ -396,7 +398,7 @@ const Chart = () => {
                                 </tr>
 
                                 {
-                                    Object.keys(sellhist).map(
+                                    sellhist.map(
                                     i =>
                                         (<tr>
                                             <td>
@@ -406,7 +408,7 @@ const Chart = () => {
                                                 {i.price}
                                             </td>
                                             <td>
-                                                {i.value}
+                                                {i.coin}
                                             </td>
                                         </tr>))
                                 }
@@ -424,7 +426,7 @@ const Chart = () => {
                                 </tr>
 
                             {
-                                    Object.keys(buyhist).map(
+                                    buyhist.map(
                                     i =>
                                         (<tr>
                                             <td>
@@ -434,7 +436,7 @@ const Chart = () => {
                                                 {i.price}
                                             </td>
                                             <td>
-                                                {i.value}
+                                                {i.coin}
                                             </td>
                                         </tr>))
                                 }
