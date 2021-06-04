@@ -427,6 +427,24 @@ app.post('/set_primary_account', (req, res) => {
     )
 });
 
+app.post('/delete_bank_account', (req, res) => {
+    const AccountID = req.body.AccountID;
+    const Bank = req.body.Bank;
+
+    db.query("DELETE FROM `Uncle`.`Payment_information` WHERE `account_id` = ?;",
+        [AccountID],
+        (err, result) => {
+            if (err) {
+                res.send({ message: "Withdraw error." });
+            } else {
+                res.send(result);
+            }
+        }
+    )
+});
+
+
+
 app.listen('3001', () => {
     console.log("Server is running");
 });

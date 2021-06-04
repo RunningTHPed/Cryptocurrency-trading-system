@@ -40,6 +40,7 @@ function Funds() {
                             <th scope="col">AVAILABLE</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,36 +49,43 @@ function Funds() {
                             <td>{DataPayment.mySum}</td>
                             <td><a class="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
                             <td><a class="btn btn-danger" href="/withdraw" role="button">WITHDRAW</a></td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td>Bitcoin</td>
+                            <td>PonCoin</td>
                             <td>0</td>
+                            <td><a class="btn btn-success" href="/deposit/pon" role="button">DEPOSIT</a></td>
+                            <td><a class="btn btn-danger" href="/withdraw/pon" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
-                            <td></td>
+
                         </tr>
                         <tr>
                             <td>Ethereum</td>
                             <td>0.123</td>
+                            <td><a class="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
+                            <td><a class="btn btn-danger" href="/withdraw" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
-                            <td></td>
                         </tr>
                         <tr>
                             <td>BNB Coin</td>
                             <td>0</td>
+                            <td><a class="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
+                            <td><a class="btn btn-danger" href="/withdraw" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
-                            <td></td>
                         </tr>
                         <tr>
                             <td>Cardano</td>
                             <td>0</td>
+                            <td><a class="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
+                            <td><a class="btn btn-danger" href="/withdraw" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
-                            <td></td>
                         </tr>
                         <tr>
-                            <td>UnclePon</td>
+                            <td>FuckCoin</td>
                             <td>1,000.00</td>
+                            <td><a class="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
+                            <td><a class="btn btn-danger" href="/withdraw" role="button">WITHDRAW</a></td>
                             <td><a class="btn btn-warning" href="#" role="button">TRADE</a></td>
-                            <td></td>
                         </tr>
                     </tbody>
                 </table>

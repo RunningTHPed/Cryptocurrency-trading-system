@@ -3,8 +3,14 @@ import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect, state } from 'react'
 import Footer from './Footer-nofixed';
+import { Modal, Button } from 'react-bootstrap';
 
 function EditDetail() {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const [Status, setStatus] = useState("");
     const [Phone, setPhone] = useState("");
     const [Address, setAddress] = useState("");
@@ -127,11 +133,26 @@ function EditDetail() {
                     </table>
                     <div>
                         <a class="btn btn-danger btn-margin-payment" href="/account/detail" role="button">CANCEL</a>
-                        <a class="btn btn-success btn-margin-payment" href="#" role="button" onClick={EditDetail}>SUBMIT</a>
+                        <a class="btn btn-success btn-margin-payment" href="#" role="button" onClick={handleShow}>SUBMIT</a>
                     </div>
                 </div>
             </div>
             <Footer />
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Cancel
+                </Button>
+                <Button variant="primary" onClick={EditDetail}>
+                    Submit
+                </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }

@@ -19,6 +19,8 @@ import EditDetail from './component/Edit-detail';
 import Deposit from './component/Deposit';
 import Withdraw from './component/Withdraw';
 import Analysis from './component/Analysis';
+import DepositPon from './component/Deposit-Pon';
+import WithdrawPon from './component/Withdraw-Pon';
 
 // เทรดกับพลเพื่อคนอย่างแต๋น 
 function App() {
@@ -87,6 +89,12 @@ function App() {
                         {loggedIn === false && <Redirect to="/login" />}
                     </Route>
                     <Route path='/account/detail/edit' exact component={EditDetail}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+                    <Route path='/deposit/pon' exact component={DepositPon}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+                    <Route path='/withdraw/pon' exact component={WithdrawPon}>
                         {loggedIn === false && <Redirect to="/login" />}
                     </Route>
 

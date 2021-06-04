@@ -3,8 +3,14 @@ import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect, state } from 'react'
 import Footer from './Footer-fixed';
+import { Modal, Button } from 'react-bootstrap';
 
 function Payment() {
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const [DataPayment, setDataPayment] = useState([]);
     const [AccountID, setAccountID] = useState("");
@@ -18,6 +24,20 @@ function Payment() {
             AccountID: AccountID,
             Bank: Bank,
             IDCard: userData.id_card
+        }).then((response) => {
+            if (response.data.message) {
+                console.log(response.data.message);
+            } else {
+                console.log(response);
+                window.location = "/account/payment"
+            }
+        })
+    }
+
+    const DeletePayment = () => {
+        Axios.post('http://localhost:3001/delete_bank_account', {
+            AccountID: AccountID,
+            Bank: Bank,
         }).then((response) => {
             if (response.data.message) {
                 console.log(response.data.message);
@@ -116,11 +136,26 @@ function Payment() {
                     </table>
                     <div>
                         <a class="btn btn-success btn-margin-payment" href="/account/payment" role="button" onClick={EditPayment} >MAKE PRIMARY</a>
-                        <a class="btn btn-danger btn-margin-payment" href="#" role="button">REMOVE</a>
+                        <a class="btn btn-danger btn-margin-payment" href="#" role="button" onClick={handleShow} >REMOVE</a>
                     </div>
                 </div>
             </div>
             <Footer />
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Cancel
+                </Button>
+                <Button variant="primary" onClick={DeletePayment}>
+                    Remove
+                </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }
