@@ -64,6 +64,10 @@ function Detail() {
                                 <td>ที่อยู่</td>
                                 <td>{userData.Address}</td>
                             </tr>
+                            <tr>
+                                <td>รหัสไปรษณีย์</td>
+                                <td>{userData.PostCode}</td>
+                            </tr>
                         </tbody>
                     </table>
                     <div>

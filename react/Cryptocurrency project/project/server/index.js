@@ -119,7 +119,7 @@ app.post('/user_login', (req, res) => {
             if (result.length > 0) {
                 bcrypt.compare(password, result[0].password, (err, response) => {
                     if (response) {
-                        db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,Birthdate,Gender,Status,Phone,Address,role FROM user_information WHERE email=?;",
+                        db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,Birthdate,Gender,Status,Phone,Address,role,PostCode FROM user_information WHERE email=?;",
                             [email],
                             (err, data) => {
                                 if (err) {
@@ -363,14 +363,15 @@ app.post('/edit_detail', (req, res) => {
     const Status = req.body.Status;
     const Phone = req.body.Phone;
     const Address = req.body.Address;
+    const PostCode = req.body.PostCode;
 
-    db.query("UPDATE `Uncle`.`user_information` SET `Status` = ?, `Phone` = ?, `Address` = ? WHERE (`id_card` = ?);",
-        [Status, Phone, Address, IDCard],
+    db.query("UPDATE `Uncle`.`user_information` SET `Status` = ?, `Phone` = ?, `Address` = ?, `PostCode` = ? WHERE (`id_card` = ?);",
+        [Status, Phone, Address, IDCard, PostCode],
         (err, result) => {
             if (err) {
                 res.send({ message: "Withdraw error." });
             } else {
-                db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,Birthdate,Gender,Status,Phone,Address,role FROM user_information WHERE id_card=?;",
+                db.query("SELECT id_card,fnameTH,lnameTH,fnameEN,lnameEN,email,Birthdate,Gender,Status,Phone,Address,role,PostCode FROM user_information WHERE id_card=?;",
                     [IDCard],
                     (err, data) => {
                         if (err) {
