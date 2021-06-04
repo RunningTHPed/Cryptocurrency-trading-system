@@ -23,7 +23,7 @@ const Chart = () => {
     const [price, setPrice] = useState([]);
     const [Price_per_coin, setPrice_per_coin] = useState([]);
 
-    const[availableMoney, setAvailableMoney] = useState(0);
+    const [availableMoney, setAvailableMoney] = useState(0);
     var money_diff = 0;
     var sumMoneyDeposit = 0;
     var sumMoneyOrder = 0;
@@ -44,35 +44,35 @@ const Chart = () => {
             }).then((response) => {
                 console.log(response.data[0].mySum);
                 sumMoneyDeposit = response.data[0].mySum;
-            });  
+            });
 
             await Axios.post('http://localhost:3001/summary_money_history_buy', {
                 id_card: userData.id_card
             }).then((response) => {
-                if(response.data[0].mySum !== null){
+                if (response.data[0].mySum !== null) {
                     sumMoneyBuyHistory = response.data[0].mySum;
                 } else {
                     sumMoneyBuyHistory = 0;
                 }
-            });  
+            });
 
             await Axios.post('http://localhost:3001/summary_money_history_sell', {
                 id_card: userData.id_card
             }).then((response) => {
-                if(response.data[0].mySum !== null){
+                if (response.data[0].mySum !== null) {
                     sumMoneySellHistory = response.data[0].mySum;
                 } else {
                     sumMoneySellHistory = 0;
                 }
-            });  
-            
+            });
+
             await Axios.post('http://localhost:3001/summary_money_order', {
                 id_card: userData.id_card,
                 shortname: "PON"
 
             }).then((response) => {
                 console.log(response.data[0].price_sum);
-                if(response.data[0].price_sum !== null){
+                if (response.data[0].price_sum !== null) {
                     sumMoneyOrder = response.data[0].price_sum;
                 } else {
                     sumMoneyOrder = 0;
@@ -83,64 +83,64 @@ const Chart = () => {
                 setAvailableMoney(money_diff);
             }).then(() => {
                 console.log(availableMoney);
-            });; 
-            
+            });;
+
         }
         catch (error) {
             console.log(error.response);
         }
     }
-    
+
 
     const getSumCoin = async () => {
         try {
-            await Axios.post('http://localhost:3001/summary_coin_deposit',{
+            await Axios.post('http://localhost:3001/summary_coin_deposit', {
                 id_card: userData.id_card,
                 shortname: "PON"
             }).then((response) => {
                 console.log(response.data[0].coin_sum);
                 //setSumCoinDeposit(response.data[0].coin_sum);
-                if(response.data[0].coin_sum !== null){
+                if (response.data[0].coin_sum !== null) {
                     sumCoinDeposit = response.data[0].coin_sum;
                 } else {
                     sumCoinDeposit = 0;
                 }
             });
 
-            await Axios.post('http://localhost:3001/summary_coin_history_sell',{
+            await Axios.post('http://localhost:3001/summary_coin_history_sell', {
                 id_card: userData.id_card,
                 shortname: "PON"
             }).then((response) => {
-                if(response.data[0].coin_sum !== null){
+                if (response.data[0].coin_sum !== null) {
                     sumCoinSellHistory = response.data[0].coin_sum;
                 } else {
                     sumCoinSellHistory = 0;
                 }
-                
+
             });
 
-            await Axios.post('http://localhost:3001/summary_coin_history_buy',{
+            await Axios.post('http://localhost:3001/summary_coin_history_buy', {
                 id_card: userData.id_card,
                 shortname: "PON"
             }).then((response) => {
-                if(response.data[0].coin_sum !== null){
+                if (response.data[0].coin_sum !== null) {
                     sumCoinBuyHistory = response.data[0].coin_sum;
                 } else {
                     sumCoinBuyHistory = 0;
                 }
             });
 
-            await Axios.post('http://localhost:3001/summary_coin_order',{
+            await Axios.post('http://localhost:3001/summary_coin_order', {
                 id_card: userData.id_card,
                 shortname: "PON"
             }).then((response) => {
                 console.log(response.data[0].coin_sum);
-                if(response.data[0].coin_sum !== null){
+                if (response.data[0].coin_sum !== null) {
                     sumCoinOrder = response.data[0].coin_sum;
                 } else {
                     sumCoinOrder = 0;
                 }
-                
+
             }).then(() => {
                 // console.log("sumCoinDeposit: " + sumCoinDeposit);
                 // console.log("sumCoinOrder: " + sumCoinOrder);
@@ -151,7 +151,7 @@ const Chart = () => {
             }).then(() => {
                 console.log(availableCoin);
             });
-            
+
         }
         catch (error) {
             console.log(error.response);
@@ -214,7 +214,9 @@ const Chart = () => {
 
     async function getData() {
         try {
-            await Axios.get('http://localhost:3001/getBuy').then((res) => {
+            await Axios.post('http://localhost:3001/getBuy', {
+                shortname: "PON"
+            }).then((res) => {
                 if (res.data.order[0] !== null) {
                     //setCoinBuy(res.data.order[0].coin);
                     id_card_buy = res.data.order[0].id_card;
@@ -226,7 +228,9 @@ const Chart = () => {
                 }
             })
 
-            await Axios.get('http://localhost:3001/getSell').then(async (res) => {
+            await Axios.post('http://localhost:3001/getSell', {
+                shortname: "PON"
+            }).then(async (res) => {
                 if (res.data.order[0] !== null) {
                     //setCoinSell(res.data.order[0].coin);
                     id_card_sell = res.data.order[0].id_card;
@@ -402,12 +406,12 @@ const Chart = () => {
     //variable chart
     const [chart, setchart] = useState({});
     const plotcomp = {
-        time_finish: [], 
+        time_finish: [],
         per_coin: [],
         select_time: [],
-        time_date: [], 
+        time_date: [],
 
-        time_order_buy: [], 
+        time_order_buy: [],
         retime_order_buy: [],
 
         time_order_sell: [],
@@ -445,16 +449,17 @@ const Chart = () => {
 
 
             // table buy order
-            await Axios.get('http://localhost:3001/getBuy')
-            .then( (res_buy) => {
+            await Axios.post('http://localhost:3001/getBuy', {
+                shortname: "PON"
+            }).then((res_buy) => {
                 console.log(res_buy);
                 console.log(res_buy.data.order);
                 for (var i = 0; i < res_buy.data.order.length; i++) {
-                plotcomp.time_order_buy.push(res_buy.data.order[i].time_order);
-                var onlyTime_buy = new Date(plotcomp.time_order_buy[i]);
-                plotcomp.retime_order_buy.push(onlyTime_buy.toLocaleString('it-IT'));
-                res_buy.data.order[i].time_order = plotcomp.retime_order_buy[i];
-            }
+                    plotcomp.time_order_buy.push(res_buy.data.order[i].time_order);
+                    var onlyTime_buy = new Date(plotcomp.time_order_buy[i]);
+                    plotcomp.retime_order_buy.push(onlyTime_buy.toLocaleString('it-IT'));
+                    res_buy.data.order[i].time_order = plotcomp.retime_order_buy[i];
+                }
                 console.log(res_buy.data.order);
                 setbuyhist(res_buy.data.order);
                 console.log(buyhist);
@@ -464,16 +469,17 @@ const Chart = () => {
             //---set history table
 
             // table sell order
-            await Axios.get('http://localhost:3001/getSell')
-            .then( (res_sell) => {
+            await Axios.post('http://localhost:3001/getSell', {
+                shortname: "PON"
+            }).then((res_sell) => {
                 console.log(res_sell);
                 console.log(res_sell.data.order);
                 for (var i = 0; i < res_sell.data.order.length; i++) {
-                plotcomp.time_order_sell.push(res_sell.data.order[i].time_order);
-                var onlyTime_sell = new Date(plotcomp.time_order_sell[i]);
-                plotcomp.retime_order_sell.push(onlyTime_sell.toLocaleString('it-IT'));
-                res_sell.data.order[i].time_order = plotcomp.retime_order_sell[i];
-            }
+                    plotcomp.time_order_sell.push(res_sell.data.order[i].time_order);
+                    var onlyTime_sell = new Date(plotcomp.time_order_sell[i]);
+                    plotcomp.retime_order_sell.push(onlyTime_sell.toLocaleString('it-IT'));
+                    res_sell.data.order[i].time_order = plotcomp.retime_order_sell[i];
+                }
                 console.log(res_sell.data.order);
                 setsellhist(res_sell.data.order);
                 console.log(sellhist);
@@ -527,61 +533,61 @@ const Chart = () => {
                 <div className="col">
 
                     <h5>รายการขาย</h5>
-                     <table className="table">
-                            <tbody>
-                                <tr>
-                                    <th>เวลา</th>
-                                    <th>ราคา</th>
-                                    <th>Vol</th>
-                                </tr>
+                    <table className="table">
+                        <tbody>
+                            <tr>
+                                <th>เวลา</th>
+                                <th>ราคา</th>
+                                <th>Vol</th>
+                            </tr>
 
-                                {
-                                    sellhist.map(
+                            {
+                                sellhist.map(
                                     i =>
-                                        (<tr>
-                                            <td>
-                                                {i.time_order}
-                                            </td>
-                                            <td>
-                                                {i.price}
-                                            </td>
-                                            <td>
-                                                {i.coin}
-                                            </td>
-                                        </tr>))
-                                }
+                                    (<tr>
+                                        <td>
+                                            {i.time_order}
+                                        </td>
+                                        <td>
+                                            {i.price}
+                                        </td>
+                                        <td>
+                                            {i.coin}
+                                        </td>
+                                    </tr>))
+                            }
 
-                            </tbody>
+                        </tbody>
                     </table>
 
                     <h5>รายการซื้อ</h5>
-                     <table className="table">
-                            <tbody>
-                                <tr>
-                                    <th>เวลา</th>
-                                    <th>ราคา</th>
-                                    <th>Vol</th>
-                                </tr>
+                    <table className="table">
+                        <tbody>
+                            <tr>
+                                <th>เวลา</th>
+                                <th>ราคา</th>
+                                <th>Vol</th>
+                            </tr>
 
                             {
-                                    buyhist.map(
+                                buyhist.map(
                                     i =>
-                                        (<tr>
-                                            <td>
-                                                {i.time_order}
-                                            </td>
-                                            <td>
-                                                {i.price}
-                                            </td>
-                                            <td>
-                                                {i.coin}
-                                            </td>
-                                        </tr>))
-                                }
+                                    (<tr>
+                                        <td>
+                                            {i.time_order}
+                                        </td>
+                                        <td>
+                                            {i.price}
+                                        </td>
+                                        <td>
+                                            {i.coin}
+                                        </td>
+                                    </tr>))
+                            }
 
-                            </tbody>
+                        </tbody>
                     </table>
-                    
+
                 </div>
 
                 <div className="col">

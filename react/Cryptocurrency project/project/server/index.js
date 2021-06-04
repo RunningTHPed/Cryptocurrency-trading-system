@@ -175,19 +175,23 @@ app.post('/addSell', (req, res) => {
         })
 });
 
-app.get('/getBuy', (req, res) => {
-    db.query("SELECT * FROM buy_order_view;",
+app.post('/getBuy', (req, res) => {
+    const shortname = req.body.shortname;
+    db.query("SELECT * FROM buy_order_view WHERE shortname=?;",
+    [shortname],
         (err, result) => {
             if (err) {
-                res.send({ message: "don't have data" });
+                console.log(err);
             } else {
                 res.send({ order: result });
             }
         })
 });
 
-app.get('/getSell', (req, res) => {
-    db.query("SELECT * FROM sell_order_view;",
+app.post('/getSell', (req, res) => {
+    const shortname = req.body.shortname;
+    db.query("SELECT * FROM sell_order_view WHERE shortname='PON';",
+    [shortname],
         (err, result) => {
             if (err) {
                 res.send({ message: "don't have data" });
