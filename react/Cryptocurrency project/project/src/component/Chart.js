@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect, useReducer } from 'react'
+import { Button } from 'react-bootstrap';
 
 const Chart = () => {
 
@@ -147,8 +148,8 @@ const Chart = () => {
                             console.log(response.data.message);
                         }
                     })
-                    
-                    if(coin_buy == 0) {
+
+                    if (coin_buy == 0) {
                         await Axios.post('http://localhost:3001/updateStatus', {
                             no: no_buy,
                         }).then((response) => {
@@ -209,7 +210,7 @@ const Chart = () => {
                         }
                     })
 
-                    if(coin_sell == 0) {
+                    if (coin_sell == 0) {
                         await Axios.post('http://localhost:3001/updateStatus', {
                             no: no_sell,
                         }).then((response) => {
@@ -244,7 +245,7 @@ const Chart = () => {
                         }
                     });
                 }
-            } 
+            }
 
             console.log("coin_buy = " + coin_buy);
             console.log("ppc_buy = " + ppc_buy);
@@ -477,9 +478,20 @@ const Chart = () => {
                                         setPrice_per_coin(event.target.value)
                                     }}
                                 />
-                                <div>
-                                    <a href="/market" onClick={addOrder}> confirm order</a>
-                                </div>
+                                {role != "guest" &&
+                                    <div>
+                                        <br />
+                                        <Button onClick={addOrder} variant="success" block>Confirm order</Button>
+                                    </div>
+                                }
+                                {role == "guest" &&
+                                    <div>
+                                        <br />
+                                        <Button variant="dark" block>
+                                            <a href="/login">Login</a> or <a href="/register">Sign up</a> to trade.
+                                        </Button>
+                                    </div>
+                                }
                             </div>
                         </div>
 
@@ -509,10 +521,23 @@ const Chart = () => {
                                         setSellPrice_per_coin(event.target.value)
                                     }}
                                 />
-                                <div>
-                                    <a href="/market" onClick={addSell}> confirm sell</a>
-                                </div>
+                                {role != "guest" &&
+                                    <div>
+                                        <br />
+                                        <Button onClick={addSell} variant="danger" block>Confirm order</Button>
+                                    </div>
+                                }
+                                {role == "guest" &&
+                                    <div>
+                                        <br />
+                                        <Button variant="dark" block>
+
+                                            <a href="/login">Login</a> or <a href="/register">Sign up</a> to trade.
+                                        </Button>
+                                    </div>
+                                }
                             </div>
+
                         </div>
 
                     </div>
