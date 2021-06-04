@@ -9,15 +9,39 @@ function Withdraw() {
     const[DataPayment, setDataPayment] = useState([]);
     const [WithdrawStatus, setWithdrawStatus] = useState("");
 
+    const[availableMoney, setAvailableMoney] = useState(0);
+    const[inOrder, setInOrder] = useState(0);
+    var money_diff = 0;
+    var sumMoneyDeposit = 0;
+    var sumMoneyOrder = 0;
+
     let userData = JSON.parse(localStorage.getItem("userdata"));
 
     const getPayment = async () => {
         try {
-            const res = await Axios.post('http://localhost:3001/show_money', {
+            await Axios.post('http://localhost:3001/summary_money', {
                 IDCard: userData.id_card
-            });               
-            console.log(res.data[0]);
-            setDataPayment(res.data[0]);
+            }).then((response) => {
+                console.log(response.data[0].mySum);
+                sumMoneyDeposit = response.data[0].mySum;
+            });
+
+            await Axios.post('http://localhost:3001/summary_money_order', {
+                id_card: userData.id_card,
+                shortname: "PON"
+
+            }).then((response) => {
+                console.log(response.data[0].price_sum);
+                sumMoneyOrder = response.data[0].price_sum;
+                setInOrder(sumMoneyOrder);
+            }).then(() => {
+                money_diff = sumMoneyDeposit - sumMoneyOrder;
+            }).then(() => {
+                setAvailableMoney(money_diff);
+            }).then(() => {
+                console.log(availableMoney);
+            });;
+
         }
         catch (error) {
             console.log(error.response);
@@ -28,7 +52,7 @@ function Withdraw() {
         Axios.post('http://localhost:3001/withdraw_money',{
             IDCard: userData.id_card,
             WithdrawMoney: WithdrawMoney,
-            Availible : DataPayment.mySum
+            Availible : availableMoney
         }).then((response) => {
             if (response.data.message) {
                 setWithdrawStatus(response.data.message);
@@ -70,16 +94,16 @@ function Withdraw() {
                                         <tbody>
                                             <tr>
                                                 <td>Available balance</td>
-                                                <td>{DataPayment.mySum} THB</td>
+                                                <td>{availableMoney} THB</td>
                                             </tr>
                                             <tr>
                                                 <td>Total balance</td>
-                                                <td>{DataPayment.mySum} THB</td>
+                                                <td>{availableMoney} THB</td>
 
                                             </tr>
                                             <tr>
                                                 <td>In order</td>
-                                                <td>0 THB</td>
+                                                <td>{inOrder} THB</td>
                                             </tr>
                                         </tbody>
                                     </table>
