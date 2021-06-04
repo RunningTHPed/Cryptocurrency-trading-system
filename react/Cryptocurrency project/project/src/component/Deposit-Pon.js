@@ -7,7 +7,7 @@ import Footer from './Footer-fixed';
 function DepositPon() {
     const [DepositMoney, setDepositMoney] = useState("");
     const [DataPayment, setDataPayment] = useState([]);
-    const [PaymentStatus, setPaymentStatus] = useState("");
+    const [DepositStatus, setDepositStatus] = useState("");
     const [PaymentError, setPaymentError] = useState(false);
 
     let userData = JSON.parse(localStorage.getItem("userdata"));
@@ -38,7 +38,7 @@ function DepositPon() {
             if (response.data.message) {
                 console.log('Hellooo');
                 console.log(DataPayment);
-                setPaymentStatus(response.data.message);
+                setDepositStatus(response.data.message);
                 setPaymentError(true);
             } else {
                 console.log('Hellooo');
@@ -96,6 +96,7 @@ function DepositPon() {
                                         setDepositMoney(event.target.value)
                                     }}
                                 ></input>
+                                {DepositStatus}
                                 <a class="btn btn-success btn-margin-deposit" href="#" role="button" onClick={Deposit} >DEPOSIT NOW</a>
                             </div>
                         </div>

@@ -22,12 +22,12 @@ export default function LoggedinButton() {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-{/* 
-                <ul className="navbar-nav me-auto mb-3 mb-lg-0">
-                        <li className="nav-item my-3">
-                            <a href="/analysis" className="nav-link active" aria-current="page">INSIGHT</a>
-                        </li>
-                </ul> */}
+
+                <ul className="navbar-nav mb-2 mb-lg-0 me-3">
+                    <li className="nav-item my-2">
+                        <a href="/funds" className="nav-link active" aria-current="page">MY WALLET</a>
+                    </li>
+                </ul>
 
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -38,7 +38,6 @@ export default function LoggedinButton() {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item href="/funds">MY WALLET</Dropdown.Item>
                         <Dropdown.Item href="/dashboard">MY DASHBOARD</Dropdown.Item>
                         <Dropdown.Item href="/account">SETTINGS</Dropdown.Item>
                         <Dropdown.Divider />
