@@ -24,10 +24,10 @@ export default function LoggedinButton() {
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
 
                 <ul className="navbar-nav me-auto mb-3 mb-lg-0">
-                        <li className="nav-item my-3">
-                            <a href="/analysis" className="nav-link active" aria-current="page">INSIGHT</a>
-                        </li>
-                     </ul>
+                    <li className="nav-item my-3">
+                        <a href="/analysis" className="nav-link active" aria-current="page">INSIGHT</a>
+                    </li>
+                </ul>
 
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">

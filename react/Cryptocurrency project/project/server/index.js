@@ -515,6 +515,20 @@ app.get('/customer_analysis', (req, res) => {
         })
 });
 
+app.get('/coin_analysis', (req, res) => {
+    //const time_finish = req.body.time_finish;
+    //const price = req.body.price;
+    db.query("SELECT shortname,MAX(price) as max ,MIN(price) as min FROM coin_transaction_history group by shortname; ", (err, result) => {
+    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //(err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
 app.post('/deposit_coin', (req, res) => {
     const id_card = req.body.id_card;
     const value = req.body.value;
