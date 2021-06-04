@@ -30,7 +30,7 @@ function App() {
             if(userData != null){
                 setRole(userData.role);
             }
-        })
+        }, []);
 
     const [loggedIn, setLoggedIn] = useState("");
 
@@ -91,7 +91,7 @@ function App() {
                     </Route>
 
                     <Route path='/analysis' component={Analysis}>
-                        {loggedIn === true && role != "admin" && <Redirect to="/dashboard" />}
+                        {loggedIn === true && role !== "admin"  && <Redirect to="/dashboard" />}
                     </Route>
                     
                 </Switch>
