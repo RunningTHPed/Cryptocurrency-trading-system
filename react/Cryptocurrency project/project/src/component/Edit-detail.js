@@ -14,6 +14,7 @@ function EditDetail() {
     const [Status, setStatus] = useState("");
     const [Phone, setPhone] = useState("");
     const [Address, setAddress] = useState("");
+    const [PostCode, setPostCode] = useState("");
     const [WithdrawStatus, setWithdrawStatus] = useState("");
 
     let userData = JSON.parse(localStorage.getItem("userdata"));
@@ -23,7 +24,8 @@ function EditDetail() {
             IDCard: userData.id_card,
             Status: Status,
             Phone : Phone,
-            Address: Address
+            Address: Address,
+            PostCode: PostCode
         }).then((response) => {
             localStorage.setItem('userdata', JSON.stringify(response.data[0]));
             window.location = "/account/detail"
@@ -127,6 +129,23 @@ function EditDetail() {
                                             setAddress(event.target.value)
                                             }}
                                     ></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>รหัสไปรษณีย์</td>
+                                <td>
+                                <select className="custom-select d-block w-100 form-select" id="country" required
+                                    onChange={(event) => {
+                                        setPostCode(event.target.value)
+                                    }}
+                                >
+                                    <option>Choose...</option>
+                                    <option value="10000">10000 (Middle)</option>
+                                    <option value="20000">20000 (East)</option>
+                                    <option value="30000">30000 (South)</option>
+                                    <option value="40000">40000 (West)</option>
+                                    <option value="50000">50000 (North)</option>
+                                </select>
                                 </td>
                             </tr>
                         </tbody>

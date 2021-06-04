@@ -251,11 +251,11 @@ function Register() {
                   </select>
                 </div>
 
-                <div className="Postcode-title">
+                <div className="Postcode-title mb-3">
                     <h6>*This postcode is dummy variable </h6>
                 </div>
 
-              <button className="btn btn-success btn-lg btn-block mb-3 " onClick={addUser} type="submit">Sign Up</button>
+              <button className="btn btn-success btn-lg btn-block mb-3 mt-3" onClick={addUser} type="submit">Sign Up</button>
           </form>
       </div>
       
