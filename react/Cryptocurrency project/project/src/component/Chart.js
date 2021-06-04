@@ -23,6 +23,140 @@ const Chart = () => {
     const [price, setPrice] = useState([]);
     const [Price_per_coin, setPrice_per_coin] = useState([]);
 
+    const[availableMoney, setAvailableMoney] = useState(0);
+    var money_diff = 0;
+    var sumMoneyDeposit = 0;
+    var sumMoneyOrder = 0;
+    var sumMoneySellHistory = 0;
+    var sumMoneyBuyHistory = 0;
+
+    const [availableCoin, setAvailableCoin] = useState(0);
+    var coin_diff = 0;
+    var sumCoinDeposit = 0;
+    var sumCoinOrder = 0;
+    var sumCoinSellHistory = 0;
+    var sumCoinBuyHistory = 0;
+
+    const getPayment = async () => {
+        try {
+            await Axios.post('http://localhost:3001/summary_money', {
+                IDCard: userData.id_card
+            }).then((response) => {
+                console.log(response.data[0].mySum);
+                sumMoneyDeposit = response.data[0].mySum;
+            });  
+
+            await Axios.post('http://localhost:3001/summary_money_history_buy', {
+                id_card: userData.id_card
+            }).then((response) => {
+                if(response.data[0].mySum !== null){
+                    sumMoneyBuyHistory = response.data[0].mySum;
+                } else {
+                    sumMoneyBuyHistory = 0;
+                }
+            });  
+
+            await Axios.post('http://localhost:3001/summary_money_history_sell', {
+                id_card: userData.id_card
+            }).then((response) => {
+                if(response.data[0].mySum !== null){
+                    sumMoneySellHistory = response.data[0].mySum;
+                } else {
+                    sumMoneySellHistory = 0;
+                }
+            });  
+            
+            await Axios.post('http://localhost:3001/summary_money_order', {
+                id_card: userData.id_card,
+                shortname: "PON"
+
+            }).then((response) => {
+                console.log(response.data[0].price_sum);
+                if(response.data[0].price_sum !== null){
+                    sumMoneyOrder = response.data[0].price_sum;
+                } else {
+                    sumMoneyOrder = 0;
+                }
+            }).then(() => {
+                money_diff = (sumMoneyDeposit + sumMoneySellHistory) - (sumMoneyOrder + sumMoneyBuyHistory);
+            }).then(() => {
+                setAvailableMoney(money_diff);
+            }).then(() => {
+                console.log(availableMoney);
+            });; 
+            
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    }
+    
+
+    const getSumCoin = async () => {
+        try {
+            await Axios.post('http://localhost:3001/summary_coin_deposit',{
+                id_card: userData.id_card,
+                shortname: "PON"
+            }).then((response) => {
+                console.log(response.data[0].coin_sum);
+                //setSumCoinDeposit(response.data[0].coin_sum);
+                if(response.data[0].coin_sum !== null){
+                    sumCoinDeposit = response.data[0].coin_sum;
+                } else {
+                    sumCoinDeposit = 0;
+                }
+            });
+
+            await Axios.post('http://localhost:3001/summary_coin_history_sell',{
+                id_card: userData.id_card,
+                shortname: "PON"
+            }).then((response) => {
+                if(response.data[0].coin_sum !== null){
+                    sumCoinSellHistory = response.data[0].coin_sum;
+                } else {
+                    sumCoinSellHistory = 0;
+                }
+                
+            });
+
+            await Axios.post('http://localhost:3001/summary_coin_history_buy',{
+                id_card: userData.id_card,
+                shortname: "PON"
+            }).then((response) => {
+                if(response.data[0].coin_sum !== null){
+                    sumCoinBuyHistory = response.data[0].coin_sum;
+                } else {
+                    sumCoinBuyHistory = 0;
+                }
+            });
+
+            await Axios.post('http://localhost:3001/summary_coin_order',{
+                id_card: userData.id_card,
+                shortname: "PON"
+            }).then((response) => {
+                console.log(response.data[0].coin_sum);
+                if(response.data[0].coin_sum !== null){
+                    sumCoinOrder = response.data[0].coin_sum;
+                } else {
+                    sumCoinOrder = 0;
+                }
+                
+            }).then(() => {
+                // console.log("sumCoinDeposit: " + sumCoinDeposit);
+                // console.log("sumCoinOrder: " + sumCoinOrder);
+                coin_diff = (sumCoinDeposit + sumCoinBuyHistory) - (sumCoinOrder + sumCoinSellHistory);
+            }).then(() => {
+                // console.log(coin_diff);
+                setAvailableCoin(coin_diff);
+            }).then(() => {
+                console.log(availableCoin);
+            });
+            
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    }
 
     const addOrder = async () => {
         await Axios.post('http://localhost:3001/addOrder', {
@@ -111,6 +245,8 @@ const Chart = () => {
 
     async function tradingAlgo() {
         try {
+            await getPayment();
+            await getSumCoin();
             console.log("trade ppc_buy: " + ppc_buy);
             console.log("trade ppc_sell: " + ppc_sell);
             if (ppc_buy >= ppc_sell && id_card_buy !== id_card_sell) {

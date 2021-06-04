@@ -590,20 +590,67 @@ app.post('/summary_coin_order', (req, res) => {
         })
 });
 
+app.post('/summary_coin_history_sell', (req, res) => {
+    const id_card = req.body.id_card;
+    const shortname = req.body.shortname;
+
+    db.query("SELECT SUM(price/value) AS coin_sum FROM Uncle.coin_transaction_history WHERE id_card = ? AND shortname = ? AND type=1;",
+        [id_card, shortname],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
+app.post('/summary_coin_history_buy', (req, res) => {
+    const id_card = req.body.id_card;
+    const shortname = req.body.shortname;
+
+    db.query("SELECT SUM(price/value) AS coin_sum FROM Uncle.coin_transaction_history WHERE id_card = ? AND shortname = ? AND type=0;",
+        [id_card, shortname],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
+app.post('/summary_money_history_sell', (req, res) => {
+    const id_card = req.body.id_card;
+
+    db.query("SELECT SUM(price) AS mySum FROM Uncle.coin_transaction_history WHERE id_card = ? AND type=1;",
+        [id_card],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
+app.post('/summary_money_history_buy', (req, res) => {
+    const id_card = req.body.id_card;
+
+    db.query("SELECT SUM(price) AS mySum FROM Uncle.coin_transaction_history WHERE id_card = ? AND type=0;",
+        [id_card],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
 app.listen('3001', () => {
     console.log("Server is running");
 });
-
-/*
-con.connect(function(err) {
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("Result: " + result);
-  });
-});
-*/
-
-
 
 /*
 #Analysis dashboard
