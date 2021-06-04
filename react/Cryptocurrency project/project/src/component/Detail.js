@@ -3,6 +3,8 @@ import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect, state } from 'react'
 import Footer from './Footer-nofixed';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 function Detail() {
     let userData = JSON.parse(localStorage.getItem("userdata"));
@@ -44,7 +46,7 @@ function Detail() {
                             </tr>
                             <tr>
                                 <td>วันเกิด</td>
-                                <td>{userData.Birthdate}</td>
+                                <td><Moment format="MMMM DD YYYY">{userData.Birthdate}</Moment></td>
                             </tr>
                             <tr>
                                 <td>เพศ</td>
