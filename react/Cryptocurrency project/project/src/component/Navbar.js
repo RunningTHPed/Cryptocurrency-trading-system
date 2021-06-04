@@ -2,11 +2,21 @@ import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
 import NotLoggedinButton from './NotLoggedinButton';
 import LoggedinButton from './LoggedinButton';
+import LoggedinButtonAdmin from './LoggedinButtonAdmin';
 
 function Navbar() {
 
-    const [userRole, setRole] = useState("guest");
-    const [loggedIn, setLoggedIn] = useState("");
+    // const [userRole, setRole] = useState("guest");
+     const [loggedIn, setLoggedIn] = useState("");
+
+    //get role from localStorage
+    let userData = JSON.parse(localStorage.getItem("userdata"));
+     const [role, setRole] = useState("guest");
+        useEffect(() => {
+            if(userData != null){
+                setRole(userData.role);
+            }
+        }, []);
 
     Axios.defaults.withCredentials = true;
     useEffect(() => {
@@ -31,16 +41,18 @@ function Navbar() {
                             </li>
                         </ul>
 
-                        <ul className="navbar-nav me-auto mb-3 mb-lg-0">
+                        {/* <ul className="navbar-nav me-auto mb-3 mb-lg-0">
                             <li className="nav-item my-3">
                                 <a href="/analysis" className="nav-link active" aria-current="page">INSIGHT</a>
                             </li>
-                        </ul>
+                        </ul> */}
 
                         <form className="d-flex">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 
-                                {loggedIn === false && <NotLoggedinButton />}{loggedIn === true && <LoggedinButton />}
+                                {loggedIn === false && <NotLoggedinButton />}
+                                {loggedIn === true && role == "user" && <LoggedinButton />}
+                                {loggedIn === true && role == "admin" && <LoggedinButtonAdmin />}
                                 {/* <li className="nav-item me-2 my-2">
                                     <a href="/login" className="btn btn-outline-success">LOGIN</a>
                                 </li>

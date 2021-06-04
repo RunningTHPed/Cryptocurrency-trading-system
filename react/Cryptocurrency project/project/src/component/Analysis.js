@@ -3,62 +3,99 @@ import { PolarArea,Bar } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect, useReducer } from 'react' 
 
-const Analysis= () => {
 
-    const Bank = {
-        labels: [
-            'ThornthanBank',
-            'KBANK',
-            'PawitBank',
-            'JatuBank',
-            'KMB'
-        ],
-        datasets: [{
-            label: 'My First Dataset',
-            data: [11, 16, 7, 3, 14],
-            backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(75, 192, 192)',
-            'rgb(255, 205, 86)',
-            'rgb(201, 203, 207)',
-            'rgb(54, 162, 235)'
-            ]
-        }]
+const Analysis = ()  => {
+
+    useEffect(() => {
+        analysis();
+    }, []);
+
+    //variable chart
+    const [bank, setbank] = useState({});
+    const bankcomp = {
+        bankname : [],
+        amount : []
     };
 
-    const customer = {
-        labels: [
-            'North',
-            'South',
-            'Mid',
-            'East',
-            'West'
-        ],
-        datasets: [{
-            label:'Money in ระบบ',
-            data: [65, 70, 100, 90, 12],
-            backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
-            ],
-            borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(201, 203, 207)'
-            ],
-            borderWidth: 1
-        }]
+    const [customer, setcustomer] = useState({});
+    const customercomp = {
+        province : [],
+        amount : []
     };
-    
+
+
+
+    const analysis = async () => {
+     try {
+        const res_bank = await Axios.get('http://localhost:3001/bank_analysis');
+        console.log(res_bank);
+        console.log(res_bank.data);
+        for (var i = 0; i < res_bank.data.length; i++) {
+            bankcomp.bankname.push(res_bank.data[i].bankshortname);    
+            bankcomp.amount.push(res_bank.data[i].amount);    
+        }
+        console.log(bankcomp);
+
+        
+        setbank({
+            
+            labels: bankcomp.bankname,
+        
+            datasets: [{
+                label: 'My First Dataset',
+                data: bankcomp.amount,
+                backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(75, 192, 192)',
+                'rgb(255, 205, 86)',
+                'rgb(201, 203, 207)',
+                'rgb(54, 162, 235)'
+                ]
+            }]
+        });
+
+        const res_customer = await Axios.get('http://localhost:3001/customer_analysis');
+        console.log(res_customer);
+        console.log(res_customer.data);
+        for (var i = 0; i < res_customer.data.length; i++) {
+            customercomp.province.push( res_customer.data[i].province);    
+            customercomp.amount.push( res_customer.data[i].amount);    
+        }
+        console.log(customercomp);
+
+        setcustomer({
+            labels: customercomp.province,
+            datasets: [{
+                label:'Money in ระบบ',
+                data: customercomp.amount,
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+
+        })
+        
+        }catch (error) {
+            console.log(error.response);
+        }
+    };
+
     return (
         <div className="Analysis">
             <h1 className="Analysis_title"> ANALYSIS DASHBOARD FOR ADMIN </h1>
@@ -135,10 +172,10 @@ const Analysis= () => {
             <div className="Bank_analysis">
                 <h5 className = "Bank_analysis_text">Analysis bank playment</h5>
                     <PolarArea 
-                        data={Bank}
+                        data={bank}
                     />
             </div>
-
+          
             <div className="customer_analysis">
                     <h5 className = "customer_analysis_text">Analysis customer address </h5>
                         <Bar 
