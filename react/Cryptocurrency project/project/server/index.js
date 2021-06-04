@@ -232,15 +232,29 @@ app.post('/deposit_money', (req, res) => {
     console.log(IDCard);
     console.log(DepositMoney);
 
-    db.query("INSERT INTO THB_transaction_history(id_card, type, value, time, fee) VALUES(?, 1, ?, current_time(), 0);",
-        [IDCard, DepositMoney],
-        (err, result) => {
-            if (err) {
+    db.query("SELECT * FROM Uncle.Payment_information WHERE id_card = ?;",
+        [IDCard],
+        (err, value) => {
+            if (value == 0) {
                 console.log(err);
+                res.send({ message: "Currently unable to deposit, please add a bank account on the settings page." });
             } else {
-                res.send(result);
+                db.query("INSERT INTO THB_transaction_history(id_card, type, value, time, fee) VALUES(?, 1, ?, current_time(), 0);",
+                    [IDCard, DepositMoney],
+                    (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            res.send({ message: "Error Deposit." });
+                        } else {
+                            res.send(result);
+                        }
+                    }
+                )
             }
-        })
+        }
+    )
+
+    
 });
 
 app.post('/add_payment', (req, res) => {
@@ -253,26 +267,41 @@ app.post('/add_payment', (req, res) => {
     db.query("SELECT * FROM Payment_information WHERE account_id = ? AND bankshortname = ?;",
         [AccountNumber, BankName],
         (err, result) => {
-            if (err) {
-                res.send({ err: err });
+            if (result == 0) {
+                db.query("SELECT * FROM Payment_information WHERE id_card = ?;",
+                    [IDCard],
+                    (err,result) => {
+                        if (result == 0) {
+                            db.query("INSERT INTO Payment_information(account_id, bankshortname, id_card, branch, account_name, status) VALUES(?, ?, ?, ?, ?, 'PRIMARY')",
+                                [AccountNumber, BankName, IDCard, BranchName, AccountName],
+                                (err, result) => {
+                                    if (err) {
+                                        console.log(err);
+                                        res.send("Error insert data.");
+                                    } else {
+                                        res.send(result);
+                                    }
+                                }
+                            )
+                        } else {
+                            db.query("INSERT INTO Payment_information(account_id, bankshortname, id_card, branch, account_name) VALUES(?, ?, ?, ?, ?)",
+                                [AccountNumber, BankName, IDCard, BranchName, AccountName],
+                                (err, result) => {
+                                    if (err) {
+                                        console.log(err);
+                                        res.send("Error insert data.");
+                                    } else {
+                                        res.send(result);
+                                    }
+                                }
+                            )
+                        }
+                    }
+                )
             }
             else {
-                if (result.length == 0) {
-                    db.query("INSERT INTO Payment_information(account_id, bankshortname, id_card, branch, account_name) VALUES(?, ?, ?, ?, ?)",
-                        [AccountNumber, BankName, IDCard, BranchName, AccountName],
-                        (err, result) => {
-                            if (err) {
-                                console.log(err);
-                                res.send("Error insert data.");
-                            } else {
-                                res.send(result);
-                            }
-                        })
-                } else {
-                    res.send({ message: "This account is already in use." });
-                }
+                res.send({ message: "This account is already in use." });
             }
-
         }
     )
 });
@@ -524,6 +553,20 @@ app.post('/summary_coin_deposit', (req, res) => {
     db.query("SELECT SUM(value) AS coin_sum FROM Uncle.Coin_deposite_withdraw WHERE id_card = ? AND shortname = ?;",
         [id_card, shortname],
         (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
+});
+
+app.get('/coin_analysis', (req, res) => {
+    //const time_finish = req.body.time_finish;
+    //const price = req.body.price;
+    db.query("SELECT shortname,MAX(price) as max ,MIN(price) as min FROM coin_transaction_history group by shortname; ", (err, result) => {
+    //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
+        //(err, result) => {
             if (err) {
                 console.log(err);
             } else {

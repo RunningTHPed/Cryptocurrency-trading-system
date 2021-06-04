@@ -25,21 +25,79 @@ function Dashboard() {
     
     useEffect(() => {
         getPayment();
+        analysis();
     }, []);
 
-    const coin = {
-        labels: [
-            'Bitcoin',
-            'ETHEREUM',
-            'BINANCE COIN',
-            'CARDANO',
-            'dummy coin1',
-            'dummy coin2',
-            'dummy coin3'
-        ],
-        datasets: [{
+
+
+    // const coin = {
+    //     labels: [
+    //         'Bitcoin',
+    //         'ETHEREUM',
+    //         'BINANCE COIN',
+    //         'CARDANO',
+    //         'dummy coin1',
+    //         'dummy coin2',
+    //         'dummy coin3'
+    //     ],
+    //     datasets: [{
             
+    //         label: 'Max value',
+    //         data: [65, 59, 90, 81, 96, 55, 70],
+    //         fill: true,
+    //         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    //         borderColor: 'rgb(255, 99, 132)',
+    //         pointBackgroundColor: 'rgb(255, 99, 132)',
+    //         pointBorderColor: '#fff',
+    //         pointHoverBackgroundColor: '#fff',
+    //         pointHoverBorderColor: 'rgb(255, 99, 132)'
+    //     }, {
+    //         label: 'Min value',
+    //         data: [28, 48, 40, 19, 46, 27, 20],
+    //         fill: true,
+    //         backgroundColor: 'rgba(54, 162, 235, 0.2)',
+    //         borderColor: 'rgb(54, 162, 235)',
+    //         pointBackgroundColor: 'rgb(54, 162, 235)',
+    //         pointBorderColor: '#fff',
+    //         pointHoverBackgroundColor: '#fff',
+    //         pointHoverBorderColor: 'rgb(54, 162, 235)'
+    //     }]
+    // };
+
+    const [coin, setcoin] = useState({});
+    const coincomp = {
+        shortname : [],
+        max : [],
+        min: []
+    };
+
+    const analysis = async () => {
+     try {
+        const res_coin = await Axios.get('http://localhost:3001/coin_analysis');
+        console.log(res_coin );
+        console.log(res_coin .data);
+        for (var i = 0; i < res_coin .data.length; i++) {
+            coincomp.shortname.push(res_coin .data[i].shortname);    
+            coincomp.max.push(res_coin .data[i].max);   
+            coincomp.min.push(res_coin .data[i].min);   
+        }
+        console.log(coincomp);
+
+        setcoin({
+            //labels: coincomp.shortname,
+            labels: [
+                'Bitcoin',
+                'ETHEREUM',
+                'BINANCE COIN',
+                'CARDANO',
+                'dummy coin1',
+                'dummy coin2',
+                'dummy coin3'
+            ],
+
+            datasets: [{   
             label: 'Max value',
+            //data: coincomp.max,
             data: [65, 59, 90, 81, 96, 55, 70],
             fill: true,
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -50,6 +108,7 @@ function Dashboard() {
             pointHoverBorderColor: 'rgb(255, 99, 132)'
         }, {
             label: 'Min value',
+            //data: coincomp.min,
             data: [28, 48, 40, 19, 46, 27, 20],
             fill: true,
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -59,6 +118,10 @@ function Dashboard() {
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgb(54, 162, 235)'
         }]
+    })
+        }catch (error) {
+            console.log(error.response);
+        }
     };
 
     return (
