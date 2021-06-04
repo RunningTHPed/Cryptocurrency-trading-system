@@ -38,12 +38,12 @@ function EditDetail() {
     return (
         <div>
             <div className="container dashboard_view">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <a className="nav-link active" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link a-color" href="/account/payment">BANK ACCOUNT</a>
+                    <li className="nav-item">
+                        <a className="nav-link a-color" href="/account/payment">BANK ACCOUNT</a>
                     </li>
                 </ul>
                 <div className="background-cc">
@@ -97,7 +97,7 @@ function EditDetail() {
                             <tr>
                                 <td>สถานะ</td>
                                 <td>
-                                <select class="custom-select d-block w-100 form-select" id="country" required
+                                <select className="custom-select d-block w-100 form-select" id="country" required
                                     onChange={(event) => {
                                     setStatus(event.target.value)
                                     }}
@@ -132,8 +132,8 @@ function EditDetail() {
                         </tbody>
                     </table>
                     <div>
-                        <a class="btn btn-danger btn-margin-payment" href="/account/detail" role="button">CANCEL</a>
-                        <a class="btn btn-success btn-margin-payment" href="#" role="button" onClick={handleShow}>SUBMIT</a>
+                        <a className="btn btn-danger btn-margin-payment" href="/account/detail" role="button">CANCEL</a>
+                        <a className="btn btn-success btn-margin-payment" href="#" role="button" onClick={handleShow}>SUBMIT</a>
                     </div>
                 </div>
             </div>

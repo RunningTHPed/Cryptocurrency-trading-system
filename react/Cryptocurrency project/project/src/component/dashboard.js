@@ -89,7 +89,7 @@ function Dashboard() {
                         </div>
                     </div>
                     <div className="btn-margin">
-                        <a class="btn btn-success btn-trade" href="/market" role="button">TRADE</a>
+                        <a className="btn btn-success btn-trade" href="/market" role="button">TRADE</a>
                     </div>
                 </div>
             </div>

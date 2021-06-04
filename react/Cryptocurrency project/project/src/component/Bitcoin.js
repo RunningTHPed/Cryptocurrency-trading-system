@@ -11,7 +11,7 @@ function Bitcoin() {
                     {/* <!-- TradingView Widget BEGIN --> */}
                     <div className="tradingview-widget-container">
                         <div id="tradingview_eb569"></div>
-                        <div className="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BTCUSDT/?exchange=BITBAY" rel="noopener" target="_blank"><span class="blue-text">BTCUSDT Chart</span></a> by TradingView</div>
+                        <div className="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BTCUSDT/?exchange=BITBAY" rel="noopener" target="_blank"><span className="blue-text">BTCUSDT Chart</span></a> by TradingView</div>
 
                     </div>
                     {/* <!-- TradingView Widget END --> */}

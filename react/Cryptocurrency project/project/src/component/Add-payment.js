@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-import { Line, line } from 'react-chartjs-2';
+import React from 'react'
 import Axios from 'axios'
-import { useState, useEffect, state } from 'react'
+import { useState, useEffect} from 'react'
 import Footer from './Footer-fixed';
 
 function AddPayment() {
@@ -43,12 +42,12 @@ function AddPayment() {
     return (
         <div>
             <div className="container dashboard_view">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link a-color" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <a className="nav-link a-color" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/account/payment">BANK ACCOUNT</a>
+                    <li className="nav-item">
+                        <a className="nav-link active" href="/account/payment">BANK ACCOUNT</a>
                     </li>
                 </ul>
                 <div className="background-cc">
@@ -98,7 +97,7 @@ function AddPayment() {
 
                             {PaymentError &&
                                 (
-                                    <div class="alert alert-danger alert-size" role="alert" >
+                                    <div className="alert alert-danger alert-size" role="alert" >
                                         {PaymentStatus}
                                     </div>
                                 )
@@ -108,8 +107,8 @@ function AddPayment() {
 
                     </form>
                     <div>
-                        <a class="btn btn-danger btn-margin-payment" href="/account/payment" role="button">CANCEL</a>
-                        <a class="btn btn-success btn-margin-payment" href="#" role="button" onClick={Addpayment}>SUBMIT</a>
+                        <a className="btn btn-danger btn-margin-payment" href="/account/payment" role="button">CANCEL</a>
+                        <a className="btn btn-success btn-margin-payment" href="#" role="button" onClick={Addpayment}>SUBMIT</a>
                     </div>
                 </div>
             </div>

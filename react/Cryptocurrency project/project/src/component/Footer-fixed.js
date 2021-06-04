@@ -12,7 +12,7 @@ function Footer() {
                     <section className="mb-4">
                         {/* <!-- Facebook --> */}
                         <a className="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com/jatumongkon.suksrinuan" role="button">
-                            <i class="bi bi-facebook"></i>
+                            <i className="bi bi-facebook"></i>
                         </a>
 
                         {/* <!-- Twitter --> */}

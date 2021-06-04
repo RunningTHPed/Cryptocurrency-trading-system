@@ -1,20 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
-import { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 
 const Chart = () => {
 
     Axios.defaults.withCredentials = true;
     //get role from localStorage
-    let userData = JSON.parse(localStorage.getItem("userdata"));
+    var userData = JSON.parse(localStorage.getItem("userdata"));
     const [role, setRole] = useState("guest");
-    useEffect(() => {
-        if (userData != null) {
+    useEffect(async () => {
+        userData = await JSON.parse(localStorage.getItem("userdata"));
+        console.log(role)
+        if (userData !== null) {
             setRole(userData.role);
         }
-    })
+    }, [])
 
     //variable order
     const [OrderList, setOrderList] = useState([]);
@@ -79,7 +81,7 @@ const Chart = () => {
     async function getData() {
         try {
             await Axios.get('http://localhost:3001/getBuy').then((res) => {
-                if (res.data.order[0] != null) {
+                if (res.data.order[0] !== null) {
                     //setCoinBuy(res.data.order[0].coin);
                     id_card_buy = res.data.order[0].id_card;
                     coin_buy = res.data.order[0].coin;
@@ -91,7 +93,7 @@ const Chart = () => {
             })
 
             await Axios.get('http://localhost:3001/getSell').then(async (res) => {
-                if (res.data.order[0] != null) {
+                if (res.data.order[0] !== null) {
                     //setCoinSell(res.data.order[0].coin);
                     id_card_sell = res.data.order[0].id_card;
                     coin_sell = res.data.order[0].coin;
@@ -111,7 +113,7 @@ const Chart = () => {
         try {
             console.log("trade ppc_buy: " + ppc_buy);
             console.log("trade ppc_sell: " + ppc_sell);
-            if (ppc_buy >= ppc_sell && id_card_buy != id_card_sell) {
+            if (ppc_buy >= ppc_sell && id_card_buy !== id_card_sell) {
                 if (coin_buy >= coin_sell) {
                     diff_coin = coin_sell;
                     // consolesetCoinBuy(coin_buy-coin_sell);
@@ -149,7 +151,7 @@ const Chart = () => {
                         }
                     })
 
-                    if (coin_buy == 0) {
+                    if (coin_buy === 0) {
                         await Axios.post('http://localhost:3001/updateStatus', {
                             no: no_buy,
                         }).then((response) => {
@@ -210,7 +212,7 @@ const Chart = () => {
                         }
                     })
 
-                    if (coin_sell == 0) {
+                    if (coin_sell === 0) {
                         await Axios.post('http://localhost:3001/updateStatus', {
                             no: no_sell,
                         }).then((response) => {
@@ -478,13 +480,13 @@ const Chart = () => {
                                         setPrice_per_coin(event.target.value)
                                     }}
                                 />
-                                {role != "guest" &&
+                                {role !== "guest" &&
                                     <div>
                                         <br />
                                         <Button onClick={addOrder} variant="success" block>Confirm order</Button>
                                     </div>
                                 }
-                                {role == "guest" &&
+                                {role === "guest" &&
                                     <div>
                                         <br />
                                         <Button variant="dark" block>
@@ -521,13 +523,13 @@ const Chart = () => {
                                         setSellPrice_per_coin(event.target.value)
                                     }}
                                 />
-                                {role != "guest" &&
+                                {role !== "guest" &&
                                     <div>
                                         <br />
                                         <Button onClick={addSell} variant="danger" block>Confirm order</Button>
                                     </div>
                                 }
-                                {role == "guest" &&
+                                {role === "guest" &&
                                     <div>
                                         <br />
                                         <Button variant="dark" block>

@@ -56,12 +56,12 @@ function Deposit() {
     return (
         <div>
             <div className="container dashboard_view">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/deposit">DEPOSIT</a>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <a className="nav-link active" aria-current="page" href="/deposit">DEPOSIT</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link a-color" href="/withdraw">WITHDRAW</a>
+                    <li className="nav-item">
+                        <a className="nav-link a-color" href="/withdraw">WITHDRAW</a>
                     </li>
                 </ul>
                 <div className="background-cc">
@@ -96,7 +96,7 @@ function Deposit() {
                                         setDepositMoney(event.target.value)
                                     }}
                                 ></input>
-                                <a class="btn btn-success btn-margin-deposit" href="#" role="button" onClick={Deposit} >DEPOSIT NOW</a>
+                                <a className="btn btn-success btn-margin-deposit" href="#" role="button" onClick={Deposit} >DEPOSIT NOW</a>
                             </div>
                         </div>
                     </form>

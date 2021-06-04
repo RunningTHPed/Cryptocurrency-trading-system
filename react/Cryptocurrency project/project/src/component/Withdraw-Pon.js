@@ -50,12 +50,12 @@ function Withdraw() {
     return (
         <div>
             <div className = "container dashboard_view">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link a-color" aria-current="page" href="/deposit/pon">DEPOSIT</a>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <a className="nav-link a-color" aria-current="page" href="/deposit/pon">DEPOSIT</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/withdraw/pon">WITHDRAW</a>
+                    <li className="nav-item">
+                        <a className="nav-link active" href="/withdraw/pon">WITHDRAW</a>
                     </li>
                 </ul>
                 <div className = "background-cc">

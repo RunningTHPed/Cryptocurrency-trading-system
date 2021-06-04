@@ -15,12 +15,12 @@ function Detail() {
     return (
         <div>
             <div className="container dashboard_view">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <a className="nav-link active" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link a-color" href="/account/payment">BANK ACCOUNT</a>
+                    <li className="nav-item">
+                        <a className="nav-link a-color" href="/account/payment">BANK ACCOUNT</a>
                     </li>
                 </ul>
                 <div className="background-cc">
@@ -65,7 +65,7 @@ function Detail() {
                         </tbody>
                     </table>
                     <div>
-                        <a class="btn btn-success btn-margin-detail" href="/account/detail/edit" role="button">EDIT ACCOUNT</a>
+                        <a className="btn btn-success btn-margin-detail" href="/account/detail/edit" role="button">EDIT ACCOUNT</a>
                     </div>
                 </div>
             </div>
