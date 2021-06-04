@@ -11,6 +11,8 @@ function Dashboard() {
     var money_diff = 0;
     var sumMoneyDeposit = 0;
     var sumMoneyOrder = 0;
+    var sumMoneySellHistory = 0;
+    var sumMoneyBuyHistory = 0;
 
     let userData = JSON.parse(localStorage.getItem("userdata"));
 
@@ -21,28 +23,53 @@ function Dashboard() {
             }).then((response) => {
                 console.log(response.data[0].mySum);
                 sumMoneyDeposit = response.data[0].mySum;
-            });
+            });  
 
+            await Axios.post('http://localhost:3001/summary_money_history_buy', {
+                id_card: userData.id_card
+            }).then((response) => {
+                if(response.data[0].mySum !== null){
+                    sumMoneyBuyHistory = response.data[0].mySum;
+                } else {
+                    sumMoneyBuyHistory = 0;
+                }
+            });  
+
+            await Axios.post('http://localhost:3001/summary_money_history_sell', {
+                id_card: userData.id_card
+            }).then((response) => {
+                if(response.data[0].mySum !== null){
+                    sumMoneySellHistory = response.data[0].mySum;
+                } else {
+                    sumMoneySellHistory = 0;
+                }
+            });  
+            
             await Axios.post('http://localhost:3001/summary_money_order', {
                 id_card: userData.id_card,
                 shortname: "PON"
 
             }).then((response) => {
                 console.log(response.data[0].price_sum);
-                sumMoneyOrder = response.data[0].price_sum;
+                if(response.data[0].price_sum !== null){
+                    sumMoneyOrder = response.data[0].price_sum;
+                } else {
+                    sumMoneyOrder = 0;
+                }
             }).then(() => {
-                money_diff = sumMoneyDeposit - sumMoneyOrder;
+                money_diff = (sumMoneyDeposit + sumMoneySellHistory) - (sumMoneyOrder + sumMoneyBuyHistory);
             }).then(() => {
                 setAvailableMoney(money_diff);
             }).then(() => {
                 console.log(availableMoney);
-            });;
-
+            });; 
+            
         }
         catch (error) {
             console.log(error.response);
         }
     }
+
 
     useEffect(() => {
         getPayment();
