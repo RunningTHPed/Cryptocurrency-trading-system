@@ -469,6 +469,22 @@ app.get('/customer_analysis', (req, res) => {
         })
 });
 
+app.post('/deposit_coin', (req, res) => {
+    const id_card = req.body.id_card;
+    const value = req.body.value;
+    const shortname = req.body.shortname;
+
+    db.query("INSERT INTO Coin_deposite_withdraw(id_card, value, shortname) VALUES(?, ?, ?);",
+        [id_card, value, shortname],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console_log("Add coin complete.");
+            }
+        })
+});
+
 app.listen('3001', () => {
     console.log("Server is running");
 });
