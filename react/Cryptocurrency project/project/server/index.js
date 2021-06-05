@@ -339,10 +339,9 @@ app.post('/summary_money', (req, res) => {
 
 app.post('/summary_money_order', (req, res) => {
     const id_card = req.body.id_card;
-    const shortname = req.body.shortname;
 
-    db.query("SELECT SUM(price) AS price_sum FROM Uncle.buy_order_view WHERE id_card = ? AND shortname = ?;",
-        [id_card, shortname],
+    db.query("SELECT SUM(price) AS price_sum FROM Uncle.buy_order_view WHERE id_card = ?;",
+        [id_card],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -436,14 +435,15 @@ app.post('/updateStatus', (req, res) => {
 
 app.post('/updateCoin', (req, res) => {
     const coin = req.body.coin;
+    const price = req.body.price;
     const no = req.body.no;
-    db.query("UPDATE coin_order SET coin=? WHERE no=?",
-        [coin, no],
+    db.query("UPDATE coin_order SET coin=?, price=? WHERE no=?",
+        [coin, price, no],
         (err) => {
             if (err) {
                 console.error(err);
             } else {
-                res.send({ message: "Update coin complete." });
+                res.send({ message: "Update order complete." });
             }
         })
 });

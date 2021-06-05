@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Line, line } from 'react-chartjs-2';
-import Axios from 'axios'
-import { useState, useEffect, state } from 'react'
+import Axios from 'axios';
+import { useState, useEffect, state } from 'react';
 import Footer from './Footer-fixed';
+import { useParams } from 'react-router-dom';
 
 function DepositPon() {
     const [value, setValue] = useState(0);
@@ -12,12 +13,13 @@ function DepositPon() {
     const [PaymentError, setPaymentError] = useState(false);
 
     let userData = JSON.parse(localStorage.getItem("userdata"));
+    let {coinName} = useParams();
 
     const Deposit = async () => {
         await Axios.post('http://localhost:3001/deposit_coin',{
             id_card: userData.id_card,
             value: value,
-            shortname: "PON",
+            shortname: coinName,
         }).then((response) => {
             if (response.data.message) {
                 console.log(response.data.message);
@@ -36,10 +38,10 @@ function DepositPon() {
             <div className="container dashboard_view">
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
-                        <a className="nav-link active" aria-current="page" href="/deposit/pon">DEPOSIT</a>
+                        <a className="nav-link active" aria-current="page" href="/funds">DEPOSIT</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link a-color" href="/withdraw/pon">WITHDRAW</a>
+                        <a className="nav-link a-color" href="/withdraw/PON">WITHDRAW</a>
                     </li>
                 </ul>
                 <div className="background-cc">
@@ -47,7 +49,7 @@ function DepositPon() {
 
                     </div>
                     <form>
-                        <div className="text-margin">DEPOSIT PON COIN</div>
+                        <div className="text-margin">DEPOSIT {coinName} COIN</div>
 
                         <div className="row ">
                             <div className="col input-margin">

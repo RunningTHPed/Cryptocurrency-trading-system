@@ -122,8 +122,6 @@ const Chart = () => {
 
             await Axios.post('http://localhost:3001/summary_money_order', {
                 id_card: userData.id_card,
-                shortname: coinName
-
             }).then((response) => {
                 console.log(response.data[0].price_sum);
                 if (response.data[0].price_sum !== null) {
@@ -329,6 +327,7 @@ const Chart = () => {
 
                     await Axios.post('http://localhost:3001/updateCoin', {
                         coin: coin_buy,
+                        price: ppc_buy * coin_buy,
                         no: no_buy,
                         //shortname: shortname,
                     }).then((response) => {
@@ -339,6 +338,7 @@ const Chart = () => {
 
                     await Axios.post('http://localhost:3001/updateCoin', {
                         coin: coin_sell,
+                        price: ppc_sell * coin_sell,
                         no: no_sell,
                         //shortname: shortname,
                     }).then((response) => {
@@ -390,6 +390,7 @@ const Chart = () => {
 
                     await Axios.post('http://localhost:3001/updateCoin', {
                         coin: coin_buy,
+                        price: ppc_buy * coin_buy,
                         no: no_buy,
                         //shortname: shortname,
                     }).then((response) => {
@@ -400,6 +401,7 @@ const Chart = () => {
 
                     await Axios.post('http://localhost:3001/updateCoin', {
                         coin: coin_sell,
+                        price: ppc_sell * coin_sell,
                         no: no_sell,
                         //shortname: shortname,
                     }).then((response) => {
@@ -637,7 +639,7 @@ const Chart = () => {
                                 <tbody>
                                     <tr>
                                         <th>Vol(THB)</th>
-                                        <th>VOL({coinName})</th>
+                                        <th>Vol({coinName})</th>
                                         <th>Rate(THB)</th>
                                     </tr>
                                     {
@@ -665,7 +667,7 @@ const Chart = () => {
                                 <tbody>
                                     <tr>
                                         <th>Vol(THB)</th>
-                                        <th>VOL({coinName})</th>
+                                        <th>Vol({coinName})</th>
                                         <th>Rate(THB)</th>
                                     </tr>
 
@@ -714,7 +716,7 @@ const Chart = () => {
                             <div className="col">
                                 <div className="form_buy">
                                     <fieldset className="field_set">
-                                        <p>Available Balance <u>{availableMoney}</u> THB</p>
+                                        <p>Available Balance <u style={{color: 'rgb(2, 214, 103)'}}>{availableMoney}</u> THB</p>
                                         <div className="row">
                                             <div className="col">
                                                 <p>You Spend</p>
@@ -768,7 +770,7 @@ const Chart = () => {
                             <div className="col">
                                 <div className="form_sell">
                                     <fieldset className="field_set">
-                                        <p>Availible Balance {coinName} <u>{availableCoin}</u> {coinName}</p>
+                                        <p>Available Balance {coinName} <u style={{color: 'rgb(2, 214, 103)'}}>{availableCoin}</u> {coinName}</p>
                                         <div className="row">
                                             <div className="col">
                                                 <p>You Sell</p>
