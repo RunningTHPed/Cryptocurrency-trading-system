@@ -2,6 +2,7 @@ import React from 'react';
 import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { Alert, Button, ListGroup } from 'react-bootstrap';
 import Footer from './Footer-nofixed';
 
@@ -41,10 +42,8 @@ const Chart = () => {
     var sumCoinSellHistory = 0;
     var sumCoinBuyHistory = 0;
 
-    const [coinName, setCoinName] = useState("PON");
-    const changeCoinName = (props) => {
-        setCoinName(props);
-    }
+    let {coinName} = useParams();
+    //const [coinName, setCoinName] = useState(coin_name);
 
     const getPayment = async () => {
         try {
@@ -421,7 +420,7 @@ const Chart = () => {
         getChart();
         getPayment();
         getSumCoin();
-    }, []);
+    }, [coinName]);
 
 
     //variable chart
@@ -450,7 +449,9 @@ const Chart = () => {
         try {
 
             // main chart show last 10 row
-            const res = await Axios.get('http://localhost:3001/coin_Transaction');
+            const res = await Axios.post('http://localhost:3001/coin_Transaction',{
+                shortname: coinName
+            });
             console.log(res);
             console.log(res.data);
             const position = res.data.length - 1;
@@ -532,7 +533,7 @@ const Chart = () => {
 
                 datasets: [
                     {
-                        label: 'Pon Coin',
+                        label: '',
                         fill: true,
                         lineTension: 0.1,
                         backgroundColor: 'rgba(60, 179, 113, 0.2)',
@@ -780,10 +781,10 @@ const Chart = () => {
                             <a href="#" className="list-group-item list-group-item-action">CARDANO</a>
                         </div> */}
                         <ListGroup>
-                            <ListGroup.Item action>
+                            <ListGroup.Item action href="/market/PON">
                                 PONCOIN (PON)
                             </ListGroup.Item>
-                            <ListGroup.Item action>
+                            <ListGroup.Item action href="/market/BRB">
                                 BARABANK (BRB)
                             </ListGroup.Item>
                             <ListGroup.Item action>
