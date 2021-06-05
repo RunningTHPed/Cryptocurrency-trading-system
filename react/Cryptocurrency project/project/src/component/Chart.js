@@ -530,7 +530,7 @@ const Chart = () => {
                         label: 'Pon Coin',
                         fill: true,
                         lineTension: 0.1,
-                        backgroundColor: 'rgb(25, 135, 84)',
+                        backgroundColor: 'rgba(60, 179, 113, 0.2)',
                         borderColor: 'rgb(25, 135, 84)',
                         borderCapStyle: 'butt',
                         borderDash: [],
