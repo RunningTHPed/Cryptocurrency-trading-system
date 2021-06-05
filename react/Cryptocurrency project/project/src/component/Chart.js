@@ -8,6 +8,7 @@ import Footer from './Footer-nofixed';
 
 const Chart = () => {
 
+
     Axios.defaults.withCredentials = true;
     //get role from localStorage
     var userData = JSON.parse(localStorage.getItem("userdata"));
@@ -420,7 +421,67 @@ const Chart = () => {
         getChart();
         getPayment();
         getSumCoin();
+        mylastcoin();
+        getData_detail();
+        console.log(DetailCoin);
     }, [coinName]);
+
+    const coin_detail = {
+        max: [],
+        min: []
+    };
+
+    const[DetailCoin, setDetailCoin] = useState([]);
+    const getData_detail = async () => {
+        try {
+            await Axios.post('http://localhost:3001/get_detail_coin', {
+            }).then((res_detail) => {
+                console.log(res_detail.data);
+                for (var i = 0; i < res_detail.data.length; i++) {
+                    coin_detail.max.push(res_detail.data[i].max);
+                    coin_detail.min.push(res_detail.data[i].min);
+                }
+                //console.log(coin_detail);
+                setDetailCoin(coin_detail);
+                //console.log(DetailCoin);
+            })
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    };
+
+    //const max_pon = coin_detail.max[1];
+
+    const coin_lastest = {
+        shortname: [],
+        per_coin: [],
+    };
+    const[lastest, setlastest] = useState(0);
+
+    const mylastcoin = async () => {
+        try {
+            await Axios.post('http://localhost:3001/lastest_coin', {
+            }).then((res_lastcoin) => {
+                console.log(res_lastcoin.data);
+                for (var i = 0; i < res_lastcoin.data.length; i++) {
+                    coin_lastest.shortname.push(res_lastcoin.data[i].shortname);
+                    coin_lastest.per_coin.push(res_lastcoin.data[i].price_per_coin)
+                }
+                console.log(coin_lastest.per_coin);
+                setlastest(coin_lastest.per_coin);
+                console.log(lastest);
+            })
+
+            // const res_lastcoin = await Axios.post('http://localhost:3001/get_detail_coin', {});
+            // console.log(res_lastcoin.data);
+            // setlastest(res_lastcoin.data);
+            // console.log(DetailCoin);
+
+        } catch (error) {
+            console.log(error.response);
+        }
+    };
 
 
     //variable chart
@@ -649,13 +710,16 @@ const Chart = () => {
                                     <h5>{coinName} Coin</h5>
                                 </div>
                                 <div className="col">
-                                    <p>Last Price(THB): 45</p>
+                                    {/* <p>Last Price(THB): {coinName=='PON' && lastest[1] } {coinName=='BRB' && lastest[0] }</p> */}
+                                    <p>Last Price(THB): {coinName=='PON' && lastest[1] } {coinName=='BRB' && lastest[0]}</p>
                                 </div>
                                 <div className="col">
-                                    <p>24 High: 47</p>
+                                    {/* <p>24 High: {coinName=='PON' && DetailCoin[1].max} {coinName=='BRB' && DetailCoin[0].max}</p> */}
+                                    <p>High: {coinName=='PON' && 'Pon high' } {coinName=='BRB' && 'ของบารา2' }</p>
                                 </div>
                                 <div className="col">
-                                    <p>24 Low: 40</p>
+                                    {/* <p>24 Low: {coinName=='PON' && DetailCoin[1].min} {coinName=='BRB' && DetailCoin[0].min}</p> */}
+                                    <p>Low: {coinName=='PON' && 'ของพล3' } {coinName=='BRB' && 'ของบารา3' }</p>
                                 </div>
                             </div>
                         </div>

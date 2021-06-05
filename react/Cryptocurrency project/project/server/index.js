@@ -177,7 +177,7 @@ app.post('/addSell', (req, res) => {
 
 app.post('/getBuy', (req, res) => {
     const shortname = req.body.shortname;
-    db.query("SELECT * FROM buy_order_view WHERE shortname=?;",
+    db.query("SELECT * FROM buy_order_view WHERE shortname=? LIMIT 6;",
     [shortname],
         (err, result) => {
             if (err) {
@@ -203,7 +203,7 @@ app.post('/getSell', (req, res) => {
 
 app.post('/getSellDataDESC', (req, res) => {
     const shortname = req.body.shortname;
-    db.query("SELECT * FROM Uncle.sell_order_view WHERE shortname=? ORDER BY price_per_coin DESC;",
+    db.query("SELECT * FROM Uncle.sell_order_view WHERE shortname=? ORDER BY price_per_coin DESC LIMIT 6;",
         [shortname],
         (err, result) => {
             if (err) {
@@ -495,7 +495,7 @@ app.post('/delete_bank_account', (req, res) => {
 app.post('/coin_Transaction', (req, res) => {
     const shortname = req.body.shortname;
     //const time_finish = req.body.time_finish;
-    //const price = req.body.price;
+    //const price = req.body.price;get
     db.query("SELECT * FROM coin_transaction_history WHERE Type = 1 AND shortname=? LIMIT 10",
     [shortname],
     (err, result) => {
@@ -674,7 +674,8 @@ app.listen('3001', () => {
 });
 
 app.post('/get_detail_coin', (req, res) => {
-    db.query("SELECT shortname, MAX(value) as max, MIN(value) as min FROM Uncle.coin_transaction_history where DATE(time_finish) = DATE(now()) group by shortname;",
+    //db.query("SELECT his.shortname,max(myorder.price_per_coin) as max, min(myorder.price_per_coin) as min FROM coin_transaction_history as his join coin_order as myorder ON his.no_order = myorder.no where DATE(his.time_finish) = DATE(now()) group by his.shortname",
+    db.query("SELECT his.shortname,max(myorder.price_per_coin) as max, min(myorder.price_per_coin) as min FROM coin_transaction_history as his join coin_order as myorder ON his.no_order = myorder.no  group by his.shortname",
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -683,6 +684,18 @@ app.post('/get_detail_coin', (req, res) => {
             }
         }
     )
+});
+
+
+app.post('/lastest_coin', (req, res) => {
+    db.query("SELECT his.shortname, myorder.price_per_coin FROM coin_transaction_history as his join coin_order as myorder ON his.no_order = myorder.no where myorder.type = 1 AND  (his.shortname, his.time_finish) IN (SELECT shortname,max(time_finish) FROM coin_transaction_history GROUP BY shortname) ORDER BY shortname;", (err, result) => {
+        //(err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        })
 });
 
 /*
