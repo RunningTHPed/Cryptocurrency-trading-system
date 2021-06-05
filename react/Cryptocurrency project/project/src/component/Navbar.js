@@ -52,8 +52,8 @@ function Navbar() {
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 
                                 {loggedIn === false && <NotLoggedinButton />}
-                                {role === "user" && <LoggedinButton />}
-                                {role === "admin" && <LoggedinButtonAdmin />}
+                                {loggedIn === true && role === "user" && <LoggedinButton />}
+                                {loggedIn === true && role === "admin" && <LoggedinButtonAdmin />}
                                 {/* <li className="nav-item me-2 my-2">
                                     <a href="/login" className="btn btn-outline-success">LOGIN</a>
                                 </li>
