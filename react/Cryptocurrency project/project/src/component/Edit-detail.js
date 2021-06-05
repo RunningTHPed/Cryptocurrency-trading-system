@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Line, line } from 'react-chartjs-2';
-import Axios from 'axios'
-import { useState, useEffect, state } from 'react'
+import Axios from 'axios';
+import { useState, useEffect, state } from 'react';
 import Footer from './Footer-nofixed';
 import { Modal, Button } from 'react-bootstrap';
 

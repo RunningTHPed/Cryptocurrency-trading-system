@@ -4,7 +4,7 @@ import Axios from 'axios';
 import './App.css';
 import './styles.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
 import Navbar from './component/Navbar';
 import Login from './component/Login';
 import Register from './component/Register';

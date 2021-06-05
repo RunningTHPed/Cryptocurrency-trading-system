@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const cors = require('cors');
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
-const { body, validationResult } = require('express-validation')
+const { body, validationResult } = require('express-validation');
 
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
