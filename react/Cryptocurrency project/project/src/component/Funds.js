@@ -160,7 +160,7 @@ function Funds() {
 
     return (
         <div>
-            <div className="container dashboard_view">
+            <div className="container dashboard_view mt-5">
                 <div className="">
                     <h2>MY WALLET</h2>
                 </div>
