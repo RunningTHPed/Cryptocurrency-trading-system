@@ -2,7 +2,7 @@ import React from 'react';
 import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Button } from 'react-bootstrap';
+import { Alert,Button } from 'react-bootstrap';
 import Footer from './Footer-nofixed';
 
 const Chart = () => {
@@ -18,6 +18,9 @@ const Chart = () => {
             setRole(userData.role);
         }
     }, [])
+
+    const [notEnoughMoney, setNotEnoughMoney] = useState(false);
+    const [notEnoughCoin, setNotEnoughCoin] = useState(false);
 
     //variable order
     const [OrderList, setOrderList] = useState([]);
@@ -160,22 +163,27 @@ const Chart = () => {
     }
 
     const addOrder = async () => {
-        await Axios.post('http://localhost:3001/addOrder', {
-            id_card: userData.id_card,
-            shortname: 'PON',
-            price: price,
-            Price_per_coin: Price_per_coin
-        }).then(() => {
-            setOrderList([
-                ...OrderList,
-                {
-                    price: price,
-                    Price_per_coin: Price_per_coin
-                }
-            ])
-        });
-        await getData();
-        await tradingAlgo();
+        if (availableMoney < price) {
+            setNotEnoughMoney(true);
+        } else {
+            await Axios.post('http://localhost:3001/addOrder', {
+                id_card: userData.id_card,
+                shortname: 'PON',
+                price: price,
+                Price_per_coin: Price_per_coin
+            }).then(() => {
+                setOrderList([
+                    ...OrderList,
+                    {
+                        price: price,
+                        Price_per_coin: Price_per_coin
+                    }
+                ])
+            });
+            await getData();
+            await tradingAlgo();
+            window.location.reload(false);
+        }
     }
 
     //variable sell
@@ -184,22 +192,27 @@ const Chart = () => {
     const [SellPrice_per_coin, setSellPrice_per_coin] = useState([]);
 
     const addSell = async () => {
-        await Axios.post('http://localhost:3001/addSell', {
-            id_card: userData.id_card,
-            shortname: 'PON',
-            coin: coin,
-            SellPrice_per_coin: SellPrice_per_coin
-        }).then(() => {
-            setSellList([
-                ...SellList,
-                {
-                    coin: coin,
-                    SellPrice_per_coin: SellPrice_per_coin
-                }
-            ])
-        });
-        await getData();
-        await tradingAlgo();
+        if (availableCoin < coin) {
+            setNotEnoughCoin(true);
+        } else {
+            await Axios.post('http://localhost:3001/addSell', {
+                id_card: userData.id_card,
+                shortname: 'PON',
+                coin: coin,
+                SellPrice_per_coin: SellPrice_per_coin
+            }).then(() => {
+                setSellList([
+                    ...SellList,
+                    {
+                        coin: coin,
+                        SellPrice_per_coin: SellPrice_per_coin
+                    }
+                ])
+            });
+            await getData();
+            await tradingAlgo();
+            window.location.reload(false);
+        }
     }
 
     var coin_buy;
@@ -401,6 +414,8 @@ const Chart = () => {
 
     useEffect(() => {
         getChart();
+        getPayment();
+        getSumCoin();
     }, []);
 
 
@@ -546,12 +561,25 @@ const Chart = () => {
 
     return (
         <div>
-        <div className="container-fluid bg-all">
-            <div className="row">
-                <div className="col-3 pt-3 pe-5 ps-5">
-                    <div className="asks_fieldset">
-                        <h5>ASKS</h5>
-                        <table className="table">
+            <div className="container-fluid bg-all">
+                {notEnoughMoney && <Alert variant="danger" onClose={() => setNotEnoughMoney(false)} dismissible>
+                    <Alert.Heading>Don't have enough money!</Alert.Heading>
+                    <p>
+                        Please deposit more money and try that again.
+                    </p>
+                </Alert>}
+
+                {notEnoughCoin && <Alert variant="danger" onClose={() => setNotEnoughCoin(false)} dismissible>
+                    <Alert.Heading>Don't have enough coin!</Alert.Heading>
+                    <p>
+                        Please deposit or buy more coin and try that again.
+                    </p>
+                </Alert>}
+                <div className="row">
+                    <div className="col-3 pt-3 pe-5 ps-5">
+                        <div className="asks_fieldset">
+                            <h5>ASKS</h5>
+                            <table className="table">
                                 <tbody>
                                     <tr>
                                         <th>Vol(THB)</th>
@@ -560,7 +588,7 @@ const Chart = () => {
                                     </tr>
                                     {
                                         sellhist.map(
-                                        i =>
+                                            i =>
                                             (<tr className="table-danger">
                                                 <td>
                                                     {i.price}
@@ -574,12 +602,12 @@ const Chart = () => {
                                             </tr>))
                                     }
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className="asks_fieldset mt-4">
-                        <h5>BIDS</h5>
-                        <table className="table">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="asks_fieldset mt-4">
+                            <h5>BIDS</h5>
+                            <table className="table">
                                 <tbody>
                                     <tr>
                                         <th>Vol(THB)</th>
@@ -587,9 +615,9 @@ const Chart = () => {
                                         <th>Rate(THB)</th>
                                     </tr>
 
-                                {
-                                    buyhist.map(
-                                        i =>
+                                    {
+                                        buyhist.map(
+                                            i =>
                                             (<tr className="table-success">
                                                 <td>
                                                     {i.price}
@@ -603,232 +631,247 @@ const Chart = () => {
                                             </tr>))
                                     }
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
 
-                <div className="col">
-                    <div className="title-font">
+                    <div className="col">
+                        <div className="title-font">
+                            <div className="row">
+                                <div className="col">
+                                    <h5>Pon Coin</h5>
+                                </div>
+                                <div className="col">
+                                    <p>Last Price(THB): 45</p>
+                                </div>
+                                <div className="col">
+                                    <p>24 High: 47</p>
+                                </div>
+                                <div className="col">
+                                    <p>24 Low: 40</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="chart">
+                            <Line data={chart} />
+                        </div>
                         <div className="row">
                             <div className="col">
-                                <h5>Pon Coin</h5>
-                            </div>
-                            <div className="col">
-                                <p>Last Price(THB): 45</p>
-                            </div>
-                            <div className="col">
-                                <p>24 High: 47</p>
-                            </div>
-                            <div className="col">
-                                <p>24 Low: 40</p>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div className="chart">
-                        <Line data={chart} />
-                    </div>
-                    <div className="row">
-                        <div className="col">
-                            <div className="form_buy">
-                                <fieldset className="field_set">
-                                    <p>Availible Balance <u>1000</u> THB</p>
-                                    <div className="row">
-                                        <div className="col">
-                                            <p>You Spend</p>
+                                <div className="form_buy">
+                                    <fieldset className="field_set">
+                                        <p>Available Balance <u>{availableMoney}</u> THB</p>
+                                        <div className="row">
+                                            <div className="col">
+                                                <p>You Spend</p>
+                                            </div>
+                                            <div className="col">
+                                                <input
+                                                    type="text"
+                                                    className=""
+                                                    id="price1"
+                                                    placeholder=""
+                                                    required
+                                                    onChange={(event) => {
+                                                        setPrice(event.target.value)
+                                                    }}
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="col">
-                                            <input
-                                                type="text"
-                                                className=""
-                                                id="price1"
-                                                placeholder=""
-                                                required
-                                                onChange={(event) => {
-                                                    setPrice(event.target.value)
-                                                }}
-                                            />
+                                        <div className="row mt-2">
+                                            <div className="col">
+                                                <p>Price Per PON</p>
+                                            </div>
+                                            <div className="col">
+                                                <input
+                                                    type="text"
+                                                    className=""
+                                                    id="price1"
+                                                    placeholder=""
+                                                    required
+                                                    onChange={(event) => {
+                                                        setPrice_per_coin(event.target.value)
+                                                    }}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="col">
-                                            <p>Price Per PON</p>
-                                        </div>
-                                        <div className="col">
-                                            <input
-                                                type="text"
-                                                className=""
-                                                id="price1"
-                                                placeholder=""
-                                                required
-                                                onChange={(event) => {
-                                                    setPrice_per_coin(event.target.value)
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                    {role !== "guest" &&
-                                        <div className="mt-2">
-                                            <Button className="btn-confirm-order" onClick={addOrder} variant="success" block>Confirm order</Button>
-                                        </div>
-                                    }
-                                    {role === "guest" &&
-                                        <div  className="mt-2">
-                                            <Button className="btn-confirm-order" variant="dark" block>
-                                                <a href="/login">Login</a> or <a href="/register">Sign up</a> to trade.
+                                        {role !== "guest" &&
+                                            <div className="mt-2">
+                                                <Button className="btn-confirm-order" onClick={addOrder} variant="success" block>Confirm order</Button>
+                                            </div>
+                                        }
+                                        {role === "guest" &&
+                                            <div className="mt-2">
+                                                <Button className="btn-confirm-order" variant="dark" block>
+                                                    <a href="/login">Login</a> or <a href="/register">Sign up</a> to trade.
                                             </Button>
-                                        </div>
-                                    }
-                                </fieldset>
-                            </div>    
-                        </div>
-                        <div className="col">
-                            <div className="form_sell">
-                            <fieldset className="field_set">
-                                <p>Availible Balance PON <u>500</u> PON</p>
-                                <div className="row">
-                                    <div className="col">
-                                        <p>You Sell</p>
-                                    </div>
-                                    <div className="col">
-                                        <input
-                                            type="text"
-                                            className="buy-input"
-                                            id="price3"
-                                            placeholder=""
-                                            required
-                                            onChange={(event) => {
-                                                setCoin(event.target.value)
-                                            }}
-                                        />
-                                    </div>
+                                            </div>
+                                        }
+                                    </fieldset>
                                 </div>
-                                <div className="row mt-3">
-                                    <div className="col">
-                                        <p>Price Per PON</p>
-                                    </div>
-                                    <div className="col">
-                                        <input
-                                            type="text"
-                                            className="buy-input"
-                                            id="price4"
-                                            placeholder=""
-                                            required
-                                            onChange={(event) => {
-                                                setSellPrice_per_coin(event.target.value)
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                                {role !== "guest" &&
-                                    <div className="mt-2">
-                                        <Button className="btn-confirm-order" onClick={addSell} variant="danger" block>Confirm order</Button>
-                                    </div>
-                                }
-                                {role === "guest" &&
-                                    <div className="mt-2">
-                                        <Button className="btn-confirm-order" variant="dark" block>
-
-                                            <a href="/login">Login</a> or <a href="/register">Sign up</a> to trade.
-                                        </Button>
-                                    </div>
-                                }
-                                </fieldset>
                             </div>
+                            <div className="col">
+                                <div className="form_sell">
+                                    <fieldset className="field_set">
+                                        <p>Availible Balance PON <u>{availableCoin}</u> PON</p>
+                                        <div className="row">
+                                            <div className="col">
+                                                <p>You Sell</p>
+                                            </div>
+                                            <div className="col">
+                                                <input
+                                                    type="text"
+                                                    className="buy-input"
+                                                    id="price3"
+                                                    placeholder=""
+                                                    required
+                                                    onChange={(event) => {
+                                                        setCoin(event.target.value)
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="row mt-3">
+                                            <div className="col">
+                                                <p>Price Per PON</p>
+                                            </div>
+                                            <div className="col">
+                                                <input
+                                                    type="text"
+                                                    className="buy-input"
+                                                    id="price4"
+                                                    placeholder=""
+                                                    required
+                                                    onChange={(event) => {
+                                                        setSellPrice_per_coin(event.target.value)
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className="row mt-3">
+                                                <div className="col">
+                                                    <p>Price Per PON</p>
+                                                </div>
+                                                <div className="col">
+                                                    <input
+                                                        type="text"
+                                                        className="buy-input"
+                                                        id="price4"
+                                                        placeholder=""
+                                                        required
+                                                        onChange={(event) => {
+                                                            setSellPrice_per_coin(event.target.value)
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                            {role !== "guest" &&
+                                                <div className="mt-2">
+                                                    <Button className="btn-confirm-order" onClick={addSell} variant="danger" block>Confirm order</Button>
+                                                </div>
+                                            }
+                                            {role === "guest" &&
+                                                <div className="mt-2">
+                                                    <Button className="btn-confirm-order" variant="dark" block>
+                                                        <a href="/login">Login</a> or <a href="/register">Sign up</a> to trade.
+                                                    </Button>
+                                                </div>
+                                            }
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
                         </div>
-                        
+                    </div>
+                    <div className="col-3 pt-3 p-5">
+                        <div className="list-group">
+                            <a href="/market/BTC" className="list-group-item list-group-item-success" aria-current="true">BITCOIN</a>
+                            <a href="#" className="list-group-item list-group-item-action">ETHEREUM</a>
+                            <a href="#" className="list-group-item list-group-item-action">BINANCE COIN</a>
+                            <a href="#" className="list-group-item list-group-item-action">CARDANO</a>
+                        </div>
+
+                        <div className="history-table history-fieldset">
+                            <h5>LATEST TRADES</h5>
+                            <table className="table">
+                                <tbody>
+                                    <tr>
+                                        <th>เวลา</th>
+                                        <th>ราคา</th>
+                                        <th>Vol</th>
+                                    </tr>
+                                    {
+                                        hist.map(i =>
+                                        (<tr>
+                                            <td>
+                                                {i.time_finish}
+                                            </td>
+                                            <td>
+                                                {i.price}
+                                            </td>
+                                            <td>
+                                                {i.value}
+                                            </td>
+                                        </tr>)
+                                        )
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
                 </div>
-                <div className="col-3 pt-3 p-5">
-                    <div className="list-group">
-                        <a href="/market/BTC" className="list-group-item list-group-item-success" aria-current="true">BITCOIN</a>
-                        <a href="#" className="list-group-item list-group-item-action">ETHEREUM</a>
-                        <a href="#" className="list-group-item list-group-item-action">BINANCE COIN</a>
-                        <a href="#" className="list-group-item list-group-item-action">CARDANO</a>
-                    </div>
-
-                    <div className="history-table history-fieldset">
-                        <h5>LATEST TRADES</h5>
-                        <table className="table">
+                <div className="row">
+                    <div className="col tb-fieldset">
+                        <h5>MY OPEN ORDERS</h5>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Order</th>
+                                    <th scope="col">Rate</th>
+                                    <th scope="col">Volume</th>
+                                    <th scope="col">Order Date</th>
+                                    <th scope="col">Cancel</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 <tr>
-                                    <th>เวลา</th>
-                                    <th>ราคา</th>
-                                    <th>Vol</th>
+                                    <td>BUY</td>
+                                    <td>45 THB</td>
+                                    <td>20 PON</td>
+                                    <td>6/5/2021</td>
+                                    <td><a className="btn btn-outline-secondary btn-sm">Cancel</a></td>
                                 </tr>
-                                {
-                                    hist.map(i =>
-                                    (<tr>
-                                        <td>
-                                            {i.time_finish}
-                                        </td>
-                                        <td>
-                                            {i.price}
-                                        </td>
-                                        <td>
-                                            {i.value}
-                                        </td>
-                                    </tr>)
-                                    )
-                                }
                             </tbody>
                         </table>
-
+                    </div>
+                    <div className="col tb-fieldset">
+                        <h5>MY ORDERS HISTORY</h5>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Order</th>
+                                    <th scope="col">Rate</th>
+                                    <th scope="col">Volume</th>
+                                    <th scope="col">Opened Date</th>
+                                    <th scope="col">Closed Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>SELL</td>
+                                    <td>40 THB</td>
+                                    <td>15 PON</td>
+                                    <td>6/4/2021</td>
+                                    <td>6/5/2021</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
             </div>
-            <div className="row">
-                <div className="col tb-fieldset">
-                    <h5>MY OPEN ORDERS</h5>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">Order</th>
-                            <th scope="col">Rate</th>
-                            <th scope="col">Volume</th>
-                            <th scope="col">Order Date</th>
-                            <th scope="col">Cancel</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <td>BUY</td>
-                            <td>45 THB</td>
-                            <td>20 PON</td>
-                            <td>6/5/2021</td>
-                            <td><a className="btn btn-outline-secondary btn-sm">Cancel</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div className="col tb-fieldset">
-                    <h5>MY ORDERS HISTORY</h5>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">Order</th>
-                            <th scope="col">Rate</th>
-                            <th scope="col">Volume</th>
-                            <th scope="col">Opened Date</th>
-                            <th scope="col">Closed Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <td>SELL</td>
-                            <td>40 THB</td>
-                            <td>15 PON</td>
-                            <td>6/4/2021</td>
-                            <td>6/5/2021</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-        </div>
-        <Footer />
+            <Footer />
         </div>
     )
 }
