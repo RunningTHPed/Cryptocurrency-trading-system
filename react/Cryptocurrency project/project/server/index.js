@@ -14,7 +14,7 @@ let hour = 3600000;
 app.use(express.json());
 app.use(cors({
     origin: ['http://localhost:3000'],
-    method: ["GET", "POST", "UPDATE"],
+    method: ["GET", "POST", "UPDATE", "DELETE"],
     credentials: true
 }));
 app.use(cookieParser());
@@ -339,10 +339,9 @@ app.post('/summary_money', (req, res) => {
 
 app.post('/summary_money_order', (req, res) => {
     const id_card = req.body.id_card;
-    const shortname = req.body.shortname;
 
-    db.query("SELECT SUM(price) AS price_sum FROM Uncle.buy_order_view WHERE id_card = ? AND shortname = ?;",
-        [id_card, shortname],
+    db.query("SELECT SUM(price) AS price_sum FROM Uncle.buy_order_view WHERE id_card = ?;",
+        [id_card],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -436,14 +435,15 @@ app.post('/updateStatus', (req, res) => {
 
 app.post('/updateCoin', (req, res) => {
     const coin = req.body.coin;
+    const price = req.body.price;
     const no = req.body.no;
-    db.query("UPDATE coin_order SET coin=? WHERE no=?",
-        [coin, no],
+    db.query("UPDATE coin_order SET coin=?, price=? WHERE no=?",
+        [coin, price, no],
         (err) => {
             if (err) {
                 console.error(err);
             } else {
-                res.send({ message: "Update coin complete." });
+                res.send({ message: "Update order complete." });
             }
         })
 });
@@ -689,13 +689,62 @@ app.post('/get_detail_coin', (req, res) => {
 
 app.post('/lastest_coin', (req, res) => {
     db.query("SELECT his.shortname, myorder.price_per_coin FROM coin_transaction_history as his join coin_order as myorder ON his.no_order = myorder.no where myorder.type = 1 AND  (his.shortname, his.time_finish) IN (SELECT shortname,max(time_finish) FROM coin_transaction_history GROUP BY shortname) ORDER BY shortname;", (err, result) => {
-        //(err, result) => {
+        (err, result) => {
+                        if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    }
+    )});
+
+    
+
+app.post('/data_order_id', (req, res) => {
+    const id_card = req.body.IDCard;
+    const coinName= req.body.coinName;
+
+    db.query("SELECT * FROM Uncle.coin_order where id_card = ? and shortname = ? and status = 0;",
+        [id_card, coinName],
+        (err, result) => {
             if (err) {
                 console.log(err);
             } else {
                 res.send(result);
             }
-        })
+        }
+    )});
+
+app.post('/data_hist_id', (req, res) => {
+    const id_card = req.body.IDCard;
+    const coinName= req.body.coinName;
+
+    db.query("SELECT * FROM Uncle.coin_order where id_card = ? and shortname = ?;",
+        [id_card, coinName],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    )
+});
+
+app.post('/delete_order_id', (req, res) => {
+    const IDdelete = req.body.IDdelete;
+
+    db.query("DELETE FROM `Uncle`.`coin_order` WHERE (`no` = ?);",
+        [IDdelete],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    )
 });
 
 /*

@@ -37,7 +37,7 @@ function Payment() {
     const DeletePayment = () => {
         Axios.post('http://localhost:3001/delete_bank_account', {
             AccountID: AccountID,
-            Bank: Bank,
+            Bank: Bank
         }).then((response) => {
             if (response.data.message) {
                 console.log(response.data.message);
