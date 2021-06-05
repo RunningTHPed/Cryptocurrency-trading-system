@@ -826,7 +826,7 @@ const Chart = () => {
                 </div>
                 <div className="row">
                     <div className="col tb-fieldset">
-                        <h5>MY OPEN ORDERS</h5>
+                        <h5 className="mt-3 ms-1">MY OPEN ORDERS</h5>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -849,7 +849,7 @@ const Chart = () => {
                         </table>
                     </div>
                     <div className="col tb-fieldset">
-                        <h5>MY ORDERS HISTORY</h5>
+                        <h5 className="mt-3 ms-1">MY ORDERS HISTORY</h5>
                         <table class="table">
                             <thead>
                                 <tr>

@@ -10,6 +10,15 @@
 .bg-all{
   background-color: #e9ecef;
 }
+.bg-all-dash{
+  background-color: #e9ecef;
+  padding-bottom: 120px;
+}
+
+.bg-dash-data{
+  background-color: #fff;
+  margin-top: 10%;
+}
 
 .Postcode-title{
   position: relative;
@@ -179,9 +188,10 @@
 }
 
 .dashboard_view{
-  margin-top: 40px;
   padding: 30px 30px;
-  background-color: #f8f9fa;
+  background-color: #fff;
+  border: 1px solid lightgray;
+  border-radius: 5px;
 }
 
 .chart-dashboard {
@@ -213,6 +223,11 @@
 
 .btn-margin {
   margin-top: 250px;
+  text-align: center;
+}
+
+.btn-margin-dashboard {
+  margin-top: 150px;
   text-align: center;
 }
 

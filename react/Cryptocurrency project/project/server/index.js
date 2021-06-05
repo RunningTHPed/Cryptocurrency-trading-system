@@ -670,6 +670,18 @@ app.listen('3001', () => {
     console.log("Server is running");
 });
 
+app.post('/get_detail_coin', (req, res) => {
+    db.query("SELECT shortname, MAX(value) as max, MIN(value) as min FROM Uncle.coin_transaction_history where DATE(time_finish) = DATE(now()) group by shortname;",
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    )
+});
+
 /*
 #Analysis dashboard
 SELECT shortname,MAX(price),MIN(price)

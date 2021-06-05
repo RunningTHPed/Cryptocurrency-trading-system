@@ -2,12 +2,27 @@ import React, { Component } from 'react'
 import { Radar } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect, state } from 'react'
-import Footer from './Footer-fixed';
+import Footer from './Footer-nofixed';
 
 function Dashboard() {
 
     const [DataPayment, setDataPayment] = useState([]);
     const[availableMoney, setAvailableMoney] = useState(0);
+    const[DetailCoin, setDetailCoin] = useState([]);
+
+    const getData = async () => {
+        try {
+            const res = await Axios.post('http://localhost:3001/get_detail_coin', {
+                IDCard: userData.id_card
+            });
+            console.log(res.data);
+            setDetailCoin(res.data);
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    }
+
     var money_diff = 0;
     var sumMoneyDeposit = 0;
     var sumMoneyOrder = 0;
@@ -72,6 +87,7 @@ function Dashboard() {
 
 
     useEffect(() => {
+        getData();
         getPayment();
         analysis();
     }, []);
@@ -173,37 +189,67 @@ function Dashboard() {
     };
 
     return (
-        <div className="container dashboard_view">
-            <div className="row">
-                <div className="col">
-                    <div className="row">
-                        <div className="col mt-2">
-                            <h3>BIG PICTURE</h3>
+        <div>
+        <div className="bg-all-dash pt-5">
+            <div className="container dashboard_view">
+                <div className="row">
+                    <div className="col">
+                        <div className="row">
+                            <div className="col mt-2">
+                                <h3>BIG PICTURE</h3>
+                            </div>
+                        </div>
+                        <div className="chart-dashboard">
+                            <Radar
+                                data={coin}
+                            />
                         </div>
                     </div>
-                    <div className="chart-dashboard">
-                        <Radar
-                            data={coin}
-                        />
-                    </div>
-                </div>
-                <div className="col">
-                    <div className="row mt-4">
-                        <div className="col text-col-money">
-                            <h4>Available</h4>
+                    <div className="col">
+                        <div className="row mt-4">
+                            <div className="col text-col-money">
+                                <h4>Available</h4>
+                            </div>
+                            <div className="col-3">
+                                <h3>{availableMoney}</h3>
+                            </div>
+                            <div className="col-2">
+                                <h4>THB</h4>
+                            </div>
                         </div>
-                        <div className="col-3">
-                            <h3>{availableMoney}</h3>
+                        <div className="bg-dash-data">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">COIN</th>
+                                    <th scope="col">Rate (THB)</th>
+                                    <th scope="col">24 High</th>
+                                    <th scope="col">24 Low</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        DetailCoin.map(i => (
+                                            <tr>
+                                                <td>{i.shortname}</td>
+                                                <td>30</td>
+                                                <td>{i.max} THB</td>
+                                                <td>{i.min} THB</td>
+                                            </tr>
+                                        ))
+                                    }
+                                    
+                                </tbody>
+                            </table>
                         </div>
-                        <div className="col-2">
-                            <h4>THB</h4>
+                        <div className="btn-margin-dashboard">
+                            <a className="btn btn-success btn-trade" href="/market" role="button">TRADE</a>
                         </div>
-                    </div>
-                    <div className="btn-margin">
-                        <a className="btn btn-success btn-trade" href="/market" role="button">TRADE</a>
                     </div>
                 </div>
             </div>
+        </div>
+        <Footer />
         </div>
     );
 }
