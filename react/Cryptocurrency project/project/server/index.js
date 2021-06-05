@@ -495,7 +495,7 @@ app.post('/delete_bank_account', (req, res) => {
 app.get('/coin_Transaction', (req, res) => {
     //const time_finish = req.body.time_finish;
     //const price = req.body.price;
-    db.query("SELECT * FROM coin_transaction_history WHERE Type = 1", (err, result) => {
+    db.query("SELECT * FROM coin_transaction_history WHERE Type = 1 LIMIT 10", (err, result) => {
         //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
         //(err, result) => {
         if (err) {

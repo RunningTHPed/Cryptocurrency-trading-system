@@ -143,9 +143,13 @@ function Funds() {
         }
     }
 
-    useEffect(async () => {
-        await getPayment();
-        await getSumCoin();
+    useEffect(() => {
+        async function fetchData() {
+            await getPayment();
+            await getSumCoin();
+        }
+        fetchData();
+
     }, []);
 
     return (

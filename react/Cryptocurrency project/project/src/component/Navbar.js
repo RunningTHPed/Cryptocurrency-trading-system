@@ -12,12 +12,15 @@ function Navbar() {
     //get role from localStorage
     var userData = JSON.parse(localStorage.getItem("userdata"));
     const [role, setRole] = useState("guest");
-        useEffect(async () => {
-            userData = await JSON.parse(localStorage.getItem("userdata"));
-            if(userData != null){
-                setRole(userData.role);
+        useEffect(() => {
+            async function fetchData() {
+                userData = await JSON.parse(localStorage.getItem("userdata"));
+                if(userData != null){
+                    setRole(userData.role);
+                }
             }
-        }, []);
+            fetchData();
+        });
 
     Axios.defaults.withCredentials = true;
     useEffect(() => {
