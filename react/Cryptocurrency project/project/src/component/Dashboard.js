@@ -24,7 +24,7 @@ function Dashboard() {
         }
     }
 
-    //const [availableMoney, setAvailableMoney] = useState(0);
+    // const [availableMoney, setAvailableMoney] = useState(0);
     var money_diff = 0;
     var sumMoneyDeposit = 0;
     var sumMoneyOrder = 0;

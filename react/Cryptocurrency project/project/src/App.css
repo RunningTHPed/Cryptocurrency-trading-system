@@ -176,9 +176,30 @@
   margin: 80px;
 }
 
-.list-group{
-  
+.orderTable {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
 }
+
+.orderTable thead {
+  flex: 0 0 auto;
+}
+
+.orderTable tbody {
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: auto;
+  height: 192px;
+}
+
+.orderTable tr {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+
+
 
 .history-fieldset{
   border: 1px solid lightgray;

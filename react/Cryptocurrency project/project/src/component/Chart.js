@@ -4,6 +4,7 @@ import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Alert, Button, ListGroup } from 'react-bootstrap';
+import Moment from 'react-moment';
 import Footer from './Footer-nofixed';
 
 const Chart = () => {
@@ -44,6 +45,51 @@ const Chart = () => {
 
     let {coinName} = useParams();
     //const [coinName, setCoinName] = useState(coin_name);
+
+    const [DataOrder, setDataOrder] = useState([]);
+    const [DataHist, setDataHist] = useState([]);
+
+    const DeleteOrder = (IDdelete) => {
+        Axios.post('http://localhost:3001/delete_order_id', {
+            IDdelete: IDdelete
+        }).then((response) => {
+            if (response.data.message) {
+                console.log(response.data.message);
+            } else {
+                console.log(response);
+                window.location = "/market/PON"
+            }
+        })
+    }
+
+    const getDataOrderID = async () => {
+        try {
+            const res = await Axios.post('http://localhost:3001/data_order_id', {
+                IDCard: userData.id_card,
+                coinName: coinName
+            });
+            console.log(res.data);
+            setDataOrder(res.data);
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    }
+
+    const getDataHistID = async () => {
+        try {
+            const res = await Axios.post('http://localhost:3001/data_hist_id', {
+                IDCard: userData.id_card,
+                coinName: coinName
+            });
+            console.log(res.data);
+            setDataHist(res.data);
+        }
+        catch (error) {
+            console.log(error.response);
+        }
+    }
+
 
     const getPayment = async () => {
         try {
@@ -417,6 +463,8 @@ const Chart = () => {
     }
 
     useEffect(() => {
+        getDataHistID();
+        getDataOrderID();
         getChart();
         getPayment();
         getSumCoin();
@@ -828,7 +876,7 @@ const Chart = () => {
                 <div className="row">
                     <div className="col tb-fieldset">
                         <h5 className="mt-3 ms-1">MY OPEN ORDERS</h5>
-                        <table class="table">
+                        <table class="table orderTable">
                             <thead>
                                 <tr>
                                     <th scope="col">Order</th>
@@ -839,19 +887,27 @@ const Chart = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>BUY</td>
-                                    <td>45 THB</td>
-                                    <td>20 {coinName}</td>
-                                    <td>6/5/2021</td>
-                                    <td><Button variant="outline-danger" size="sm">Cancel</Button></td>
-                                </tr>
+                            
+                                {
+                                    DataOrder.map(i => (
+                                        <tr key = {i.no}>
+                                            <td>{i.type == 1 && <>SELL</>}{i.type == 0 && <>BUY</>}</td>
+                                            <td>{i.price_per_coin} THB</td>
+                                            <td>{i.coin} {coinName}</td>
+                                            <td><Moment format="MMMM DD YYYY HH:mm">{i.time_order}</Moment></td>
+                                            <td>
+                                                <button type="radio" className="btn btn-outline-danger btn-sm" onClick={() => {DeleteOrder(i.no)}}>Cancel</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            
                             </tbody>
                         </table>
                     </div>
                     <div className="col tb-fieldset">
                         <h5 className="mt-3 ms-1">MY ORDERS HISTORY</h5>
-                        <table class="table">
+                        <table class="table orderTable">
                             <thead>
                                 <tr>
                                     <th scope="col">Order</th>
@@ -862,13 +918,18 @@ const Chart = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>SELL</td>
-                                    <td>40 THB</td>
-                                    <td>15 {coinName}</td>
-                                    <td>6/4/2021</td>
-                                    <td>6/5/2021</td>
-                                </tr>
+                                {
+                                    DataHist.map(i => (
+                                        <tr>
+                                            <td>{i.type == 1 && <>SELL</>}{i.type == 0 && <>BUY</>}</td>
+                                            <td>{i.price} THB</td>
+                                            <td>{i.value} {coinName}</td>
+                                            <td><Moment format="MMMM DD YYYY HH:mm">{i.time_order}</Moment></td>
+                                            <td><Moment format="MMMM DD YYYY HH:mm">{i.time_finish}</Moment></td>
+                                        </tr>
+                                    ))
+                                }
+                                
                             </tbody>
                         </table>
                     </div>

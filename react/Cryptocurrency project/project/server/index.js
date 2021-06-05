@@ -14,7 +14,7 @@ let hour = 3600000;
 app.use(express.json());
 app.use(cors({
     origin: ['http://localhost:3000'],
-    method: ["GET", "POST", "UPDATE"],
+    method: ["GET", "POST", "UPDATE", "DELETE"],
     credentials: true
 }));
 app.use(cookieParser());
@@ -675,6 +675,53 @@ app.listen('3001', () => {
 
 app.post('/get_detail_coin', (req, res) => {
     db.query("SELECT shortname, MAX(value) as max, MIN(value) as min FROM Uncle.coin_transaction_history where DATE(time_finish) = DATE(now()) group by shortname;",
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    )
+});
+
+app.post('/data_order_id', (req, res) => {
+    const id_card = req.body.IDCard;
+    const coinName= req.body.coinName;
+
+    db.query("SELECT * FROM Uncle.coin_order where id_card = ? and shortname = ? and status = 0;",
+        [id_card, coinName],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    )
+});
+
+app.post('/data_hist_id', (req, res) => {
+    const id_card = req.body.IDCard;
+    const coinName= req.body.coinName;
+
+    db.query("SELECT * FROM Uncle.coin_order where id_card = ? and shortname = ?;",
+        [id_card, coinName],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    )
+});
+
+app.post('/delete_order_id', (req, res) => {
+    const IDdelete = req.body.IDdelete;
+
+    db.query("DELETE FROM `Uncle`.`coin_order` WHERE (`no` = ?);",
+        [IDdelete],
         (err, result) => {
             if (err) {
                 console.log(err);
