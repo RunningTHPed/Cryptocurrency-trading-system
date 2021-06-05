@@ -339,10 +339,9 @@ app.post('/summary_money', (req, res) => {
 
 app.post('/summary_money_order', (req, res) => {
     const id_card = req.body.id_card;
-    const shortname = req.body.shortname;
 
-    db.query("SELECT SUM(price) AS price_sum FROM Uncle.buy_order_view WHERE id_card = ? AND shortname = ?;",
-        [id_card, shortname],
+    db.query("SELECT SUM(price) AS price_sum FROM Uncle.buy_order_view WHERE id_card = ?;",
+        [id_card],
         (err, result) => {
             if (err) {
                 console.log(err);

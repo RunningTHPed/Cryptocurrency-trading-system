@@ -13,12 +13,17 @@ function Funds() {
     var sumMoneySellHistory = 0;
     var sumMoneyBuyHistory = 0;
 
-    const [availableCoin, setAvailableCoin] = useState(0);
+    const [availablePonCoin, setAvailablePonCoin] = useState(0);
+    const [availableBrbCoin, setAvailableBrbCoin] = useState(0);
     var coin_diff = 0;
     var sumCoinDeposit = 0;
     var sumCoinOrder = 0;
     var sumCoinSellHistory = 0;
     var sumCoinBuyHistory = 0;
+
+    // var coin_pon = 0;
+    // var coin_brb = 0;
+
 
     let userData = JSON.parse(localStorage.getItem("userdata"));
 
@@ -53,8 +58,6 @@ function Funds() {
             
             await Axios.post('http://localhost:3001/summary_money_order', {
                 id_card: userData.id_card,
-                shortname: "PON"
-
             }).then((response) => {
                 console.log(response.data[0].price_sum);
                 if(response.data[0].price_sum !== null){
@@ -77,11 +80,11 @@ function Funds() {
     }
     
 
-    const getSumCoin = async () => {
+    const getSumCoin = async (props) => {
         try {
             await Axios.post('http://localhost:3001/summary_coin_deposit',{
                 id_card: userData.id_card,
-                shortname: "PON"
+                shortname: props
             }).then((response) => {
                 console.log(response.data[0].coin_sum);
                 //setSumCoinDeposit(response.data[0].coin_sum);
@@ -94,7 +97,7 @@ function Funds() {
 
             await Axios.post('http://localhost:3001/summary_coin_history_sell',{
                 id_card: userData.id_card,
-                shortname: "PON"
+                shortname: props
             }).then((response) => {
                 if(response.data[0].coin_sum !== null){
                     sumCoinSellHistory = response.data[0].coin_sum;
@@ -106,7 +109,7 @@ function Funds() {
 
             await Axios.post('http://localhost:3001/summary_coin_history_buy',{
                 id_card: userData.id_card,
-                shortname: "PON"
+                shortname: props
             }).then((response) => {
                 if(response.data[0].coin_sum !== null){
                     sumCoinBuyHistory = response.data[0].coin_sum;
@@ -117,7 +120,7 @@ function Funds() {
 
             await Axios.post('http://localhost:3001/summary_coin_order',{
                 id_card: userData.id_card,
-                shortname: "PON"
+                shortname: props
             }).then((response) => {
                 console.log(response.data[0].coin_sum);
                 if(response.data[0].coin_sum !== null){
@@ -127,16 +130,14 @@ function Funds() {
                 }
                 
             }).then(() => {
-                // console.log("sumCoinDeposit: " + sumCoinDeposit);
-                // console.log("sumCoinOrder: " + sumCoinOrder);
+                console.log("sumCoinDeposit: " + sumCoinDeposit);
+                console.log("sumCoinOrder: " + sumCoinOrder);
                 coin_diff = (sumCoinDeposit + sumCoinBuyHistory) - (sumCoinOrder + sumCoinSellHistory);
-            }).then(() => {
-                // console.log(coin_diff);
-                setAvailableCoin(coin_diff);
-            }).then(() => {
-                console.log(availableCoin);
-            });
-            
+                console.log(coin_diff);
+                
+            })
+
+            return coin_diff;
         }
         catch (error) {
             console.log(error.response);
@@ -146,7 +147,12 @@ function Funds() {
     useEffect(() => {
         async function fetchData() {
             await getPayment();
-            await getSumCoin();
+            const coin_pon = await getSumCoin("PON");
+            console.log(coin_pon);
+            setAvailablePonCoin(coin_pon);
+            const coin_brb = await getSumCoin("BRB");
+            console.log(coin_brb);
+            setAvailableBrbCoin(coin_brb);
         }
         fetchData();
 
@@ -175,35 +181,17 @@ function Funds() {
                             <td><a className="btn btn-danger" href="/withdraw" role="button">WITHDRAW</a></td>
                         </tr>
                         <tr>
-                            <td>PonCoin</td>
-                            <td>{availableCoin}</td>
-                            <td><a className="btn btn-success" href="/deposit/pon" role="button">DEPOSIT</a></td>
-                            <td><a className="btn btn-warning" href="#" role="button">TRADE</a></td>
+                            <td>Unclepon coin</td>
+                            <td>{availablePonCoin}</td>
+                            <td><a className="btn btn-success" href="/deposit/PON" role="button">DEPOSIT</a></td>
+                            <td><a className="btn btn-warning" href="/market/PON" role="button">TRADE</a></td>
 
                         </tr>
                         <tr>
-                            <td>Ethereum</td>
-                            <td>0.123</td>
-                            <td><a className="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
-                            <td><a className="btn btn-warning" href="#" role="button">TRADE</a></td>
-                        </tr>
-                        <tr>
-                            <td>BNB Coin</td>
-                            <td>0</td>
-                            <td><a className="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
-                            <td><a className="btn btn-warning" href="#" role="button">TRADE</a></td>
-                        </tr>
-                        <tr>
-                            <td>Cardano</td>
-                            <td>0</td>
-                            <td><a className="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
-                            <td><a className="btn btn-warning" href="#" role="button">TRADE</a></td>
-                        </tr>
-                        <tr>
-                            <td>FuckCoin</td>
-                            <td>1,000.00</td>
-                            <td><a className="btn btn-success" href="/deposit" role="button">DEPOSIT</a></td>
-                            <td><a className="btn btn-warning" href="#" role="button">TRADE</a></td>
+                            <td>Barabank</td>
+                            <td>{availableBrbCoin}</td>
+                            <td><a className="btn btn-success" href="/deposit/BRB" role="button">DEPOSIT</a></td>
+                            <td><a className="btn btn-warning" href="/market/BRB" role="button">TRADE</a></td>
                         </tr>
                     </tbody>
                 </table>

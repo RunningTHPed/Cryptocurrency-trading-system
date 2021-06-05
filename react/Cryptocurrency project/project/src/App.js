@@ -53,6 +53,10 @@ function App() {
 
                     <Route path="/market/:coinName" children={<Chart />} />
 
+                    <Route path="/deposit/:coinName" component={DepositPon}>
+                        {loggedIn === false && <Redirect to="/login" />}
+                    </Route>
+
                     {/* <Route path='/market' exact component={Chart} /> */}
 
                     <Route path='/register' component={Register} />
@@ -93,9 +97,9 @@ function App() {
                     <Route path='/account/detail/edit' exact component={EditDetail}>
                         {loggedIn === false && <Redirect to="/login" />}
                     </Route>
-                    <Route path='/deposit/pon' exact component={DepositPon}>
-                        {loggedIn === false && <Redirect to="/login" />}
-                    </Route>
+
+
+
                     <Route path='/withdraw/pon' exact component={WithdrawPon}>
                         {loggedIn === false && <Redirect to="/login" />}
                     </Route>
