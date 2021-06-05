@@ -190,8 +190,21 @@ app.post('/getBuy', (req, res) => {
 
 app.post('/getSell', (req, res) => {
     const shortname = req.body.shortname;
-    db.query("SELECT * FROM sell_order_view WHERE shortname='PON';",
+    db.query("SELECT * FROM sell_order_view WHERE shortname=?;",
     [shortname],
+        (err, result) => {
+            if (err) {
+                res.send({ message: "don't have data" });
+            } else {
+                res.send({ order: result });
+            }
+        })
+});
+
+app.post('/getSellDataDESC', (req, res) => {
+    const shortname = req.body.shortname;
+    db.query("SELECT * FROM Uncle.sell_order_view WHERE shortname=? ORDER BY price_per_coin DESC;",
+        [shortname],
         (err, result) => {
             if (err) {
                 res.send({ message: "don't have data" });
