@@ -39,7 +39,7 @@ function EditDetail() {
 
     return (
         <div>
-            <div className="container dashboard_view">
+            <div className="container dashboard_view mb-5">
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
                         <a className="nav-link active" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
