@@ -63,7 +63,7 @@ function Register() {
 
   return (
     <div>
-    <div className="App container">
+    <div className="App container mb-5">
       <Header name="Sign up" />
         <div className="form-register">
           <h4 className="mb-4">SIGN UP</h4>

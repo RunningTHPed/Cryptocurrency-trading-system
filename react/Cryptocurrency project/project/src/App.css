@@ -7,6 +7,10 @@
   margin-left: -100px;
 }
 
+.bg-all{
+  background-color: #e9ecef;
+}
+
 .Postcode-title{
   position: relative;
   margin-top: -45px;
@@ -23,21 +27,42 @@
   background: whitesmoke;
 }
 
+.title-font{
+  margin-top: 20px;
+  padding: 15px 10px 10px 10px;
+  background-color: #f8f9fa;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
 .chart{
   position: relative;
-  top: 50px;
+  top: 25px;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  height: 450px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 1%;
+  background-color: #f8f9fa;
+}
 
-  border-radius: 15px;
-  background:  rgb(255, 255, 255);
-  
+.tb-fieldset{
+  margin: 20px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+}
+
+.asks_fieldset {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 20px 10px 5px 10px;
+  background-color: #f8f9fa;
 }
 
 .form_buy{
-  margin-top:100px;
+  margin-top:50px;
   margin-left: auto;
   margin-right: auto;
   width: fit-content;
@@ -50,6 +75,8 @@
 .field_set{
   border: 1px solid lightgray;
   padding:20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
 }
 
 .buy-title{
@@ -84,7 +111,7 @@
 }
 
 .form_sell{
-  margin-top:100px;
+  margin-top:50px;
   margin-left: auto;
   margin-right: auto;
   width: fit-content;
@@ -141,7 +168,14 @@
 }
 
 .list-group{
+  
+}
 
+.history-fieldset{
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 15px 10px;
+  background-color: #f8f9fa;
 }
 
 .dashboard_view{
