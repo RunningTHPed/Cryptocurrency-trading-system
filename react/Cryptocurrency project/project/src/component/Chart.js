@@ -700,19 +700,20 @@ const Chart = () => {
                                                     }}
                                                 />
                                             </div>
+                                            {role !== "guest" &&
+                                                <div className="mt-2">
+                                                    <Button className="btn-confirm-order" onClick={addOrder} variant="success" block>Buy</Button>
+                                                </div>
+                                            }
+                                            {role === "guest" &&
+                                                <div className="mt-2">
+                                                    <Button className="btn-confirm-order" variant="dark" block>
+                                                        <a href="/login">Login</a> or <a href="/register">Sign up</a> to trade.
+                                                </Button>
+                                                </div>
+                                            }
                                         </div>
-                                        {role !== "guest" &&
-                                            <div className="mt-2">
-                                                <Button className="btn-confirm-order" onClick={addOrder} variant="success" block>Confirm order</Button>
-                                            </div>
-                                        }
-                                        {role === "guest" &&
-                                            <div className="mt-2">
-                                                <Button className="btn-confirm-order" variant="dark" block>
-                                                    <a href="/login">Login</a> or <a href="/register">Sign up</a> to trade.
-                                            </Button>
-                                            </div>
-                                        }
+                                        
                                     </fieldset>
                                 </div>
                             </div>
@@ -737,7 +738,7 @@ const Chart = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="row mt-3">
+                                        <div className="row mt-2">
                                             <div className="col">
                                                 <p>Price Per {coinName}</p>
                                             </div>
@@ -755,7 +756,7 @@ const Chart = () => {
                                             </div>
                                             {role !== "guest" &&
                                                 <div className="mt-2">
-                                                    <Button className="btn-confirm-order" onClick={addSell} variant="danger" block>Confirm order</Button>
+                                                    <Button className="btn-confirm-order" onClick={addSell} variant="danger" block>Sell</Button>
                                                 </div>
                                             }
                                             {role === "guest" &&

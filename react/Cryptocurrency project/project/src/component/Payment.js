@@ -144,14 +144,14 @@ function Payment() {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Confirm the deletion of bank account?</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Body>Press the Confirm button to delete the bank account.</Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Cancel
                 </Button>
-                <Button variant="primary" onClick={DeletePayment}>
+                <Button variant="danger" onClick={DeletePayment}>
                     Remove
                 </Button>
                 </Modal.Footer>

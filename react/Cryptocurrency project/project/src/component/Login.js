@@ -74,7 +74,8 @@ function Login() {
                             <button className="btn btn-lg btn-success btn-block form-control" onClick={userLogin} >LOGIN</button>
                         </form>
                     </div>
-                    {loginmessage}
+                    <p className="alert-font">{loginmessage}</p>
+                    
                 </div>
             </div>
             <Footer />
