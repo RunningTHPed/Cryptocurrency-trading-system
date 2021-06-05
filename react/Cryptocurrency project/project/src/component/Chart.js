@@ -428,6 +428,7 @@ const Chart = () => {
     const [chart, setchart] = useState({});
     const plotcomp = {
         time_finish: [],
+        time_finish_plot: [],
         per_coin: [],
         select_time: [],
         time_date: [],
@@ -452,16 +453,32 @@ const Chart = () => {
             const res = await Axios.get('http://localhost:3001/coin_Transaction');
             console.log(res);
             console.log(res.data);
-            for (var i = 0; i < res.data.length; i++) {
-                plotcomp.per_coin.push(res.data[i].price / res.data[i].value);
-                plotcomp.time_finish.push(res.data[i].time_finish);
+            const position = res.data.length - 1;
 
-                var onlyTime = new Date(plotcomp.time_finish[i]);
+            for (var i = 0; i < res.data.length; i++) {
+                //finish
+                plotcomp.per_coin.push(res.data[i].price / res.data[i].value);
+
+                console.log("Count true => " + i);
+                console.log("Count return => " + (position - i));
+
+                plotcomp.time_finish_plot.push(res.data[i].time_finish);
+                console.log("time_finish_plot => " + plotcomp.time_finish_plot[i]);
+
+
+                var onlyTime = new Date(plotcomp.time_finish_plot[i]);
+                console.log("onlytime => " + onlyTime);
                 plotcomp.select_time.push(onlyTime.toLocaleTimeString('it-IT'));
                 plotcomp.time_date.push(onlyTime.toLocaleString('it-IT'));
-                res.data[i].time_finish = plotcomp.time_date[i];
+                console.log("time history => " + plotcomp.time_date[i]);
             }
-            // console.log(plotcomp);
+            console.log(plotcomp);
+            
+            //set hist table
+            for( var i = position ; i>= 0 ; i--){
+                console.log(plotcomp.time_date[i]);
+                res.data[i].time_finish = plotcomp.time_date[position - i];
+            }
             // console.log(res.data);
             //---set history table
             sethist(res.data);
@@ -515,10 +532,10 @@ const Chart = () => {
 
                 datasets: [
                     {
-                        label: coinName,
-                        fill: false,
+                        label: 'Pon Coin',
+                        fill: true,
                         lineTension: 0.1,
-                        backgroundColor: 'rgb(25, 135, 84)',
+                        backgroundColor: 'rgba(60, 179, 113, 0.2)',
                         borderColor: 'rgb(25, 135, 84)',
                         borderCapStyle: 'butt',
                         borderDash: [],
