@@ -28,7 +28,6 @@ function Detail() {
                 <div className="background-cc">
                     <div className="pt-4 p-3">
                         <h1>DETAILS ACCOUNT</h1>
-                        <h4>...</h4>
                     </div>
                     <table className="table table-background mt-3">
                         <tbody>

@@ -160,15 +160,15 @@ function EditDetail() {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Confirm the change of information?</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Body>Press the Confirm button to change the information.</Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Cancel
                 </Button>
                 <Button variant="primary" onClick={EditDetail}>
-                    Submit
+                    Confirm
                 </Button>
                 </Modal.Footer>
             </Modal>
