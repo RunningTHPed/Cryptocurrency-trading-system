@@ -9,8 +9,8 @@ function Dashboard() {
 
     const [DataPayment, setDataPayment] = useState([]);
     const[availableMoney, setAvailableMoney] = useState(0);
-    const[DetailCoin, setDetailCoin] = useState([]);
 
+    const[DetailCoin, setDetailCoin] = useState([]);
     const getData = async () => {
         try {
             const res = await Axios.post('http://localhost:3001/get_detail_coin', {
@@ -24,7 +24,38 @@ function Dashboard() {
         }
     }
 
-    // const [availableMoney, setAvailableMoney] = useState(0);
+    const coin_lastest = {
+        shortname: [],
+        per_coin: [],
+    };
+    const[lastest, setlastest] = useState(0);
+
+    const mylastcoin = async () => {
+        try {
+            await Axios.post('http://localhost:3001/lastest_coin', {
+            }).then((res_lastcoin) => {
+                console.log(res_lastcoin.data);
+                for (var i = res_lastcoin.data.length-1; i >= 0; i--) {
+                    coin_lastest.shortname.push(res_lastcoin.data[i].shortname);
+                    coin_lastest.per_coin.push(res_lastcoin.data[i].price_per_coin)
+                }
+                console.log(coin_lastest.per_coin);
+                setlastest(coin_lastest.per_coin);
+                console.log(lastest);
+            })
+
+            // const res_lastcoin = await Axios.post('http://localhost:3001/get_detail_coin', {});
+            // console.log(res_lastcoin.data);
+            // setlastest(res_lastcoin.data);
+            // console.log(DetailCoin);
+
+        } catch (error) {
+            console.log(error.response);
+        }
+    };
+
+
+    //const [availableMoney, setAvailableMoney] = useState(0);
     var money_diff = 0;
     var sumMoneyDeposit = 0;
     var sumMoneyOrder = 0;
@@ -92,43 +123,9 @@ function Dashboard() {
         getData();
         getPayment();
         analysis();
+        mylastcoin();
     }, []);
 
-
-
-    // const coin = {
-    //     labels: [
-    //         'Bitcoin',
-    //         'ETHEREUM',
-    //         'BINANCE COIN',
-    //         'CARDANO',
-    //         'dummy coin1',
-    //         'dummy coin2',
-    //         'dummy coin3'
-    //     ],
-    //     datasets: [{
-
-    //         label: 'Max value',
-    //         data: [65, 59, 90, 81, 96, 55, 70],
-    //         fill: true,
-    //         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    //         borderColor: 'rgb(255, 99, 132)',
-    //         pointBackgroundColor: 'rgb(255, 99, 132)',
-    //         pointBorderColor: '#fff',
-    //         pointHoverBackgroundColor: '#fff',
-    //         pointHoverBorderColor: 'rgb(255, 99, 132)'
-    //     }, {
-    //         label: 'Min value',
-    //         data: [28, 48, 40, 19, 46, 27, 20],
-    //         fill: true,
-    //         backgroundColor: 'rgba(54, 162, 235, 0.2)',
-    //         borderColor: 'rgb(54, 162, 235)',
-    //         pointBackgroundColor: 'rgb(54, 162, 235)',
-    //         pointBorderColor: '#fff',
-    //         pointHoverBackgroundColor: '#fff',
-    //         pointHoverBorderColor: 'rgb(54, 162, 235)'
-    //     }]
-    // };
 
     const [coin, setcoin] = useState({});
     const coincomp = {
@@ -231,16 +228,15 @@ function Dashboard() {
                                 </thead>
                                 <tbody>
                                     {
-                                        DetailCoin.map(i => (
+                                        DetailCoin.map((i,index) => (
                                             <tr>
                                                 <td>{i.shortname}</td>
-                                                <td>30</td>
+                                                <td>{lastest[index]}</td>
                                                 <td>{i.max} THB</td>
                                                 <td>{i.min} THB</td>
                                             </tr>
                                         ))
                                     }
-                                    
                                 </tbody>
                             </table>
                         </div>
