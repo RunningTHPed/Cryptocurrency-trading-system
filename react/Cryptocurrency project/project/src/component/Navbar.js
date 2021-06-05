@@ -41,7 +41,7 @@ function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item my-2">
-                                <a href="/market" className="nav-link active" aria-current="page">MARKET</a>
+                                <a href="/market/PON" className="nav-link active" aria-current="page">MARKET</a>
                             </li>
                         </ul>
 

@@ -3,11 +3,12 @@ import { Radar } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect, state } from 'react'
 import Footer from './Footer-fixed';
+import { Button } from 'react-bootstrap'
 
 function Dashboard() {
 
     const [DataPayment, setDataPayment] = useState([]);
-    const[availableMoney, setAvailableMoney] = useState(0);
+    const [availableMoney, setAvailableMoney] = useState(0);
     var money_diff = 0;
     var sumMoneyDeposit = 0;
     var sumMoneyOrder = 0;
@@ -23,35 +24,35 @@ function Dashboard() {
             }).then((response) => {
                 console.log(response.data[0].mySum);
                 sumMoneyDeposit = response.data[0].mySum;
-            });  
+            });
 
             await Axios.post('http://localhost:3001/summary_money_history_buy', {
                 id_card: userData.id_card
             }).then((response) => {
-                if(response.data[0].mySum !== null){
+                if (response.data[0].mySum !== null) {
                     sumMoneyBuyHistory = response.data[0].mySum;
                 } else {
                     sumMoneyBuyHistory = 0;
                 }
-            });  
+            });
 
             await Axios.post('http://localhost:3001/summary_money_history_sell', {
                 id_card: userData.id_card
             }).then((response) => {
-                if(response.data[0].mySum !== null){
+                if (response.data[0].mySum !== null) {
                     sumMoneySellHistory = response.data[0].mySum;
                 } else {
                     sumMoneySellHistory = 0;
                 }
-            });  
-            
+            });
+
             await Axios.post('http://localhost:3001/summary_money_order', {
                 id_card: userData.id_card,
                 shortname: "PON"
 
             }).then((response) => {
                 console.log(response.data[0].price_sum);
-                if(response.data[0].price_sum !== null){
+                if (response.data[0].price_sum !== null) {
                     sumMoneyOrder = response.data[0].price_sum;
                 } else {
                     sumMoneyOrder = 0;
@@ -62,8 +63,8 @@ function Dashboard() {
                 setAvailableMoney(money_diff);
             }).then(() => {
                 console.log(availableMoney);
-            });; 
-            
+            });;
+
         }
         catch (error) {
             console.log(error.response);
@@ -200,7 +201,7 @@ function Dashboard() {
                         </div>
                     </div>
                     <div className="btn-margin">
-                        <a className="btn btn-success btn-trade" href="/market" role="button">TRADE</a>
+                        <a className="btn btn-success btn-trade" href="/market/PON" role="button">TRADE</a>
                     </div>
                 </div>
             </div>

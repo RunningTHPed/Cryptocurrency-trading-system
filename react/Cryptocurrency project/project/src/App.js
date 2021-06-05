@@ -51,7 +51,9 @@ function App() {
                         {loggedIn === true && <Redirect to="/dashboard" />}
                     </Route>
 
-                    <Route path='/market' exact component={Chart} />
+                    <Route path="/market/:coinName" children={<Chart />} />
+
+                    {/* <Route path='/market' exact component={Chart} /> */}
 
                     <Route path='/register' component={Register} />
 
