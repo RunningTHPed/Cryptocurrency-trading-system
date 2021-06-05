@@ -281,6 +281,7 @@ const Chart = () => {
 
                     await Axios.post('http://localhost:3001/updateCoin', {
                         coin: coin_buy,
+                        price: ppc_buy * coin_buy,
                         no: no_buy,
                         //shortname: shortname,
                     }).then((response) => {
@@ -291,6 +292,7 @@ const Chart = () => {
 
                     await Axios.post('http://localhost:3001/updateCoin', {
                         coin: coin_sell,
+                        price: ppc_sell * coin_sell,
                         no: no_sell,
                         //shortname: shortname,
                     }).then((response) => {
@@ -342,6 +344,7 @@ const Chart = () => {
 
                     await Axios.post('http://localhost:3001/updateCoin', {
                         coin: coin_buy,
+                        price: ppc_buy * coin_buy,
                         no: no_buy,
                         //shortname: shortname,
                     }).then((response) => {
@@ -352,6 +355,7 @@ const Chart = () => {
 
                     await Axios.post('http://localhost:3001/updateCoin', {
                         coin: coin_sell,
+                        price: ppc_sell * coin_sell,
                         no: no_sell,
                         //shortname: shortname,
                     }).then((response) => {

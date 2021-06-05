@@ -435,14 +435,15 @@ app.post('/updateStatus', (req, res) => {
 
 app.post('/updateCoin', (req, res) => {
     const coin = req.body.coin;
+    const price = req.body.price;
     const no = req.body.no;
-    db.query("UPDATE coin_order SET coin=? WHERE no=?",
-        [coin, no],
+    db.query("UPDATE coin_order SET coin=?, price=? WHERE no=?",
+        [coin, price, no],
         (err) => {
             if (err) {
                 console.error(err);
             } else {
-                res.send({ message: "Update coin complete." });
+                res.send({ message: "Update order complete." });
             }
         })
 });
