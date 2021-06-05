@@ -688,16 +688,16 @@ app.post('/get_detail_coin', (req, res) => {
 
 
 app.post('/lastest_coin', (req, res) => {
-    db.query("SELECT his.shortname, myorder.price_per_coin FROM coin_transaction_history as his join coin_order as myorder ON his.no_order = myorder.no where myorder.type = 1 AND  (his.shortname, his.time_finish) IN (SELECT shortname,max(time_finish) FROM coin_transaction_history GROUP BY shortname) ORDER BY shortname;", (err, result) => {
+    db.query("SELECT his.shortname, myorder.price_per_coin FROM coin_transaction_history AS his JOIN coin_order AS myorder ON his.no_order = myorder.no WHERE myorder.type = 1 AND  (his.shortname, his.time_finish) IN (SELECT shortname,max(time_finish) FROM coin_transaction_history GROUP BY shortname) ORDER BY shortname;",
         (err, result) => {
-                        if (err) {
+            if (err) {
                 console.log(err);
             } else {
                 res.send(result);
             }
         }
-    }
-    )});
+    )
+});
 
     
 

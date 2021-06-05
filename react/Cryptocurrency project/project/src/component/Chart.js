@@ -481,7 +481,7 @@ const Chart = () => {
         min: []
     };
 
-    const[DetailCoin, setDetailCoin] = useState([]);
+    const[DetailCoin, setDetailCoin] = useState({max: 0,min: 0});
     const getData_detail = async () => {
         try {
             await Axios.post('http://localhost:3001/get_detail_coin', {
@@ -507,7 +507,7 @@ const Chart = () => {
         shortname: [],
         per_coin: [],
     };
-    const[lastest, setlastest] = useState(0);
+    const[lastest, setlastest] = useState([0]);
 
     const mylastcoin = async () => {
         try {
@@ -764,12 +764,10 @@ const Chart = () => {
                                     <p>Last Price(THB): {coinName=='PON' && lastest[1] } {coinName=='BRB' && lastest[0]}</p>
                                 </div>
                                 <div className="col">
-                                    {/* <p>24 High: {coinName=='PON' && DetailCoin[1].max} {coinName=='BRB' && DetailCoin[0].max}</p> */}
-                                    <p>High: {coinName=='PON' && 'Pon high' } {coinName=='BRB' && 'ของบารา2' }</p>
+                                    <p>24 High: {coinName=='PON' && DetailCoin.max[1]} {coinName=='BRB' && DetailCoin.max[0]}</p>
                                 </div>
                                 <div className="col">
-                                    {/* <p>24 Low: {coinName=='PON' && DetailCoin[1].min} {coinName=='BRB' && DetailCoin[0].min}</p> */}
-                                    <p>Low: {coinName=='PON' && 'ของพล3' } {coinName=='BRB' && 'ของบารา3' }</p>
+                                    <p>24 Low: {coinName=='PON' && DetailCoin.min[1]} {coinName=='BRB' && DetailCoin.min[0]}</p>
                                 </div>
                             </div>
                         </div>

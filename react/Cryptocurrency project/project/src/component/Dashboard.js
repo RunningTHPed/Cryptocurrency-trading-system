@@ -35,7 +35,7 @@ function Dashboard() {
             await Axios.post('http://localhost:3001/lastest_coin', {
             }).then((res_lastcoin) => {
                 console.log(res_lastcoin.data);
-                for (var i = 0; i < res_lastcoin.data.length; i++) {
+                for (var i = res_lastcoin.data.length-1; i >= 0; i--) {
                     coin_lastest.shortname.push(res_lastcoin.data[i].shortname);
                     coin_lastest.per_coin.push(res_lastcoin.data[i].price_per_coin)
                 }
@@ -228,10 +228,10 @@ function Dashboard() {
                                 </thead>
                                 <tbody>
                                     {
-                                        DetailCoin.map(i => (
+                                        DetailCoin.map((i,index) => (
                                             <tr>
                                                 <td>{i.shortname}</td>
-                                                <td>{lastest[0]}</td>
+                                                <td>{lastest[index]}</td>
                                                 <td>{i.max} THB</td>
                                                 <td>{i.min} THB</td>
                                             </tr>
