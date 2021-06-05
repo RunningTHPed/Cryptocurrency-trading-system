@@ -2,7 +2,7 @@ import React from 'react';
 import { Line, line } from 'react-chartjs-2';
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Alert,Button } from 'react-bootstrap';
+import { Alert, Button, ListGroup } from 'react-bootstrap';
 import Footer from './Footer-nofixed';
 
 const Chart = () => {
@@ -41,6 +41,11 @@ const Chart = () => {
     var sumCoinSellHistory = 0;
     var sumCoinBuyHistory = 0;
 
+    const [coinName, setCoinName] = useState("PON");
+    const changeCoinName = (props) => {
+        setCoinName(props);
+    }
+
     const getPayment = async () => {
         try {
             await Axios.post('http://localhost:3001/summary_money', {
@@ -72,7 +77,7 @@ const Chart = () => {
 
             await Axios.post('http://localhost:3001/summary_money_order', {
                 id_card: userData.id_card,
-                shortname: "PON"
+                shortname: coinName
 
             }).then((response) => {
                 console.log(response.data[0].price_sum);
@@ -100,7 +105,7 @@ const Chart = () => {
         try {
             await Axios.post('http://localhost:3001/summary_coin_deposit', {
                 id_card: userData.id_card,
-                shortname: "PON"
+                shortname: coinName
             }).then((response) => {
                 console.log(response.data[0].coin_sum);
                 //setSumCoinDeposit(response.data[0].coin_sum);
@@ -113,7 +118,7 @@ const Chart = () => {
 
             await Axios.post('http://localhost:3001/summary_coin_history_sell', {
                 id_card: userData.id_card,
-                shortname: "PON"
+                shortname: coinName
             }).then((response) => {
                 if (response.data[0].coin_sum !== null) {
                     sumCoinSellHistory = response.data[0].coin_sum;
@@ -125,7 +130,7 @@ const Chart = () => {
 
             await Axios.post('http://localhost:3001/summary_coin_history_buy', {
                 id_card: userData.id_card,
-                shortname: "PON"
+                shortname: coinName
             }).then((response) => {
                 if (response.data[0].coin_sum !== null) {
                     sumCoinBuyHistory = response.data[0].coin_sum;
@@ -136,7 +141,7 @@ const Chart = () => {
 
             await Axios.post('http://localhost:3001/summary_coin_order', {
                 id_card: userData.id_card,
-                shortname: "PON"
+                shortname: coinName
             }).then((response) => {
                 console.log(response.data[0].coin_sum);
                 if (response.data[0].coin_sum !== null) {
@@ -168,7 +173,7 @@ const Chart = () => {
         } else {
             await Axios.post('http://localhost:3001/addOrder', {
                 id_card: userData.id_card,
-                shortname: 'PON',
+                shortname: coinName,
                 price: price,
                 Price_per_coin: Price_per_coin
             }).then(() => {
@@ -197,7 +202,7 @@ const Chart = () => {
         } else {
             await Axios.post('http://localhost:3001/addSell', {
                 id_card: userData.id_card,
-                shortname: 'PON',
+                shortname: coinName,
                 coin: coin,
                 SellPrice_per_coin: SellPrice_per_coin
             }).then(() => {
@@ -229,7 +234,7 @@ const Chart = () => {
     async function getData() {
         try {
             await Axios.post('http://localhost:3001/getBuy', {
-                shortname: "PON"
+                shortname: coinName
             }).then((res) => {
                 if (res.data.order[0] !== null) {
                     //setCoinBuy(res.data.order[0].coin);
@@ -243,7 +248,7 @@ const Chart = () => {
             })
 
             await Axios.post('http://localhost:3001/getSell', {
-                shortname: "PON"
+                shortname: coinName
             }).then(async (res) => {
                 if (res.data.order[0] !== null) {
                     //setCoinSell(res.data.order[0].coin);
@@ -318,7 +323,7 @@ const Chart = () => {
                     //insert to coin_transaction_history
                     await Axios.post('http://localhost:3001/add_coin_Transaction', {
                         no_order: no_buy,
-                        shortname: 'PON',
+                        shortname: coinName,
                         type: 0, //buy
                         value: diff_coin,
                         price: diff_coin * ppc_sell,
@@ -326,7 +331,7 @@ const Chart = () => {
 
                     await Axios.post('http://localhost:3001/add_coin_Transaction', {
                         no_order: no_sell,
-                        shortname: 'PON',
+                        shortname: coinName,
                         type: 1, //sell
                         value: diff_coin,
                         price: diff_coin * ppc_sell,
@@ -380,7 +385,7 @@ const Chart = () => {
                     await Axios.post('http://localhost:3001/add_coin_Transaction', {
                         no_order: no_buy,
                         type: 0, //buy
-                        shortname: 'PON',
+                        shortname: coinName,
                         value: diff_coin,
                         price: diff_coin * ppc_sell,
                     }).then((response) => {
@@ -392,7 +397,7 @@ const Chart = () => {
                     await Axios.post('http://localhost:3001/add_coin_Transaction', {
                         no_order: no_sell,
                         type: 1, //sell
-                        shortname: 'PON',
+                        shortname: coinName,
                         value: diff_coin,
                         price: diff_coin * ppc_sell,
                     }).then((response) => {
@@ -466,7 +471,7 @@ const Chart = () => {
 
             // table buy order
             await Axios.post('http://localhost:3001/getBuy', {
-                shortname: "PON"
+                shortname: coinName
             }).then((res_buy) => {
                 console.log(res_buy);
                 console.log(res_buy.data.order);
@@ -486,7 +491,7 @@ const Chart = () => {
 
             // table sell order
             await Axios.post('http://localhost:3001/getSellDataDESC', {
-                shortname: "PON"
+                shortname: coinName
             }).then((res_sell) => {
                 console.log(res_sell);
                 console.log(res_sell.data.order);
@@ -510,7 +515,7 @@ const Chart = () => {
 
                 datasets: [
                     {
-                        label: 'Pon Coin',
+                        label: coinName,
                         fill: false,
                         lineTension: 0.1,
                         backgroundColor: 'rgb(25, 135, 84)',
@@ -566,7 +571,7 @@ const Chart = () => {
                                 <tbody>
                                     <tr>
                                         <th>Vol(THB)</th>
-                                        <th>VOL(PON)</th>
+                                        <th>VOL({coinName})</th>
                                         <th>Rate(THB)</th>
                                     </tr>
                                     {
@@ -594,7 +599,7 @@ const Chart = () => {
                                 <tbody>
                                     <tr>
                                         <th>Vol(THB)</th>
-                                        <th>VOL(PON)</th>
+                                        <th>VOL({coinName})</th>
                                         <th>Rate(THB)</th>
                                     </tr>
 
@@ -623,7 +628,7 @@ const Chart = () => {
                         <div className="title-font">
                             <div className="row">
                                 <div className="col">
-                                    <h5>Pon Coin</h5>
+                                    <h5>{coinName} Coin</h5>
                                 </div>
                                 <div className="col">
                                     <p>Last Price(THB): 45</p>
@@ -663,7 +668,7 @@ const Chart = () => {
                                         </div>
                                         <div className="row mt-2">
                                             <div className="col">
-                                                <p>Price Per PON</p>
+                                                <p>Price Per {coinName}</p>
                                             </div>
                                             <div className="col">
                                                 <input
@@ -696,7 +701,7 @@ const Chart = () => {
                             <div className="col">
                                 <div className="form_sell">
                                     <fieldset className="field_set">
-                                        <p>Availible Balance PON <u>{availableCoin}</u> PON</p>
+                                        <p>Availible Balance {coinName} <u>{availableCoin}</u> {coinName}</p>
                                         <div className="row">
                                             <div className="col">
                                                 <p>You Sell</p>
@@ -716,7 +721,7 @@ const Chart = () => {
                                         </div>
                                         <div className="row mt-3">
                                             <div className="col">
-                                                <p>Price Per PON</p>
+                                                <p>Price Per {coinName}</p>
                                             </div>
                                             <div className="col">
                                                 <input
@@ -729,23 +734,6 @@ const Chart = () => {
                                                         setSellPrice_per_coin(event.target.value)
                                                     }}
                                                 />
-                                            </div>
-                                            <div className="row mt-3">
-                                                <div className="col">
-                                                    <p>Price Per PON</p>
-                                                </div>
-                                                <div className="col">
-                                                    <input
-                                                        type="text"
-                                                        className="buy-input"
-                                                        id="price4"
-                                                        placeholder=""
-                                                        required
-                                                        onChange={(event) => {
-                                                            setSellPrice_per_coin(event.target.value)
-                                                        }}
-                                                    />
-                                                </div>
                                             </div>
                                             {role !== "guest" &&
                                                 <div className="mt-2">
@@ -767,12 +755,26 @@ const Chart = () => {
                         </div>
                     </div>
                     <div className="col-3 pt-3 p-5">
-                        <div className="list-group">
-                            <a href="/market/BTC" className="list-group-item list-group-item-success" aria-current="true">BITCOIN</a>
+                        {/* <div className="list-group">
+                            <a href="/market/BTC" className="list-group-item list-group-item-success" aria-current="true">PON</a>
                             <a href="#" className="list-group-item list-group-item-action">ETHEREUM</a>
                             <a href="#" className="list-group-item list-group-item-action">BINANCE COIN</a>
                             <a href="#" className="list-group-item list-group-item-action">CARDANO</a>
-                        </div>
+                        </div> */}
+                        <ListGroup>
+                            <ListGroup.Item action>
+                                PONCOIN (PON)
+                            </ListGroup.Item>
+                            <ListGroup.Item action>
+                                BARABANK (BRB)
+                            </ListGroup.Item>
+                            <ListGroup.Item action>
+                                ETHEREUM (ETH)
+                            </ListGroup.Item>
+                            <ListGroup.Item action>
+                                BINANCE COIN (BNB)
+                            </ListGroup.Item>
+                        </ListGroup>
 
                         <div className="history-table history-fieldset">
                             <h5>LATEST TRADES</h5>
@@ -821,9 +823,9 @@ const Chart = () => {
                                 <tr>
                                     <td>BUY</td>
                                     <td>45 THB</td>
-                                    <td>20 PON</td>
+                                    <td>20 {coinName}</td>
                                     <td>6/5/2021</td>
-                                    <td><a className="btn btn-outline-secondary btn-sm">Cancel</a></td>
+                                    <td><Button variant="outline-danger" size="sm">Cancel</Button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -844,7 +846,7 @@ const Chart = () => {
                                 <tr>
                                     <td>SELL</td>
                                     <td>40 THB</td>
-                                    <td>15 PON</td>
+                                    <td>15 {coinName}</td>
                                     <td>6/4/2021</td>
                                     <td>6/5/2021</td>
                                 </tr>

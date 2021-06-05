@@ -20,7 +20,7 @@ function Navbar() {
                 }
             }
             fetchData();
-        }, [JSON.parse(localStorage.getItem("userdata")).role]);
+        });
 
     Axios.defaults.withCredentials = true;
     useEffect(() => {
