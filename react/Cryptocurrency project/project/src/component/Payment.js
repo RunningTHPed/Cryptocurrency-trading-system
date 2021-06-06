@@ -74,7 +74,7 @@ function Payment() {
 
     return (
         <div>
-            <div className="container dashboard_view">
+            <div className="container dashboard_view mt-5">
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
                         <a className="nav-link a-color" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>

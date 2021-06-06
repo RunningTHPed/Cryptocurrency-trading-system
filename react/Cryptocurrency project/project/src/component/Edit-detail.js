@@ -50,7 +50,7 @@ function EditDetail() {
                 </ul>
                 <div className="background-cc">
                     <div className="pt-4 p-3">
-                        <h1>DETAILS ACCOUNT</h1>
+                        <h1>EDIT DETAILS ACCOUNT</h1>
                     </div>
                     <table className="table table-background mt-3">
                         <tbody>
