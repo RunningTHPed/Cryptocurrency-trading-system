@@ -149,19 +149,19 @@ function Dashboard() {
             setcoin({
                 //labels: coincomp.shortname,
                 labels: [
-                    'Bitcoin',
-                    'ETHEREUM',
-                    'BINANCE COIN',
-                    'CARDANO',
+                    coincomp.shortname[0],
+                    coincomp.shortname[1],
                     'dummy coin1',
                     'dummy coin2',
-                    'dummy coin3'
+                    'dummy coin3',
+                    'dummy coin4',
+                    'dummy coin5',
                 ],
 
                 datasets: [{
                     label: 'Max value',
                     //data: coincomp.max,
-                    data: [65, 59, 90, 81, 96, 55, 70],
+                    data: [coincomp.max[0], coincomp.max[1], 100, 123, 150, 125, 110],
                     fill: true,
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgb(255, 99, 132)',
@@ -172,7 +172,7 @@ function Dashboard() {
                 }, {
                     label: 'Min value',
                     //data: coincomp.min,
-                    data: [28, 48, 40, 19, 46, 27, 20],
+                    data: [coincomp.min[0], coincomp.min[1], 40, 29, 46, 77, 30],
                     fill: true,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgb(54, 162, 235)',

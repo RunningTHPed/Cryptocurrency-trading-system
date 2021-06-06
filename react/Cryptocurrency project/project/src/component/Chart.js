@@ -487,13 +487,18 @@ const Chart = () => {
             await Axios.post('http://localhost:3001/get_detail_coin', {
             }).then((res_detail) => {
                 console.log(res_detail.data);
+                
+                if(res_detail.data.length == 1){
+                    coin_detail.max.push(0);
+                    coin_detail.min.push(0);
+                }
+
                 for (var i = 0; i < res_detail.data.length; i++) {
                     coin_detail.max.push(res_detail.data[i].max);
                     coin_detail.min.push(res_detail.data[i].min);
                 }
                 //console.log(coin_detail);
                 setDetailCoin(coin_detail);
-                //console.log(DetailCoin);
             })
         }
         catch (error) {
@@ -501,7 +506,7 @@ const Chart = () => {
         }
     };
 
-    //const max_pon = coin_detail.max[1];
+
 
     const coin_lastest = {
         shortname: [],
@@ -759,16 +764,17 @@ const Chart = () => {
                                 <div className="col">
                                     <h5>{coinName} Coin</h5>
                                 </div>
-                                <div className="col">
-                                    {/* <p>Last Price(THB): {coinName=='PON' && lastest[1] } {coinName=='BRB' && lastest[0] }</p> */}
-                                    <p>Last Price(THB): {coinName=='PON' && lastest[1] } {coinName=='BRB' && lastest[0]}</p>
-                                </div>
-                                <div className="col">
-                                    <p>24 High: {coinName=='PON' && DetailCoin.max[1]} {coinName=='BRB' && DetailCoin.max[0]}</p>
-                                </div>
-                                <div className="col">
-                                    <p>24 Low: {coinName=='PON' && DetailCoin.min[1]} {coinName=='BRB' && DetailCoin.min[0]}</p>
-                                </div>
+
+                                    <div className="col">
+                                        <p>Last Price(THB): {coinName=='PON' && lastest[1] } {coinName=='BRB' && lastest[0]}</p>
+                                    </div>
+                                    <div className="col">
+                                        <p>24 High: {coinName=='PON' && DetailCoin.max[0]} {coinName=='BRB' && DetailCoin.max[1]}</p>
+                                    </div>
+                                    <div className="col">
+                                        <p>24 Low: {coinName=='PON' && DetailCoin.min[0]} {coinName=='BRB' && DetailCoin.min[1]}</p>
+                                    </div>
+
                             </div>
                         </div>
                         <div className="chart">
