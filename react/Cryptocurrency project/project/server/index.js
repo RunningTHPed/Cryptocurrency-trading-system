@@ -177,7 +177,7 @@ app.post('/addSell', (req, res) => {
 
 app.post('/getBuy', (req, res) => {
     const shortname = req.body.shortname;
-    db.query("SELECT * FROM buy_order_view WHERE shortname=? ORDER BY price_per_coin DESC LIMIT 6;",
+    db.query("SELECT * FROM buy_order_view WHERE shortname=? LIMIT 6;",
     [shortname],
         (err, result) => {
             if (err) {
@@ -203,7 +203,7 @@ app.post('/getSell', (req, res) => {
 
 app.post('/getSellDataDESC', (req, res) => {
     const shortname = req.body.shortname;
-    db.query("SELECT * FROM Uncle.sell_order_view WHERE shortname=? ORDER BY price_per_coin DESC;",
+    db.query("SELECT * FROM Uncle.sell_order_view WHERE shortname=? ORDER BY price_per_coin DESC LIMIT 6;",
         [shortname],
         (err, result) => {
             if (err) {
@@ -615,7 +615,7 @@ app.post('/summary_coin_history_sell', (req, res) => {
     const id_card = req.body.id_card;
     const shortname = req.body.shortname;
 
-    db.query("SELECT SUM(price/value) AS coin_sum FROM Uncle.coin_transaction_history WHERE id_card = ? AND shortname = ? AND type=1;",
+    db.query("SELECT SUM(value) AS coin_sum FROM Uncle.coin_transaction_history WHERE id_card = ? AND shortname = ? AND type=1;",
         [id_card, shortname],
         (err, result) => {
             if (err) {
@@ -630,7 +630,7 @@ app.post('/summary_coin_history_buy', (req, res) => {
     const id_card = req.body.id_card;
     const shortname = req.body.shortname;
 
-    db.query("SELECT SUM(price/value) AS coin_sum FROM Uncle.coin_transaction_history WHERE id_card = ? AND shortname = ? AND type=0;",
+    db.query("SELECT SUM(value) AS coin_sum FROM Uncle.coin_transaction_history WHERE id_card = ? AND shortname = ? AND type=0;",
         [id_card, shortname],
         (err, result) => {
             if (err) {

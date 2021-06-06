@@ -175,6 +175,7 @@ const Chart = () => {
                 shortname: coinName
             }).then((response) => {
                 if (response.data[0].coin_sum !== null) {
+                    console.log("sumCoinBuyHistory: " + response.data[0].coin_sum);
                     sumCoinBuyHistory = response.data[0].coin_sum;
                 } else {
                     sumCoinBuyHistory = 0;
@@ -193,8 +194,10 @@ const Chart = () => {
                 }
 
             }).then(() => {
-                // console.log("sumCoinDeposit: " + sumCoinDeposit);
-                // console.log("sumCoinOrder: " + sumCoinOrder);
+                console.log("sumCoinDeposit: " + sumCoinDeposit);
+                console.log("sumCoinBuyHistory: " + sumCoinBuyHistory);
+                console.log("sumCoinOrder: " + sumCoinOrder);
+                console.log("sumCoinSellHistory: " + sumCoinSellHistory);
                 coin_diff = (sumCoinDeposit + sumCoinBuyHistory) - (sumCoinOrder + sumCoinSellHistory);
             }).then(() => {
                 // console.log(coin_diff);
