@@ -38,10 +38,10 @@ function DepositPon() {
             <div className="container dashboard_view">
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
-                        <a className="nav-link active" aria-current="page" href="/funds">DEPOSIT</a>
+                        <a className="nav-link active" aria-current="page" href="">DEPOSIT</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link a-color" href="/withdraw/PON">WITHDRAW</a>
+                        <a className="nav-link a-color" href="">WITHDRAW</a>
                     </li>
                 </ul>
                 <div className="background-cc">
