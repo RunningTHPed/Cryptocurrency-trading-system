@@ -177,7 +177,7 @@ app.post('/addSell', (req, res) => {
 
 app.post('/getBuy', (req, res) => {
     const shortname = req.body.shortname;
-    db.query("SELECT * FROM buy_order_view WHERE shortname=? LIMIT 6;",
+    db.query("SELECT * FROM buy_order_view WHERE shortname=? ORDER BY price_per_coin DESC LIMIT 6;",
     [shortname],
         (err, result) => {
             if (err) {
@@ -203,7 +203,7 @@ app.post('/getSell', (req, res) => {
 
 app.post('/getSellDataDESC', (req, res) => {
     const shortname = req.body.shortname;
-    db.query("SELECT * FROM Uncle.sell_order_view WHERE shortname=? ORDER BY price_per_coin DESC LIMIT 6;",
+    db.query("SELECT * FROM Uncle.sell_order_view WHERE shortname=? ORDER BY price_per_coin DESC;",
         [shortname],
         (err, result) => {
             if (err) {

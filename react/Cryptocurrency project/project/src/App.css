@@ -199,6 +199,51 @@
   table-layout: fixed;
 }
 
+.orderTable-last {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+.orderTable-last thead {
+  flex: 0 0 auto;
+}
+
+.orderTable-last tbody {
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: auto;
+  height: 350px;
+}
+
+.orderTable-last tr {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+
+.orderTable-order {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+.orderTable-order thead {
+  flex: 0 0 auto;
+}
+
+.orderTable-order tbody {
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: auto;
+  height: 250px;
+}
+
+.orderTable-order tr {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
 
 
 .history-fieldset{

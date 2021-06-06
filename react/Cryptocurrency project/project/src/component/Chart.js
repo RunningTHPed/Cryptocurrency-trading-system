@@ -702,13 +702,15 @@ const Chart = () => {
                     <div className="col-3 pt-3 pe-5 ps-5">
                         <div className="asks_fieldset">
                             <h5>ASKS</h5>
-                            <table className="table">
-                                <tbody>
+                            <table className="table orderTable-order">
+                                <thead>
                                     <tr>
                                         <th>Vol(THB)</th>
                                         <th>Vol({coinName})</th>
                                         <th>Rate(THB)</th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     {
                                         sellhist.map(
                                             i =>
@@ -730,14 +732,15 @@ const Chart = () => {
                         </div>
                         <div className="asks_fieldset mt-4">
                             <h5>BIDS</h5>
-                            <table className="table">
-                                <tbody>
+                            <table className="table orderTable-order">
+                                <thead>
                                     <tr>
                                         <th>Vol(THB)</th>
                                         <th>Vol({coinName})</th>
                                         <th>Rate(THB)</th>
                                     </tr>
-
+                                </thead>
+                                <tbody>
                                     {
                                         buyhist.map(
                                             i =>
@@ -906,17 +909,17 @@ const Chart = () => {
                             <ListGroup.Item action href="/market/BRB">
                                 BARABANK (BRB)
                             </ListGroup.Item>
-                            <ListGroup.Item action>
+                            <ListGroup.Item disabled>
                                 ETHEREUM (ETH)
                             </ListGroup.Item>
-                            <ListGroup.Item action>
+                            <ListGroup.Item disabled>
                                 BINANCE COIN (BNB)
                             </ListGroup.Item>
                         </ListGroup>
 
                         <div className="history-table history-fieldset">
                             <h5>LATEST TRADES</h5>
-                            <table className="table">
+                            <table className="table orderTable-last">
                                 <tbody>
                                     <tr>
                                         <th>เวลา</th>
