@@ -23,6 +23,7 @@ function Login() {
                 console.log(response.data.message);
                 setloginmessage(response.data.message);
             } else {
+                localStorage.clear();
                 console.log(response);
                 localStorage.setItem('userdata', JSON.stringify(response.data[0]));
                 window.location = "/dashboard"

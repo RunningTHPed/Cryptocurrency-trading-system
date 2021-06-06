@@ -8,8 +8,6 @@ import Moment from 'react-moment';
 import Footer from './Footer-nofixed';
 
 const Chart = () => {
-
-
     Axios.defaults.withCredentials = true;
     //get role from localStorage
     var userData = JSON.parse(localStorage.getItem("userdata"));
@@ -319,18 +317,15 @@ const Chart = () => {
             if (ppc_buy >= ppc_sell && id_card_buy !== id_card_sell) {
                 if (coin_buy >= coin_sell) {
                     diff_coin = coin_sell;
-                    // consolesetCoinBuy(coin_buy-coin_sell);
                     coin_buy -= coin_sell;
                     console.log(coin_buy);
                     console.log("trade coin_buy: " + coin_buy);
-                    //setCoinSell(0);
                     coin_sell = 0;
 
                     await Axios.post('http://localhost:3001/updateCoin', {
                         coin: coin_buy,
                         price: ppc_buy * coin_buy,
                         no: no_buy,
-                        //shortname: shortname,
                     }).then((response) => {
                         if (response.data.message) {
                             console.log(response.data.message);
@@ -341,7 +336,6 @@ const Chart = () => {
                         coin: coin_sell,
                         price: ppc_sell * coin_sell,
                         no: no_sell,
-                        //shortname: shortname,
                     }).then((response) => {
                         if (response.data.message) {
                             console.log(response.data.message);
