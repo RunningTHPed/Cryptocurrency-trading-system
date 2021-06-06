@@ -16,7 +16,7 @@ function Detail() {
 
     return (
         <div>
-            <div className="container dashboard_view mb-5">
+            <div className="container dashboard_view mt-5 mb-5">
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
                         <a className="nav-link active" aria-current="page" href="/account/detail">DETAIL ACCOUNT</a>
