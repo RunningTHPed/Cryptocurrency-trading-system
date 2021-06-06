@@ -487,14 +487,15 @@ const Chart = () => {
             await Axios.post('http://localhost:3001/get_detail_coin', {
             }).then((res_detail) => {
                 console.log(res_detail.data);
-                for (var i = 0; i < res_detail.data.length; i++) {
-                    coin_detail.max.push(res_detail.data[i].max);
-                    coin_detail.min.push(res_detail.data[i].min);
-                }
 
                 if(res_detail.data.length == 1){
                     coin_detail.max.push(0);
                     coin_detail.min.push(0);
+                }
+
+                for (var i = 0; i < res_detail.data.length; i++) {
+                    coin_detail.max.push(res_detail.data[i].max);
+                    coin_detail.min.push(res_detail.data[i].min);
                 }
                 
                 console.log(coin_detail);
