@@ -481,7 +481,7 @@ const Chart = () => {
         min: []
     };
 
-    const[DetailCoin, setDetailCoin] = useState({max: 0,min: 0});
+    const[DetailCoin, setDetailCoin] = useState({max: [0,0],min: [0,0]});
     const getData_detail = async () => {
         try {
             await Axios.post('http://localhost:3001/get_detail_coin', {
@@ -493,11 +493,6 @@ const Chart = () => {
                     coin_detail.min.push(0);
                 }
 
-                for (var i = 0; i < res_detail.data.length; i++) {
-                    coin_detail.max.push(res_detail.data[i].max);
-                    coin_detail.min.push(res_detail.data[i].min);
-                }
-                
                 for (var i = 0; i < res_detail.data.length; i++) {
                     coin_detail.max.push(res_detail.data[i].max);
                     coin_detail.min.push(res_detail.data[i].min);
@@ -518,7 +513,7 @@ const Chart = () => {
         shortname: [],
         per_coin: [],
     };
-    const[lastest, setlastest] = useState([0]);
+    const[lastest, setlastest] = useState([0,0]);
 
     const mylastcoin = async () => {
         try {
@@ -719,13 +714,13 @@ const Chart = () => {
                                             i =>
                                             (<tr className="table-danger">
                                                 <td>
-                                                    {i.price}
+                                                    {i.price.toFixed(2)}
                                                 </td>
                                                 <td>
-                                                    {i.coin}
+                                                    {i.coin.toFixed(2)}
                                                 </td>
                                                 <td>
-                                                    {i.price_per_coin}
+                                                    {i.price_per_coin.toFixed(2)}
                                                 </td>
                                             </tr>))
                                     }
@@ -748,13 +743,13 @@ const Chart = () => {
                                             i =>
                                             (<tr className="table-success">
                                                 <td>
-                                                    {i.price}
+                                                    {i.price.toFixed(2)}
                                                 </td>
                                                 <td>
-                                                    {i.coin}
+                                                    {i.coin.toFixed(2)}
                                                 </td>
                                                 <td>
-                                                    {i.price_per_coin}
+                                                    {i.price_per_coin.toFixed(2)}
                                                 </td>
                                             </tr>))
                                     }
@@ -772,13 +767,13 @@ const Chart = () => {
                                 </div>
 
                                     <div className="col">
-                                        <p>Last Price(THB): {coinName=='PON' && lastest[1] } {coinName=='BRB' && lastest[0]}</p>
+                                        <p>Last Price(THB): {coinName=='PON' && lastest[1].toFixed(2)} {coinName=='BRB' && lastest[0].toFixed(2)}</p>
                                     </div>
                                     <div className="col">
-                                        <p>24 High: {coinName=='PON' && DetailCoin.max[0]} {coinName=='BRB' && DetailCoin.max[1]}</p>
+                                        <p>24 High: {coinName=='PON' && DetailCoin.max[0].toFixed(2)} {coinName=='BRB' && DetailCoin.max[1].toFixed(2)}</p>
                                     </div>
                                     <div className="col">
-                                        <p>24 Low: {coinName=='PON' && DetailCoin.min[0]} {coinName=='BRB' && DetailCoin.min[1]}</p>
+                                        <p>24 Low: {coinName=='PON' && DetailCoin.min[0].toFixed(2)} {coinName=='BRB' && DetailCoin.min[1].toFixed(2)}</p>
                                     </div>
 
                             </div>
@@ -935,10 +930,10 @@ const Chart = () => {
                                                 {i.time_finish}
                                             </td>
                                             <td>
-                                                {i.price}
+                                                {i.price.toFixed(2)}
                                             </td>
                                             <td>
-                                                {i.value}
+                                                {i.value.toFixed(2)}
                                             </td>
                                         </tr>)
                                         )
@@ -967,9 +962,9 @@ const Chart = () => {
                                 {
                                     DataOrder.map(i => (
                                         <tr key = {i.no}>
-                                            <td>{i.type == 1 && <>SELL</>}{i.type == 0 && <>BUY</>}</td>
-                                            <td>{i.price_per_coin} THB</td>
-                                            <td>{i.coin} {coinName}</td>
+                                            <td>{i.type == 1 && <text style={{color: 'rgb(247, 75, 108)'}}>SELL</text>}{i.type == 0 && <text style={{color: 'rgb(2, 214, 103)'}}>BUY</text>}</td>
+                                            <td>{i.price_per_coin.toFixed(2)} THB</td>
+                                            <td>{i.coin.toFixed(2)} {coinName}</td>
                                             <td><Moment format="MMMM DD YYYY HH:mm">{i.time_order}</Moment></td>
                                             <td>
                                                 <button type="radio" className="btn btn-outline-danger btn-sm" onClick={() => {DeleteOrder(i.no)}}>Cancel</button>
@@ -997,9 +992,9 @@ const Chart = () => {
                                 {
                                     DataHist.map(i => (
                                         <tr>
-                                            <td>{i.type == 1 && <>SELL</>}{i.type == 0 && <>BUY</>}</td>
-                                            <td>{i.price} THB</td>
-                                            <td>{i.value} {coinName}</td>
+                                            <td>{i.type == 1 && <text style={{color: 'rgb(247, 75, 108)'}}>SELL</text>}{i.type == 0 && <text style={{color: 'rgb(2, 214, 103)'}}>BUY</text>}</td>
+                                            <td>{i.price_per_coin.toFixed(2)} THB</td>
+                                            <td>{i.value.toFixed(2)} {coinName}</td>
                                             <td><Moment format="MMMM DD YYYY HH:mm">{i.time_order}</Moment></td>
                                             <td><Moment format="MMMM DD YYYY HH:mm">{i.time_finish}</Moment></td>
                                         </tr>

@@ -713,7 +713,7 @@ app.post('/data_hist_id', (req, res) => {
     const id_card = req.body.IDCard;
     const coinName= req.body.coinName;
 
-    db.query("SELECT * FROM Uncle.coin_order where id_card = ? and shortname = ?;",
+    db.query("SELECT time_finish, id_card, time_order, shortname, type, value, price, price/value AS price_per_coin, fee, no_order FROM coin_transaction_history WHERE id_card = ? AND shortname = ?;",
         [id_card, coinName],
         (err, result) => {
             if (err) {

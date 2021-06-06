@@ -25,7 +25,7 @@ function Footer() {
                         </a>
 
                         {/* <!-- Instagram --> */}
-                        <a className="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                        <a className="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/peddiepie" role="button">
                             <i className="bi bi-instagram"></i>
                         </a>
 
