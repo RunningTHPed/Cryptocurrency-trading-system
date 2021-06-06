@@ -496,7 +496,7 @@ app.post('/coin_Transaction', (req, res) => {
     const shortname = req.body.shortname;
     //const time_finish = req.body.time_finish;
     //const price = req.body.price;get
-    db.query("SELECT * FROM coin_transaction_history WHERE Type = 1 AND shortname=? LIMIT 10",
+    db.query("SELECT * FROM coin_transaction_history WHERE Type = 1 AND shortname=? ORDER BY time_finish ",
     [shortname],
     (err, result) => {
         //db.query("SELECT time_order,coin,price FROM sell_order_view AS sell WHERE EXISTS (SELECT * FROM buy_order_view AS buy WHERE sell.price_per_coin  = buy.price_per_coin);",
