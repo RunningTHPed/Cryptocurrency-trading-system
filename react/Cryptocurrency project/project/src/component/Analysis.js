@@ -64,7 +64,7 @@ const Analysis = () => {
             setcustomer({
                 labels: customercomp.province,
                 datasets: [{
-                    label: 'Money in ระบบ',
+                    label: 'ที่อยู่แยกตามภูมิภาค',
                     data: customercomp.amount,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
